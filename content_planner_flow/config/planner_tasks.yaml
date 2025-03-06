@@ -9,7 +9,7 @@ analyze_draft:
 
     3. For each section, extract all URLs that appear inside image markdown syntax ![](image_url)
 
-    4. You must associate these identified image urls to their correspoinding sections, so that we can use them with the tweets as media pieces
+    4. You must associate these identified image urls to their corresponding sections, so that we can use them with the tweets as media pieces
 
     Focus on details that are important for a comprehensive understanding of
     the blog.
