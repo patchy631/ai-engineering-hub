@@ -1,0 +1,9 @@
+{
+  "claim_number": "CLAIM-0002",
+  "policy_number": "POLICY-XYZ789",
+  "claimant_name": "Alice Johnson",
+  "date_of_loss": "2024-05-20",
+  "loss_description": "Rear-ended by another driver at a red light, resulting in bumper damage and mild whiplash.",
+  "estimated_repair_cost": 2200.00,
+  "vehicle_details": "2021 Toyota Camry"
+}
