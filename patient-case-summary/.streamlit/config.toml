@@ -1,0 +1,13 @@
+[theme] 
+# Defines the accent color
+primaryColor = '#FF8C02' # Bright Orange
+
+# Background color of the main content area
+backgroundColor = '#000000' # Black
+
+# Second background color for added contrast
+secondaryBackgroundColor = '#2b4fcf' # Blue
+
+textColor = '#FFFFF' # White
+
+font = "serif"
