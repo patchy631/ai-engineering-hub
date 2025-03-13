@@ -1,0 +1,9 @@
+llama-index>=0.10.0
+streamlit>=1.31.0
+qdrant-client>=1.7.0
+sentence-transformers>=2.2.2
+duckdb>=0.9.2
+sqlalchemy>=2.0.0
+pydantic>=2.0.0
+ollama>=0.1.6
+python-dotenv>=1.0.0
