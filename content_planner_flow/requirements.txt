@@ -1,3 +1,0 @@
-crewai[tools]==0.86.0
-tqdm==4.67.1
-
