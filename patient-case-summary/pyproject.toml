@@ -1,0 +1,16 @@
+[project]
+name = "patient-case-summary"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "llama-index", 
+    "llama-index-indices-managed-llama-cloud", 
+    "llama-cloud", 
+    "llama-parse", 
+    "llama-index-utils-workflow", 
+    "streamlit",
+    "python-dotenv",
+    "ruff"
+]
