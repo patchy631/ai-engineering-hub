@@ -1,0 +1,6 @@
+llama-index
+openai
+SQLAlchemy
+python-dotenv
+llama-index-utils-workflow
+llama-index-embeddings-huggingface
