@@ -1,0 +1,97 @@
+RAG + Text-to-SQL Architecture Diagram
+
++------------------------------------------+
+|                                          |
+|           User Query Interface           |
+|                                          |
++------------------+---------------------+
+                   |
+                   v
++------------------------------------------+
+|                                          |
+|           Query Analysis (LLM)           |
+|                                          |
++------------------+---------------------+
+                   |
+        +----------+-----------+
+        |                      |
+        v                      v
++----------------+    +------------------+
+|                |    |                  |
+| SQL Query Tool |    |   RAG Query Tool |
+|                |    |                  |
++-------+--------+    +--------+---------+
+        |                      |
+        v                      v
++----------------+    +------------------+
+|                |    |                  |
+| SQL Database   |    |  Document Index  |
+| (Structured)   |    |  (Unstructured)  |
+|                |    |                  |
++-------+--------+    +--------+---------+
+        |                      |
+        +----------+-----------+
+                   |
+                   v
++------------------------------------------+
+|                                          |
+|          Response Generation (LLM)       |
+|                                          |
++------------------------------------------+
+                   |
+                   v
++------------------------------------------+
+|                                          |
+|              User Response               |
+|                                          |
++------------------------------------------+
+
+Components:
+
+1. User Query Interface:
+   - Streamlit web application
+   - Chat interface for natural language queries
+
+2. Query Analysis (LLM):
+   - OpenAI GPT model
+   - Determines query intent and required data sources
+   - Routes query to appropriate tool(s)
+
+3. SQL Query Tool:
+   - NLSQLTableQueryEngine from LlamaIndex
+   - Translates natural language to SQL
+   - Executes SQL queries against database
+
+4. RAG Query Tool:
+   - LlamaCloudIndex query engine
+   - Retrieves relevant documents
+   - Generates answers based on retrieved context
+
+5. SQL Database (Structured):
+   - SQLite database
+   - Contains city statistics (population, state)
+   - Optimized for structured queries
+
+6. Document Index (Unstructured):
+   - LlamaCloud vector index
+   - Contains Wikipedia pages about cities
+   - Stores embeddings for semantic search
+
+7. Response Generation (LLM):
+   - Formats results from tools into natural language
+   - Combines information from multiple sources when needed
+   - Ensures coherent and helpful responses
+
+8. User Response:
+   - Displayed in chat interface
+   - May include citations or sources
+   - Maintains conversation history
+
+Data Flow:
+1. User submits natural language query
+2. LLM analyzes query to determine intent
+3. Query is routed to SQL tool, RAG tool, or both
+4. Tools retrieve information from their respective data sources
+5. Results are passed back to the LLM
+6. LLM generates a coherent natural language response
+7. Response is displayed to the user 
