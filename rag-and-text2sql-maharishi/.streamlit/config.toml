@@ -1,0 +1,2 @@
+[theme]
+base = "dark"
