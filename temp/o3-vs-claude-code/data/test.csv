@@ -1,0 +1,133 @@
+question,answer
+"Write a SimpleLitAPI that takes a number calculates it's square, calculates it cube and returns the response.","# server.py
+import litserve as ls
+
+# (STEP 1) - DEFINE THE API (compound AI system)
+class SimpleLitAPI(ls.LitAPI):
+    def setup(self, device):
+        # setup is called once at startup. Build a compound AI system (1+ models), connect DBs, load data, etc...
+        self.model1 = lambda x: x**2
+        self.model2 = lambda x: x**3
+
+    def decode_request(self, request):
+        # Convert the request payload to model input.
+        return request[""input""] 
+
+    def predict(self, x):
+        # Easily build compound systems. Run inference and return the output.
+        squared = self.model1(x)
+        cubed = self.model2(x)
+        output = squared + cubed
+        return {""output"": output}
+
+    def encode_response(self, output):
+        # Convert the model output to a response payload.
+        return {""output"": output} 
+
+# (STEP 2) - START THE SERVER
+if __name__ == ""__main__"":
+    # scale with advanced features (batching, GPUs, etc...)
+    server = ls.LitServer(SimpleLitAPI(), accelerator=""auto"", max_batch_size=1)
+    server.run(port=8000)"
+"Build a text embedding API using SentenceTransformer and Litserve.","from sentence_transformers import SentenceTransformer
+import litserve as ls
+
+class EmbeddingAPI(ls.LitAPI):
+    def setup(self, device):
+        self.instruction = ""Represent this sentence for searching relevant passages: ""
+        self.model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
+
+    def decode_request(self, request):
+        return request[""input""]
+
+    def predict(self, query):
+        return self.model.encode([self.instruction + query], normalize_embeddings=True)
+
+    def encode_response(self, output):
+        return {""embedding"": output[0].tolist()}
+
+if __name__ == ""__main__"":
+    api = EmbeddingAPI()
+    server = ls.LitServer(api)
+    server.run(port=8000)"
+"Create a LitServe RAG API using LlamaIndex, Qdrant as vector database and Ollama to serve llama3.2 locally","import os, logging, qdrant_client
+from llama_index.llms.ollama import Ollama
+from llama_index.core import StorageContext, Settings, VectorStoreIndex, SimpleDirectoryReader
+from llama_index.vector_stores.qdrant import QdrantVectorStore
+from llama_index.embeddings.fastembed import FastEmbedEmbedding
+import litserve as ls
+
+class DocumentChatAPI(ls.LitAPI):
+    def setup(self, device):
+        Settings.llm = Ollama(model=""llama3.1:latest"", request_timeout=120.0)
+        Settings.embed_model = FastEmbedEmbedding(model_name=""BAAI/bge-large-en-v1.5"")
+        client = qdrant_client.QdrantClient(host=""localhost"", port=6333)
+        vector_store = QdrantVectorStore(client=client, collection_name=""doc_search_collection"")
+        storage_context = StorageContext.from_defaults(vector_store=vector_store)
+        documents = SimpleDirectoryReader(""./docs"").load_data()
+        index = VectorStoreIndex.from_documents(documents, storage_context=storage_context)
+        self.query_engine = index.as_query_engine()
+
+    def decode_request(self, request):
+        return request[""query""]
+
+    def predict(self, query):
+        return self.query_engine.query(query)
+
+    def encode_response(self, output):
+        return {""output"": output}
+
+if __name__ == ""__main__"":
+    api = DocumentChatAPI()
+    server = ls.LitServer(api)
+    server.run(port=8000)"
+"Create a private API for Open AI's Whisper model using LitServe","# whisper_server.py
+import litserve as ls
+import whisper
+
+class WhisperLitAPI(ls.LitAPI):
+    def setup(self, device):
+        # Load the OpenAI Whisper model. You can specify other models like ""base"", ""small"", etc.
+        self.model = whisper.load_model(""large"", device='cuda')
+    
+    def decode_request(self, request):
+        # Assuming the request sends the path to the audio file
+        # In a more robust implementation, you would handle audio data directly.
+        return request[""audio_path""]
+    
+    def predict(self, audio_path):
+        # Process the audio file and return the transcription result
+        result = self.model.transcribe(audio_path)
+        return result
+    
+    def encode_response(self, output):
+        # Return the transcription text
+        return {""transcription"": output[""text""]}
+
+if __name__ == ""__main__"":
+    api = WhisperLitAPI()
+    server = ls.LitServer(api, accelerator=""gpu"", timeout=1000, workers_per_device=2)
+    server.run(port=8000)"
+"Deploy a random forest model using LitServe","import pickle, numpy as np
+import litserve as ls
+
+class RandomForestAPI(ls.LitAPI):
+    def setup(self, device):
+        with open(""model.pkl"", ""rb"") as f:
+            self.model = pickle.load(f)
+
+    def decode_request(self, request):
+        x = np.asarray(request[""input""])
+        x = np.expand_dims(x, 0)
+        return x
+
+    def predict(self, x):
+        return self.model.predict(x)
+
+    def encode_response(self, output):
+        return {""class_idx"": int(output)}
+
+if __name__ == ""__main__"":
+    api = RandomForestAPI()
+    server = ls.LitServer(api)
+    server.run(port=8000)"

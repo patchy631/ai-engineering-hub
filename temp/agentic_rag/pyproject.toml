@@ -1,0 +1,20 @@
+[project]
+name = "agentic_rag"
+version = "0.1.0"
+description = "agentic-rag using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai[tools]>=0.86.0,<1.0.0"
+]
+
+[project.scripts]
+agentic_rag = "agentic_rag.main:run"
+run_crew = "agentic_rag.main:run"
+train = "agentic_rag.main:train"
+replay = "agentic_rag.main:replay"
+test = "agentic_rag.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
