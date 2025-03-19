@@ -1,0 +1,7 @@
+streamlit
+llama-index
+nest-asyncio
+python-dotenv
+sqlalchemy
+llama-index-llms-groq
+llama-index-embeddings-huggingface
