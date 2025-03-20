@@ -1,0 +1,20 @@
+# routing_task:
+#   description: >
+#     Understand the user query: {query}, and route it to the most appropriate knowledge base
+#   expected_output: >
+#     The most appropriate knowledge base to route the user query to, the answer should be either 'pdf_search' or 'pdf_search'
+#   agent: routing_agent
+
+retrieval_task:
+  description: >
+    Retrieve the most relevant information from the available sources for the user query: {query}
+  expected_output: >
+    The most relevant information in form of text as retrieved from the sources.
+  agent: retriever_agent
+
+response_task:
+  description: >
+    Synthesize the final response for the user query: {query}
+  expected_output: >
+    A concise and coherent response based on the retrieved infromation from the right source for the user query: {query}. If you are not ble to retrieve the information then respond with "I'm sorry, I couldn't find the information you're looking for."
+  agent: response_synthesizer_agent

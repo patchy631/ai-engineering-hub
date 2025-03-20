@@ -1,0 +1,45 @@
+# Environment files with sensitive information
+.env
+*.env
+.env.*
+!.env.example
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Database files (if using persistent SQLite)
+*.db
+*.sqlite
+*.sqlite3
+
+# Vector database storage
+qdrant_storage/
+
+# Temporary files
+tmp/
+temp/
+
+# Jupyter Notebook
+.ipynb_checkpoints
