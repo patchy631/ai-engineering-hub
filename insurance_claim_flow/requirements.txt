@@ -1,0 +1,11 @@
+loguru
+llama-index
+llama-index-llms-anthropic
+llama-index-utils-workflow
+openai
+anthropic
+streamlit
+nest-asyncio
+python-dotenv
+requests
+pydantic
