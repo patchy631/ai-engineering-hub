@@ -1,0 +1,7 @@
+openai
+llama-index-core
+llama-index-llms-openai
+sqlalchemy
+llama-index-callbacks-arize-phoenix
+streamlit
+nest_asyncio
