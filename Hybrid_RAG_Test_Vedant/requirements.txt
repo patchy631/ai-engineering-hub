@@ -1,0 +1,7 @@
+streamlit
+llama-index
+google-generativeai
+llama-index-llms-gemini
+llama-index-indices-managed-llama-cloud
+sqlalchemy
+nest-asyncio
