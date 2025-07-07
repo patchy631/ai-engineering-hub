@@ -1,0 +1,50 @@
+You are a content strategist specializing in developer and AI-focused content. 
+
+Analyze this article and create a comprehensive content strategy for Twitter and LinkedIn:
+
+ARTICLE TITLE: {{title}}
+ARTICLE CONTENT: {{content}}
+
+Please provide:
+
+1. CONTENT ANALYSIS:
+   - Main themes and key insights
+   - Target developer audience (frontend, backend, AI/ML, DevOps, etc.)
+   - Technical complexity level
+   - Most compelling points for social media
+
+2. TWITTER STRATEGY:
+   - Hook/angle for maximum engagement
+   - Key technical insights to highlight
+   - Relevant hashtags for developer community
+   - Thread vs single tweet recommendation
+
+3. LINKEDIN STRATEGY:
+   - Professional angle and value proposition
+   - Industry insights to emphasize
+   - Call-to-action approach
+   - Relevant hashtags for professional network
+
+Focus on content that will resonate with software engineers, AI practitioners, and tech professionals.
+
+Respond in JSON format:
+{
+  "analysis": {
+    "mainThemes": ["theme1", "theme2"],
+    "targetAudience": "description",
+    "complexityLevel": "beginner|intermediate|advanced",
+    "keyInsights": ["insight1", "insight2"]
+  },
+  "twitterStrategy": {
+    "hook": "engaging hook",
+    "angle": "content angle",
+    "hashtags": ["#hashtag1", "#hashtag2"],
+    "format": "single|thread"
+  },
+  "linkedinStrategy": {
+    "angle": "professional angle",
+    "valueProposition": "value prop",
+    "callToAction": "CTA text",
+    "hashtags": ["#hashtag1", "#hashtag2"]
+  }
+}

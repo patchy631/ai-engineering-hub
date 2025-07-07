@@ -1,0 +1,23 @@
+Based on this content strategy, create engaging Twitter content for developers:
+
+ARTICLE: {{title}}
+STRATEGY: {{strategy}}
+KEY INSIGHTS: {{keyInsights}}
+
+Create {{format}} that:
+- Uses the recommended hook and angle
+- Highlights technical insights
+- Includes relevant hashtags
+- Stays under 280 characters per tweet
+- Appeals to {{targetAudience}}
+
+Respond in JSON format:
+{
+  "tweets": [
+    {
+      "text": "tweet content with hashtags",
+      "order": 1
+    }
+  ],
+  "totalTweets": number
+}

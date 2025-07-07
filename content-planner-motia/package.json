@@ -1,0 +1,38 @@
+{
+  "name": "content-generation-workflow",
+  "description": "AI-powered content generation workflow that scrapes articles and generates viral social media posts using Motia",
+  "scripts": {
+    "setup": "node setup.js",
+    "postinstall": "motia install",
+    "dev": "motia dev",
+    "dev:debug": "motia dev --verbose",
+    "generate-types": "motia generate-types",
+    "build": "motia build",
+    "clean": "rm -rf dist node_modules python_modules .motia .mermaid"
+  },
+  "keywords": [
+    "motia",
+    "ai",
+    "content-writing",
+    "social-media",
+    "automation",
+    "web-scraping"
+  ],
+  "dependencies": {
+    "motia": "^0.3.1-beta.86",
+    "@mendable/firecrawl-js": "^1.0.0",
+    "openai": "^4.90.0",
+    "dotenv": "^16.5.0",
+    "zod": "^3.25.67",
+    "axios": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.3.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

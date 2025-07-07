@@ -1,0 +1,19 @@
+Based on this content strategy, create a professional LinkedIn post for developers:
+
+ARTICLE: {{title}}
+STRATEGY: {{strategy}}
+KEY INSIGHTS: {{keyInsights}}
+
+Create a LinkedIn post that:
+- Uses the recommended professional angle and value proposition
+- Highlights industry insights
+- Includes the suggested call-to-action
+- Uses relevant hashtags
+- Is 1000-2000 characters
+- Appeals to {{targetAudience}}
+
+Respond in JSON format:
+{
+  "post": "full LinkedIn post content with hashtags and CTA",
+  "characterCount": number
+}
