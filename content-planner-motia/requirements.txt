@@ -1,0 +1,4 @@
+pydantic
+openai
+firecrawl
+python-dotenv

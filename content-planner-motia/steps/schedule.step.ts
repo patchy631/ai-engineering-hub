@@ -2,7 +2,7 @@ import { EventConfig, Handlers } from 'motia'
 import { z } from 'zod'
 import axios from 'axios'
 
-const config = require('../config')
+const appConfig = require('../config/index.js')
 
 export const config: EventConfig = {
   type: 'event',
@@ -39,7 +39,7 @@ export const handler: Handlers['SchedulePosts'] = async (input, { emit, logger }
   }
 
   const typefullyHeaders = {
-    'X-API-KEY': `Bearer ${config.typefully.apiKey}`,
+    'X-API-KEY': `Bearer ${appConfig.typefully.apiKey}`,
     'Content-Type': 'application/json'
   }
 
