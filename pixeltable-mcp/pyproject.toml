@@ -1,0 +1,12 @@
+[project]
+name = "pixeltable-mcp"
+version = "0.1.0"
+description = "Ultimate MCP server for Multimodal AI"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "crewai-tools[mcp]>=0.49.0",
+    "ollama>=0.5.1",
+    "pixeltable>=0.4.2",
+    "python-dotenv>=1.1.1",
+]

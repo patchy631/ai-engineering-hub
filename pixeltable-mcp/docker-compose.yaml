@@ -1,0 +1,49 @@
+services:
+  audio-index:
+    build:
+      context: ./audio-index
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./audio-index/audio_index:/app/audio_index
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    command: ["python", "server.py", "--host", "0.0.0.0", "--port", "8080"]
+
+  video-index:
+    build:
+      context: ./video-index
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./video-index/video_index:/app/video_index
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    command: ["python", "server.py", "--host", "0.0.0.0", "--port", "8081"]
+
+  image-index:
+    build:
+      context: ./image-index
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./image-index/image_index:/app/image_index
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    command: ["python", "server.py", "--host", "0.0.0.0", "--port", "8082"]
+
+  doc-index:
+    build:
+      context: ./doc-index
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./doc-index/doc_index:/app/doc_index
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    command: ["python", "server.py", "--host", "0.0.0.0", "--port", "8083"]
+
