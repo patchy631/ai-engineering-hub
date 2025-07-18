@@ -7,7 +7,7 @@ name = "ag2"
 version = "0.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pyautogen" },
+    { name = "ag2" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/60/a4/e381efdce4d20bfa0cb73411de83fed3f93db0504c6f5e871bbada10e5db/ag2-0.9.tar.gz", hash = "sha256:766bf9900fbc1a98e3a7d6bd6d41a7bbbac526eb6371aea01ccac7442635d06d", size = 42474, upload_time = "2025-04-25T00:11:34.69Z" }
 wheels = [
@@ -16,7 +16,7 @@ wheels = [
 
 [package.optional-dependencies]
 ollama = [
-    { name = "pyautogen", extra = ["ollama"] },
+    { name = "ag2", extra = ["ollama"] },
 ]
 
 [[package]]
@@ -547,7 +547,7 @@ wheels = [
 ]
 
 [[package]]
-name = "pyautogen"
+name = "ag2"
 version = "0.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
@@ -562,9 +562,9 @@ dependencies = [
     { name = "termcolor" },
     { name = "tiktoken" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d1/25/977ff23b28789f17a4fbc2c009805e55ec0cb8a6ab309beebc07a8c5ceff/pyautogen-0.9.tar.gz", hash = "sha256:58763009b6f6f988cdf9bb908c56a61a60c16e772096ab621edf06748fa58e50", size = 3255051, upload_time = "2025-04-25T00:11:21.462Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/25/977ff23b28789f17a4fbc2c009805e55ec0cb8a6ab309beebc07a8c5ceff/ag2-0.9.tar.gz", hash = "sha256:58763009b6f6f988cdf9bb908c56a61a60c16e772096ab621edf06748fa58e50", size = 3255051, upload_time = "2025-04-25T00:11:21.462Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a9/7a/2ba1e2787340ed2650d9b4d030c48e5b40b0c08cb8a86716799062c037e1/pyautogen-0.9-py3-none-any.whl", hash = "sha256:b4bef3cc0aee1aa71959aea39b53001a62326682e6f23acb036f90212b3baf5d", size = 781663, upload_time = "2025-04-25T00:11:18.242Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/7a/2ba1e2787340ed2650d9b4d030c48e5b40b0c08cb8a86716799062c037e1/ag2-0.9-py3-none-any.whl", hash = "sha256:b4bef3cc0aee1aa71959aea39b53001a62326682e6f23acb036f90212b3baf5d", size = 781663, upload_time = "2025-04-25T00:11:18.242Z" },
 ]
 
 [package.optional-dependencies]
