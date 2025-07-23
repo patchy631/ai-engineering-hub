@@ -8,6 +8,18 @@
   <img src="assets/ai-eng-hub.gif" alt="AI Engineering Hub Banner">
 </p>
 
+<p align="center">
+  <!-- Keep these links. Translations will automatically update with the README. -->
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=de">Deutsch</a> | 
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=es">Español</a> | 
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=fr">français</a> | 
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=ja">日本語</a> | 
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=ko">한국어</a> | 
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=pt">Português</a> | 
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=ru">Русский</a> | 
+  <a href="https://readme-i18n.com/patchy631/ai-engineering-hub?lang=zh">中文</a>
+</p>
+
 ---
 
 # AI Engineering Hub 🚀
