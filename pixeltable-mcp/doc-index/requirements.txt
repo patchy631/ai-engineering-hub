@@ -1,0 +1,9 @@
+pixeltable
+tiktoken
+openai
+sentence-transformers
+spacy
+mcp
+httpx
+uvicorn
+starlette
