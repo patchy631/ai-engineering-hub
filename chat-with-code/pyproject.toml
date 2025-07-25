@@ -1,7 +1,7 @@
 [project]
 name = "chat-with-code"
 version = "0.1.0"
-description = "Add your description here"
+description = "Code RAG with validation using cleanlab-codex"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

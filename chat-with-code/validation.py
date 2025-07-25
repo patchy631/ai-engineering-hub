@@ -4,6 +4,17 @@ fallback_response = (
 
 
 def codex_validated_query(query_engine, project, user_query):
+    """
+    Validates a user query against a RAG pipeline response using Cleanlab Codex.
+
+    Args:
+        query_engine: The RAG pipeline query engine.
+        project: The Cleanlab Codex project instance.
+        user_query: The user's query string.
+
+    Returns:
+        A tuple containing an emoji representing trustworthiness, the trust score, and the final response.
+    """
     # Step 1: Get response from your RAG pipeline
     response_obj = query_engine.query(user_query)
     initial_response = str(response_obj)
@@ -11,16 +22,6 @@ def codex_validated_query(query_engine, project, user_query):
     # Step 2: Convert to message format
     context = response_obj.source_nodes
     context_str = "\n".join([n.node.text for n in context])
-
-    # prompt_template = (
-    #     "Context information is below.\n"
-    #     "---------------------\n"
-    #     "{context}\n"
-    #     "---------------------\n"
-    #     "Given the context information above I want you to think step by step to answer the query in a crisp manner, incase case you don't know the answer say 'I don't know!'.\n"
-    #     "Query: {query}\n"
-    #     "Answer: "
-    # )
 
     prompt_template = (
         "Context information is below.\n"
@@ -62,7 +63,7 @@ def codex_validated_query(query_engine, project, user_query):
 
     # Step 5: Return both final response and full validation info
     trust_score = result.model_dump()["eval_scores"]["trustworthiness"]["score"]
-    
+
     # Determine emoji based on score
     if trust_score >= 0.8:
         emoji = "🟢"
@@ -70,5 +71,6 @@ def codex_validated_query(query_engine, project, user_query):
         emoji = "🟡"
     else:
         emoji = "🔴"
-    
+
+    # Return emoji, trust score, and final response
     return emoji, trust_score, final_response

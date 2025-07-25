@@ -1,8 +1,4 @@
 import os
-
-# os.environ["HF_HOME"] = "/teamspace/studios/this_studio/weights"
-# os.environ["TORCH_HOME"] = "/teamspace/studios/this_studio/weights"
-
 import time
 import uuid
 import re
@@ -51,24 +47,30 @@ def initialize_codex_project(codex_api_key):
     return project
 
 
+#####################
 # Utility functions
+#####################
 def parse_github_url(url):
+    """Parse the GitHub URL to extract owner and repository name."""
     pattern = r"https://github\.com/([^/]+)/([^/]+)"
     match = re.match(pattern, url)
     return match.groups() if match else (None, None)
 
 
 def clone_repo(repo_url):
+    """Clone the GitHub repository."""
     return subprocess.run(
         ["git", "clone", repo_url], check=True, text=True, capture_output=True
     )
 
 
 def validate_owner_repo(owner, repo):
+    """Validate the owner and repository name."""
     return bool(owner) and bool(repo)
 
 
 def parse_docs_by_file_types(ext, language, input_dir_path):
+    """Parse documents by file types in the specified directory."""
     files = glob.glob(f"{input_dir_path}/**/*{ext}", recursive=True)
 
     if len(files) > 0:
@@ -76,7 +78,6 @@ def parse_docs_by_file_types(ext, language, input_dir_path):
             input_dir=input_dir_path, required_exts=[ext], recursive=True
         )
         docs = loader.load_data()
-
         parser = (
             MarkdownNodeParser()
             if ext == ".md"
@@ -87,8 +88,8 @@ def parse_docs_by_file_types(ext, language, input_dir_path):
         return []
 
 
-# Create a collection and return a vectorstore index
 def create_index(nodes):
+    """Create a Milvus collection and return a vectorstore index."""
     unique_collection_id = uuid.uuid4()
     collection_name = f"chat_with_docs_{unique_collection_id}"
     vector_store = MilvusVectorStore(
@@ -114,6 +115,7 @@ client = None
 
 
 def reset_chat():
+    """Reset the chat state."""
     st.session_state.messages = []
     st.session_state.context = None
     gc.collect()
@@ -122,15 +124,17 @@ def reset_chat():
 with st.sidebar:
     st.header("API Configuration 🔑")
 
-    # API Key inputs
+    # API Key inputs for OpenRouter and Codex
     openrouter_logo_html = """
         <div style='display: flex; align-items: center; gap: 0px; margin-top: 0px;'>
             <img src="https://files.buildwithfern.com/openrouter.docs.buildwithfern.com/docs/2025-07-24T05:04:17.529Z/content/assets/logo-white.svg" width="180"> 
         </div>
     """
     st.markdown(openrouter_logo_html, unsafe_allow_html=True)
-    # st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("[Get your API key](https://openrouter.ai/settings/keys)", unsafe_allow_html=True)
+    st.markdown(
+        "[Get your API key](https://openrouter.ai/settings/keys)",
+        unsafe_allow_html=True,
+    )
     openrouter_api_key = st.text_input(
         "OpenRouter API Key", type="password", help="Get your API key from OpenRouter"
     )
@@ -141,12 +145,13 @@ with st.sidebar:
         </div>
     """
     st.markdown(codex_logo_html, unsafe_allow_html=True)
-    # st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("[Get your API key](https://codex.cleanlab.ai/account)", unsafe_allow_html=True)
+    st.markdown(
+        "[Get your API key](https://codex.cleanlab.ai/account)", unsafe_allow_html=True
+    )
     codex_api_key = st.text_input(
         "Codex API Key",
         type="password",
-        help="Get your API key from https://codex.cleanlab.ai/account",
+        help="Get your API key from Cleanlab Codex",
     )
 
     st.divider()
@@ -175,7 +180,8 @@ with st.sidebar:
                     # Initialize Codex project
                     project = initialize_codex_project(codex_api_key)
 
-                    input_dir_path = f"/teamspace/studios/this_studio/{repo}"
+                    # input_dir_path = f"/teamspace/studios/this_studio/{repo}"
+                    input_dir_path = os.path.join(os.getcwd(), repo)
 
                     if not os.path.exists(input_dir_path):
                         subprocess.run(
@@ -306,7 +312,6 @@ if prompt := st.chat_input("What's up?"):
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = ""
 
         # context = st.session_state.context
         query_engine = st.session_state.query_engine
@@ -323,8 +328,6 @@ if prompt := st.chat_input("What's up?"):
             full_response += char
             message_placeholder.markdown(full_response + "▌")
             time.sleep(0.01)  # Adjust speed as needed
-
-        # full_response = query_engine.query(prompt)
 
         message_placeholder.markdown(full_response)
         st.markdown(f"{emoji} **Trust Score**: `{trust_score}`")
