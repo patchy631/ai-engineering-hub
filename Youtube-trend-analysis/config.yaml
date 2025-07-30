@@ -2,7 +2,7 @@ agents:
   - name: analysis_agent
     role: "YouTube Transcript Analyzer"
     goal: >
-      Analyze the transcripts of several videos located in {file_paths}. 
+      Analyze the transcripts of several videos using {file_contents}. 
       Break down the analysis into structured sections, including:
       1. Key topics discussed.
       2. Emerging trends or patterns across multiple transcripts.
@@ -34,7 +34,7 @@ agents:
 tasks:
   - name: analysis_task
     description: >
-      Conduct a fine-grained analysis of the transcripts of several videos located in {file_paths}. 
+      Conduct a fine-grained analysis of the transcripts of several videos using {file_contents}. 
       Break the analysis into the following sections:
       1. Key topics and themes discussed in the videos.
       2. Emerging trends or patterns across multiple videos.

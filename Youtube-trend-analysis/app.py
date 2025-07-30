@@ -18,6 +18,8 @@ docs_tool = FileReadTool()
 
 bright_data_api_key = os.getenv("BRIGHT_DATA_API_KEY")
 
+os.makedirs("transcripts", exist_ok=True)
+
 @st.cache_resource
 def load_llm():
 
@@ -124,6 +126,45 @@ def start_analysis():
             
             channel_scrapped_output = get_output(bright_data_api_key, status['snapshot_id'], format="json")
 
+            status_container.info("Processing transcripts...")
+            st.session_state.all_files = []
+            error_files = []
+
+            for i in tqdm(range(len(channel_scrapped_output[0]))):
+                youtube_video_id = channel_scrapped_output[0][i]["shortcode"]
+                
+                os.makedirs("transcripts", exist_ok=True)
+                
+                file = f"transcripts/{youtube_video_id}.txt"
+                st.session_state.all_files.append(file)
+
+                with open(file, "w", encoding="utf-8") as f:
+                    transcript = channel_scrapped_output[0][i].get(
+                        "formatted_transcript", []
+                    )
+                    if isinstance(transcript, list):
+                        for entry in transcript:
+                            text = entry.get("text", "")
+                            start = entry.get("start_time", 0.0)
+                            end = entry.get("end_time", 0.0)
+                            line = f"({start:.2f}-{end:.2f}): {text}\n"
+                            f.write(line)
+                    else:
+                        f.write(str(transcript))
+                        error_files.append(i)
+                        del st.session_state.all_files[-1]
+
+            if error_files:
+                for idx in error_files:
+                    youtube_video_id = channel_scrapped_output[0][idx]["shortcode"]
+                    file = f"transcripts/{youtube_video_id}.txt"
+                    if os.path.exists(file):
+                        os.remove(file)
+                        print(f"Removed file: {file}")
+                    else:
+                        print(f"File not found: {file}")
+
+            st.session_state.channel_scrapped_output = channel_scrapped_output
 
             st.markdown("## YouTube Videos Extracted")
             # Create a container for the carousel
@@ -147,44 +188,34 @@ def start_analysis():
                         
                         # Check if we still have videos to display
                         if video_idx < num_videos:
+                            if video_idx in error_files:
+                                continue
+
                             with cols[col_idx]:
-                                st.video(channel_scrapped_output[0][video_idx]['url'])
+                                st.video(channel_scrapped_output[0][video_idx]["url"])
 
-            status_container.info("Processing transcripts...")
-            st.session_state.all_files = []
-            # Calculate transcripts
-            for i in tqdm(range(len(channel_scrapped_output[0]))):
-
-
-                # save transcript to file
-                youtube_video_id = channel_scrapped_output[0][i]['shortcode']
-                
-                file = "transcripts/" + youtube_video_id + ".txt"
-                st.session_state.all_files.append(file)
-
-                with open(file, "w") as f:
-                    for j in range(len(channel_scrapped_output[0][i]['formatted_transcript'])):
-                        text = channel_scrapped_output[0][i]['formatted_transcript'][j]['text']
-                        start_time = channel_scrapped_output[0][i]['formatted_transcript'][j]['start_time']
-                        end_time = channel_scrapped_output[0][i]['formatted_transcript'][j]['end_time']
-                        f.write(f"({start_time:.2f}-{end_time:.2f}): {text}\n")
-
-                    f.close()
-
-            st.session_state.channel_scrapped_output = channel_scrapped_output
-            status_container.success("Scraping complete! We shall now analyze the videos and report trends...")
+            status_container.success("Scraping complete! Analyzing trends...")
 
         else:
             status_container.error(f"Scraping failed with status: {status}")
 
     if status['status'] == "ready":
 
+        file_contents = []
+        for file in st.session_state.all_files:
+            with open(file, "r", encoding="utf-8") as f:
+                content = f.read()
+                file_contents.append(content)
+
+        merge_content = "\n\n".join(file_contents)
+
         status_container = st.empty()
         with st.spinner('The agent is analyzing the videos... This may take a moment.'):
             # create crew
             st.session_state.crew = create_agents_and_tasks()
-            st.session_state.response = st.session_state.crew.kickoff(inputs={"file_paths": ", ".join(st.session_state.all_files)})
-                    
+            st.session_state.response = st.session_state.crew.kickoff(
+                inputs={"file_contents": merge_content}
+            )
 
 
 # ===========================
