@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "crewai-agentic-flow-demo"
+version = "0.1.0"
+description = "Agentic workflow demo using CrewAI Flows with Researcher and Writer agents"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "crewai[tools]",
+    "pydantic",
+    "python-dotenv",
+    "requests"
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/crewai_agentic_flow"]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+    "pytest-cov"
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "pytest --cov-report=term-missing --cov=crewai_agentic_flow {args:tests}"
