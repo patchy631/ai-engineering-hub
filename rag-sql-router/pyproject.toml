@@ -1,0 +1,26 @@
+[project]
+name = "rag-sql-router"
+version = "0.1.0"
+description = "Text2SQL with RAG, developing hybrid agentic workflow"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cleanlab-codex>=1.0.26",
+    "llama-index>=0.12.52",
+    "llama-index-core>=0.12.52.post1",
+    "llama-index-embeddings-huggingface>=0.5.5",
+    "llama-index-llms-openai>=0.4.7",
+    "llama-index-llms-openrouter>=0.3.2",
+    "llama-index-node-parser-docling>=0.3.2",
+    "llama-index-readers-docling>=0.3.3",
+    "llama-index-readers-file>=0.4.11",
+    "llama-index-vector-stores-milvus>=0.8.7",
+    "nest-asyncio>=1.6.0",
+    "pymilvus>=2.5.14",
+    "python-dotenv>=1.1.1",
+    "sqlalchemy>=2.0.42",
+    "streamlit>=1.47.1",
+    "torch>=2.7.1",
+    "pandas>=2.0.0",
+    "plotly>=5.0.0",
+]

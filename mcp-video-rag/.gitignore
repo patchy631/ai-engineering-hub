@@ -1,0 +1,71 @@
+# Python-generated files
+__pycache__/
+*.py[cod]
+build/
+dist/
+wheels/
+*.egg-info/
+*.egg
+.eggs/
+.Python
+develop-eggs/
+downloads/
+lib/
+lib64/
+parts/
+sdist/
+var/
+.installed.cfg
+
+# Virtual environments
+.venv
+venv/
+ENV/
+env/
+.env
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Testing and coverage
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Documentation
+docs/_build/
+site/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local

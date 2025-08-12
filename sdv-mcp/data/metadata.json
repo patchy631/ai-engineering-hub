@@ -1,0 +1,77 @@
+{
+    "tables": {
+        "hotels": {
+            "columns": {
+                "hotel_id": {
+                    "sdtype": "id",
+                    "regex_format": "HID_[0-9]{3,5}"
+                },
+                "city": {
+                    "pii": true,
+                    "sdtype": "city"
+                },
+                "state": {
+                    "pii": true,
+                    "sdtype": "administrative_unit"
+                },
+                "rating": {
+                    "sdtype": "numerical"
+                },
+                "classification": {
+                    "sdtype": "categorical"
+                }
+            },
+            "primary_key": "hotel_id"
+        },
+        "guests": {
+            "columns": {
+                "guest_email": {
+                    "pii": true,
+                    "sdtype": "email"
+                },
+                "hotel_id": {
+                    "sdtype": "id",
+                    "regex_format": "HID_[0-9]{3,5}"
+                },
+                "has_rewards": {
+                    "sdtype": "categorical"
+                },
+                "room_type": {
+                    "sdtype": "categorical"
+                },
+                "amenities_fee": {
+                    "sdtype": "numerical"
+                },
+                "checkin_date": {
+                    "datetime_format": "%d %b %Y",
+                    "sdtype": "datetime"
+                },
+                "checkout_date": {
+                    "datetime_format": "%d %b %Y",
+                    "sdtype": "datetime"
+                },
+                "room_rate": {
+                    "sdtype": "numerical"
+                },
+                "billing_address": {
+                    "sdtype": "address",
+                    "pii": true
+                },
+                "credit_card_number": {
+                    "pii": true,
+                    "sdtype": "credit_card_number"
+                }
+            },
+            "primary_key": "guest_email"
+        }
+    },
+    "relationships": [
+        {
+            "parent_table_name": "hotels",
+            "child_table_name": "guests",
+            "parent_primary_key": "hotel_id",
+            "child_foreign_key": "hotel_id"
+        }
+    ],
+    "METADATA_SPEC_VERSION": "V1"
+}

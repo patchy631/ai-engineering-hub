@@ -1,0 +1,6 @@
+streamlit>=1.28.0
+python-dotenv>=1.0.0
+langchain-openai>=0.1.0
+langchain-ollama>=0.1.0
+mcp-use>=0.1.0
+asyncio 

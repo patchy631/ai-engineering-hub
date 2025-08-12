@@ -1,0 +1,17 @@
+[project]
+name = "chat-with-code"
+version = "0.1.0"
+description = "Code RAG with validation using cleanlab-codex"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cleanlab-codex>=1.0.25",
+    "llama-index>=0.12.52",
+    "llama-index-embeddings-huggingface>=0.5.5",
+    "llama-index-llms-openrouter>=0.3.2",
+    "llama-index-vector-stores-milvus>=0.8.6",
+    "nest-asyncio>=1.6.0",
+    "pymilvus>=2.5.14",
+    "python-dotenv>=1.1.1",
+    "streamlit>=1.47.0",
+]

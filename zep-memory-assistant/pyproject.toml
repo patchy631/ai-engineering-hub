@@ -1,0 +1,12 @@
+[project]
+name = "autogen-zep"
+version = "0.1.0"
+description = "Persistent memory backend for AI agents using Zep."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ag2[ollama]>=0.9",
+    "ollama>=0.4.8",
+    "streamlit>=1.44.1",
+    "zep-cloud>=2.11.0",
+]

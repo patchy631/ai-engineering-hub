@@ -1,0 +1,27 @@
+[project]
+name = "financial-analysis-agent"
+version = "0.1.0"
+description = "A CrewAI-based financial analysis system"
+dependencies = [
+    "crewai>=0.121.0",
+    "crewai-tools>=0.45.0",
+    "matplotlib>=3.10.3",
+    "mcp[cli]>=1.9.1",
+    "pandas>=2.2.3",
+    "pdfplumber>=0.11.6",
+    "pydantic>=2.11.5",
+    "reportlab>=4.4.1",
+    "yfinance>=0.2.61",
+]
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true

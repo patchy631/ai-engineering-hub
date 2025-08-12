@@ -1,0 +1,10 @@
+[project]
+name = "kitops-mcp"
+version = "0.1.0"
+description = "MCP server for managing KitOps ModelKits remotely"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "kitops>=1.2.1",
+    "mcp[cli]>=1.9.4",
+]

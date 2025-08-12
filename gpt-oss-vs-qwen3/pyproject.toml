@@ -1,0 +1,17 @@
+[project]
+name = "reasoning-model-comparison"
+version = "0.1.0"
+description = "Reasoning model comparison using OpenRouter and Opik"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=0.49.0",
+    "ipykernel>=6.30.1",
+    "litellm>=1.71.1",
+    "nest-asyncio>=1.6.0",
+    "opik>=1.8.13",
+    "pandas>=2.2.3",
+    "plotly>=6.1.2",
+    "python-dotenv>=1.1.0",
+    "streamlit>=1.45.1",
+]

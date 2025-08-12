@@ -1,0 +1,19 @@
+[project]
+name = "llama-4-vs-deepseek-r1"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastembed>=0.6.0",
+    "ipykernel>=6.29.5",
+    "llama-index>=0.12.28",
+    "llama-index-embeddings-fastembed>=0.3.1",
+    "llama-index-embeddings-huggingface>=0.5.2",
+    "llama-index-embeddings-instructor>=0.3.0",
+    "llama-index-llms-groq>=0.3.1",
+    "llama-index-llms-ollama>=0.5.4",
+    "llama-index-utils-workflow>=0.3.1",
+    "opik>=1.6.13",
+    "streamlit>=1.44.1",
+]

@@ -1,0 +1,14 @@
+[project]
+name = "documentation-writer-flow"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "crewai>=0.119.0",
+    "crewai-tools>=0.44.0",
+    "ipykernel>=6.29.5",
+    "mcp>=1.8.1",
+    "ollama>=0.4.8",
+    "pydantic>=2.11.4",
+]

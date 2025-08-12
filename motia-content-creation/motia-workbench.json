@@ -1,0 +1,31 @@
+[
+  {
+    "id": "content-generation",
+    "config": {
+      "steps/scrape.step.py": {
+        "x": 1,
+        "y": 190
+      },
+      "steps/schedule-twitter.step.ts": {
+        "x": -218,
+        "y": 483
+      },
+      "steps/schedule-linkedin.step.ts": {
+        "x": 213,
+        "y": 483
+      },
+      "steps/generate-twitter.step.py": {
+        "x": -206,
+        "y": 366
+      },
+      "steps/generate-linkedin.step.py": {
+        "x": 220,
+        "y": 366
+      },
+      "steps/api.step.py": {
+        "x": 1,
+        "y": 0
+      }
+    }
+  }
+]

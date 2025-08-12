@@ -1,0 +1,5 @@
+Extract the top contributor's username from this GitHub repository: https://github.com/browserbase/stagehand
+Extract names and descriptions of 5 companies from this website: https://www.aigrant.com
+Find the current stock price of Tesla
+What was the score of the last Lakers game?
+Play a game of 2048

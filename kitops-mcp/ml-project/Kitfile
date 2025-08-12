@@ -1,0 +1,25 @@
+manifestVersion: '1.0'
+package:
+  name: ml-project
+  version: '1.0'
+  description: Sample ML project to demonstrate PyKitOps SDK
+code:
+- path: train.py
+  description: Script to train the model
+  license: Apache 2.0
+- path: requirements.txt
+  description: Python dependencies
+datasets:
+- name: dataset
+  path: data/sample.csv
+  description: full dataset
+  license: Apache 2.0
+docs:
+- path: docs/README.md
+- path: docs/LICENSE
+model:
+  name: logistic-regression-model
+  path: model/model.pkl
+  license: Apache 2.0
+  version: '1.0'
+  description: Logistic Regression Model on sample dataset

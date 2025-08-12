@@ -1,0 +1,34 @@
+{
+  "name": "social-media-automation",
+  "description": "AI-powered social media automation workflow that scrapes articles and generates viral social media posts using Motia",
+  "scripts": {
+    "prepare": "python3 -m venv python_modules && source python_modules/bin/activate && pip install -r requirements.txt",
+    "dev": "source python_modules/bin/activate && motia dev",
+    "dev:debug": "source python_modules/bin/activate && motia dev --debug",
+    "build": "source python_modules/bin/activate && motia build",
+    "clean": "rm -rf dist .motia .mermaid node_modules python_modules",
+    "generate:config": "motia get-config --output ./"
+  },
+  "keywords": [
+    "motia",
+    "ai",
+    "content-writing",
+    "social-media",
+    "automation",
+    "web-scraping"
+  ],
+  "dependencies": {
+    "motia": "^0.4.0-beta.90",
+    "@mendable/firecrawl-js": "^1.0.0",
+    "openai": "^4.90.0",
+    "dotenv": "^16.5.0",
+    "zod": "^3.25.67",
+    "axios": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.28",
+    "@types/react": "^18.3.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

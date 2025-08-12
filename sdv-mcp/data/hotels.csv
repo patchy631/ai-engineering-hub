@@ -1,0 +1,11 @@
+hotel_id,city,state,rating,classification
+HID_000,Boston,Massachusetts,4.8,RESORT
+HID_001,Boston,Massachuesetts,4.1,CHAIN
+HID_002,San Francisco,California,3.8,MOTEL
+HID_003,San Francisco,California,4.0,CHAIN
+HID_004,New York City,New York,3.7,MOTEL
+HID_005,Austin,Texas,4.6,RESORT
+HID_006,Los Angeles,California,4.9,RESORT
+HID_007,Los Angeles,California,,MOTEL
+HID_008,Austin,Texas,4.2,CHAIN
+HID_009,Boston,Massachusetts,4.6,RESORT

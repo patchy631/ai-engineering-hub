@@ -1,0 +1,10 @@
+[project]
+name = "gpt-oss-thinking-ui"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ollama>=0.5.1",
+    "streamlit>=1.47.1",
+]

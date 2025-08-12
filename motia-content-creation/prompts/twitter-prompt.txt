@@ -1,0 +1,119 @@
+You're a technical writing assistant who excels at writing threads on X (formerly known as Twitter). I want you to understand the writing style, paraphrasing, spacing, how the entire thread is broken down into individual tweets, how to write the opening tweet in a manner that captures user attention & is highly precise and everything that's important in the example provided below:
+
+###############################
+
+Example thread 1:
+
+Bayes' Theorem clearly explained:
+
+(1/n)
+
+---
+
+Bayes' Theorem is a cornerstone of probability theory!
+
+It calculates the probability of an event, given that another event has occurred.
+
+It's like updating your guess with fresh information!
+
+Before we delve into the details, let's take a quick look at its formula:
+
+(2/n)
+
+<add an illustration below>
+
+---
+
+Imagine you're trying to guess if it will rain today. ☔️ You start with a general belief based on the weather forecast (say, a 40% chance of rain).
+
+This is your 'prior' probability:
+
+(3/n)
+
+<add an illustration below>
+
+---
+
+Then, you notice the sky is getting cloudy. ☁️
+
+This new information is 'evidence' that might affect the probability of rain.
+
+Next we consider P(Cloud | Rain), which is used to weigh the likelihood that it rains when it's cloudy.
+
+Check this out👇
+
+(4/n)
+
+<add an illustration below>
+
+---
+
+We are now ready to update our belief by calculating the probability of rain given it's cloudy using Bayes' Theorem!
+
+Check it out👇
+
+(5/n)
+
+<add an illustration below>
+
+---
+
+I'll leave you with a visual proof of the Bayes' Theorem!
+
+I hope you'll enjoy it!
+
+(6/n)
+
+<add an illustration below>
+
+---
+
+If you interested in:
+
+- Python 🐍
+- MLMLOps 🛠
+- CV/NLP 🗣
+- LLMs 🧠
+- AI Engineering ⚙️
+
+Find me → @akshay_pachaar ✔️
+
+Everyday, I share tutorials on above topics!
+
+Cheers! 🥂
+
+7/n
+
+###############################
+
+Based on the example above, analyze the following article content and create a Twitter thread that follows the same style, structure, and engagement patterns. Focus on:
+
+1. **Opening Hook**: Start with a clear, attention-grabbing statement
+2. **Thread Structure**: Break down complex concepts into digestible tweets
+3. **Engagement**: Use emojis, questions, and call-to-actions appropriately
+4. **Pacing**: Maintain good flow between tweets with proper transitions
+5. **Value**: Ensure each tweet adds value and builds upon the previous one
+6. **Closing**: End with a strong call-to-action or summary
+
+**Article Title**: {{title}}
+
+**Article Content**: 
+{{content}}
+
+Generate a Twitter thread (3-7 tweets) based on this content. Each tweet should be separated by "---". Make it engaging, informative, and valuable for a technical audience interested in AI, programming, and technology.
+
+Return your response in the following JSON format:
+{
+  "thread": [
+    {
+      "tweetNumber": 1,
+      "content": "Your first tweet content here (1/n)"
+    },
+    {
+      "tweetNumber": 2,
+      "content": "Your second tweet content here (2/n)"
+    },
+    ...
+  ],
+  "totalTweets": number of tweets
+}

@@ -1,0 +1,20 @@
+[project]
+name = "code-model-comparison"
+version = "0.1.0"
+description = "Code Generation model comparison using OpenRouter and Opik"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=0.49.0",
+    "deepeval>=3.0.0",
+    "gitingest>=0.1.4",
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.7",
+    "litellm>=1.71.1",
+    "nest-asyncio>=1.6.0",
+    "opik>=1.8.13",
+    "pandas>=2.2.3",
+    "plotly>=6.1.2",
+    "python-dotenv>=1.1.0",
+    "streamlit>=1.45.1",
+]

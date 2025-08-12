@@ -1,0 +1,5 @@
+pydantic>=2.11.7
+firecrawl>=2.15.0
+python-dotenv>=1.1.1
+requests>=2.32.3
+ollama>=0.5.0

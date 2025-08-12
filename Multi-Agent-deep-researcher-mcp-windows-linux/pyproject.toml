@@ -1,0 +1,15 @@
+[project]
+name = "agentic_deep_researcher"
+version = "0.1.0"
+description = "Deep Research Agent using Crew AI and LinkUp API"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "crewai>=0.114.0",
+    "linkup-sdk>=0.2.4",
+    "mcp>=1.6.0",
+    "openai>=1.75.0",
+    "python-dotenv>=1.1.0",
+    "streamlit>=1.44.1",
+    "streamlit-crewai-process-output>=0.1.1",
+]

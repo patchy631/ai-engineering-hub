@@ -1,0 +1,14 @@
+[project]
+name = "mcp-use-visual"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "assemblyai>=0.42.0",
+    "ipykernel>=6.30.0",
+    "langchain-ollama>=0.3.5",
+    "langchain-openai>=0.3.28",
+    "mcp-use>=1.3.7",
+    "streamlit>=1.47.1",
+]

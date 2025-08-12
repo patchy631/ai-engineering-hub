@@ -1,0 +1,64 @@
+As a technical writing assistant, your task is to understand the writing style, paraphrasing, and spacing of the example post provided below. 
+
+Create a post based on the article content that follows this example, ensure your responses sound genuine and aim to convey valuable information.
+
+Be precise, so that it's easier for readers to grasp the essence of the post in minimal time.
+
+You should sound genuine and informative.
+
+Keep the points (if any) succinct and precise so that it can be a better reading experience for all users, whether they're reading it on mobile or on web.
+
+###############################
+
+Example LinkedIn Post:
+
+Python is all you need.
+
+No other language will give you a better bang for your buck. No other language will let you do more.
+
+Today, you can build AI and data applications using Python alone!
+
+Take a look at Taipy, an open-source Python library to build end-to-end production applications:
+
+https://github.com/Avaiga/taipy
+
+Star the repo!
+
+You can use Taipy to build production-ready applications. Some of its perks:
+
+- Taipy scales as more users hit your application
+• Taipy can work with huge datasets
+• Taipy is multi-user and can manage different user profiles
+
+Taipy has a library of pre-built components for interacting with data pipelines, including visualization and management tools. It also supports tools for versioning and pipeline orchestration.
+
+It's open-source and comes with a Visual Studio Code extension that allows you to start without writing any code.
+
+For enterprise customers, Taipy Designer is a drag-and-drop layer that helps build applications using a visual interface.
+
+Taipy's goal is not to replace web developers but to provide an alternative to those who need to build applications without web experience. If you are a data scientist or someone dealing with data, Taipy will simplify your life considerably.
+
+###############################
+
+Based on the example above, analyze the following article content and create a LinkedIn post that follows the same style, tone, and structure. Focus on:
+
+1. **Strong Opening**: Start with a compelling statement or hook
+2. **Value Proposition**: Clearly communicate what the reader will gain
+3. **Practical Information**: Include actionable insights or tools
+4. **Professional Tone**: Maintain a balance between casual and professional
+5. **Bullet Points**: Use them for easy scanning and readability
+6. **Call-to-Action**: End with engagement or next steps
+7. **Genuine Voice**: Sound authentic and knowledgeable
+
+**Article Title**: {{title}}
+
+**Article Content**: 
+{{content}}
+
+Generate a LinkedIn post based on this content. Make it informative, engaging, and valuable for a professional audience interested in technology, AI, and career development.
+
+Return your response in the following JSON format:
+{
+  "post": "Your complete LinkedIn post content here",
+  "characterCount": 1250
+}

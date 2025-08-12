@@ -1,0 +1,13 @@
+[project]
+name = "agent-with-mcp-memory"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "crewai>=0.134.0",
+    "ipykernel>=6.29.5",
+    "linkup-sdk>=0.2.7",
+    "mcp[cli]>=1.10.1",
+    "opik>=1.7.42",
+]

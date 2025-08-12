@@ -1,0 +1,142 @@
+# ---- Operating System files ----
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ---- Python ----
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+
+*.egg-info/
+.installed.cfg
+*.egg
+*.whl
+
+# Virtual environments
+.env
+.envrc
+venv/
+.env.bak/
+env/
+ENV/
+.venv/
+venv.bak/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+pytest_cache/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+
+# Cython debug output
+cython_debug/
+
+# ---- IDEs & Editors ----
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Vim / Neovim swap files
+*.swp
+*.swo
+
+# ---- Logs & Databases ----
+*.log
+*.db
+*.sqlite
+*.sqlite3
+milvus*.db
+
+# ---- Application specific caches ----
+# HuggingFace transformers cache
+hf_cache/
+# Streamlit cache & state
+.streamlit/
+# General Python cache directory
+.cache/
+
+# ---- Node / JavaScript (for frontend or docs tooling) ----
+node_modules/
+
+# ---- Documentation build outputs ----
+docs/_build/
+
+# ---- Beam deployments ----
+.beam/
+# Beam auto-generated files
+beam.yaml
+
+# ---- LaTeX auxiliary files ----
+*.aux
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+
+# ---- Misc ----
+# Backup files
+*.bak
+*.orig
+*.tmp

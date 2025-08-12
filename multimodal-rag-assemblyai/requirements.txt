@@ -1,0 +1,16 @@
+crewai>=0.50.0
+assemblyai>=0.25.0
+pymilvus>=2.3.0
+openai>=1.12.0
+anthropic>=0.18.0
+google-generativeai>=0.3.0
+langchain>=0.1.0
+langchain-community>=0.0.20
+pypdf2>=3.0.1
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+sounddevice>=0.4.6
+soundfile>=0.12.1
+ollama>=0.1.0
+requests>=2.31.0
+numpy>=1.24.0

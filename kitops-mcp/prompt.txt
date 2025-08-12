@@ -1,0 +1,2 @@
+Can you help me inspect a ModelKit with the tag 'jozu.ml/sitammeur/wine-class-prediction:latest'?
+Can you help me pull the ModelKit with the tag 'jozu.ml/sitammeur/wine-class-prediction:latest' and unpack datasets only to the working directory '~/kitops-mcp/wine-class-prediction'?

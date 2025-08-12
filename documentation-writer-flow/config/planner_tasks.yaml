@@ -1,0 +1,78 @@
+analyze_codebase:
+  description:
+    Analyze the codebase at {repo_path} to create a developer-focused
+    technical overview
+
+    1. Map out the core architecture and components
+
+    2. Identify key classes, functions and their interactions
+
+    3. Document APIs and interfaces with usage code examples
+
+    4. Analyze and diagram data/control flows between components
+
+    5. Note implemented design patterns and their practical applications
+
+    6. Identify common usage patterns and integration points
+
+    7. Ignore Images, Videos, and other media files
+
+    Focus on details that would help another engineer understand and work
+    with the codebase.
+
+  expected_output:
+    A technical analysis containing
+
+      - What is the project about, what is it meant to do
+
+      - Project overview, deeply explaining the architecture and design
+
+      - Deep documentation of the codebase, with
+
+        - Method signatures and parameters
+
+        - Usage examples and common patterns, using code examples
+
+        - Integration guidelines
+
+        - Explanation of each section
+
+      - Component interaction diagrams
+
+      - Implementation patterns and their use cases
+
+create_documentation_plan:
+  description:
+    Develop engineering-focused documentation plan for {repo_path}
+
+    The plan should be a list of separate documents, that will be written,
+    and should be ordered by importance and complexity.
+
+    Together, they should cover all the important aspects of the codebase,
+    and be written in a way that is easy to understand and follow for a
+    developer.
+
+    Each documents should have a thoughtful title, long meaningful description,
+    prerequisites, practical examples using code that are clear and comprehensive
+    goal.
+
+    Make sure the plan also covers things like
+
+      - A comprehensive overview
+
+      - System architecture and key design decisions
+
+      - Core workflows and data flows
+
+      - High-level component interactions
+
+      - Getting started guide
+
+      - Ignore Images, Videos, and other media files
+
+    Focus on creating a clear learning path from overview to advanced topics,
+    and make sure to include all the important aspects of the codebase.
+
+  expected_output:
+    A documentation plan with a list of documents, ordered by importance and
+    complexity.

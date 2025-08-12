@@ -1,3 +1,15 @@
+<p align="center">
+  <a href="https://trendshift.io/repositories/12800">
+    <img src="assets/TRENDING-BADGE.png" alt="Trending Badge" style="width: 250px; height: 55px;" width="250" height="55"/>
+  </a>
+</p>
+
+<p align="center">
+  <img src="assets/ai-eng-hub.gif" alt="AI Engineering Hub Banner">
+</p>
+
+---
+
 # AI Engineering Hub 🚀
 Welcome to the **AI Engineering Hub**!
 

@@ -1,32 +1,75 @@
-# Financial Analyst with CrewAI and DeepSeek using SambaNova
+# MCP-powered Financial Analyst using CrewAI and Deepseek-R1
 
-This project implements a Financial Analyst with CrewAI and DeepSeek using SambaNova.
-- [SambaNova](https://fnf.dev/4jH8edk) is used to as the inference engine to run the DeepSeek model.
-- CrewAI is used to analyze the user query and generate a summary.
-- Streamlit is used to create a web interface for the project.
+This project implements a financial analysis agentic workflow that analyzes stock market data and provides insights.
 
+We use:
+- CrewAI for multi-agent orchestration.
+- Ollama for serving Deepseek-R1 locally.
+- Cursor IDE as the MCP host.
 
 ---
 ## Setup and installations
 
-**Get SambaNova API Key**:
-- Go to [SambaNova](https://fnf.dev/4jH8edk) and sign up for an account.
-- Once you have an account, go to the API Key page and copy your API key.
-- Paste your API key by creating a `.env` file as shown below:
+**Install Ollama**
 
+```bash
+# Setting up Ollama on linux
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Pull the Deepseek-R1 model
+ollama pull deepseek-r1
 ```
-SAMBANOVA_API_KEY=your_api_key
-```
 
+**Install Dependencies**
 
-**Install Dependencies**:
-   Ensure you have Python 3.11 or later installed.
+   Ensure you have Python 3.12 or later installed.
+
+   You can use uv to directly install the required dependencies (recommended).
    ```bash
-   pip install streamlit openai crewai crewai-tools
+    uv sync
+   ```
+
+   Or you can also use pip to install the following dependencies to your local environment.
+   ```bash
+   pip install crewai crewai-tools ollama mcp pydantic yfinance pandas matplotlib
    ```
 
 ---
 
+## Run the project
+
+First, set up your MCP server as follows:
+- Go to Cursor settings
+- Select MCP 
+- Add new global MCP server.
+
+In the JSON file, add this:
+```json
+{
+    "mcpServers": {
+        "financial-analyst": {
+         "command": "uv",
+            "args": [
+                "--directory",
+                "absolute/path/to/project_root",
+                "run",
+                "server.py"
+            ]
+        }
+    }
+}
+```
+
+You should now be able to see the MCP server listed in the MCP settings.
+
+In Cursor MCP settings make sure to toggle the button to connect the server to the host. Done! Your server is now up and running. 
+
+You can now chat with Cursor and analyze stock market data. Simply provide the stock symbol and timeframe you want to analyze, and watch the magic unfold.
+
+**Example queries**:
+- "Show me Tesla's stock performance over the last 3 months"
+- "Compare Apple and Microsoft stocks for the past year"
+- "Analyze the trading volume of Amazon stock for the last month"
 
 ---
 

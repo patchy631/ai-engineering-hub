@@ -1,0 +1,12 @@
+[project]
+name = "sdv-mcp"
+version = "0.1.0"
+description = "MCP Server uses SDV for synthetic data operations."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "kaleido==0.2.1",
+    "mcp[cli]>=1.8.0",
+    "plotly>=6.0.1",
+    "sdv>=1.20.1",
+]

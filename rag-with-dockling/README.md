@@ -11,6 +11,12 @@ This project leverages LlamaIndex and IBM's Docling for RAG over excel sheets. Y
    pip install -q --progress-bar off --no-warn-conflicts llama-index-core llama-index-readers-docling llama-index-node-parser-docling llama-index-embeddings-huggingface llama-index-llms-huggingface-api llama-index-readers-file python-dotenv llama-index-llms-ollama
    ```
 
+
+   Download the Qwen3 LLM locally
+   ```bash
+   ollama pull qwen3
+   ```
+
 ---
 
 ## 📬 Stay Updated with Our Newsletter!

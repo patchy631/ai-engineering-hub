@@ -1,0 +1,13 @@
+[project]
+name = "mcp-video-rag"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ipykernel>=6.29.5",
+    "mcp>=1.9.4",
+    "moviepy>=2.2.1",
+    "python-dotenv>=1.1.0",
+    "ragie>=1.9.0",
+]
