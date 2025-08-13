@@ -1,0 +1,5 @@
+streamlit==1.32.0
+smolagents==0.1.0
+sqlalchemy==2.0.25
+litellm==1.63.8
+pillow==10.3.0  # Explicitly specify a compatible version of Pillow and others
