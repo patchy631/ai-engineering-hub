@@ -1,0 +1,9 @@
+{
+  "claim_number": "CLAIM-0001",
+  "policy_number": "POLICY-ABC123",
+  "claimant_name": "John Smith",
+  "date_of_loss": "2024-04-10",
+  "loss_description": "While delivering pizzas, collided with a parked car, causing damage to the parked car’s door.",
+  "estimated_repair_cost": 1500.00,
+  "vehicle_details": "2022 Honda Civic"
+}
