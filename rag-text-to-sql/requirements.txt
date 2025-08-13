@@ -1,0 +1,6 @@
+streamlit
+llama-index
+llama-index-embeddings-huggingface
+llama-index-indices-managed-llama-cloud
+llama_index.llms.ollama
+sqlalchemy
