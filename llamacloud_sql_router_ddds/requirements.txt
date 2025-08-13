@@ -1,0 +1,3 @@
+ipykernel==6.29.5
+llama-index==0.12.23
+streamlit==1.43.2
