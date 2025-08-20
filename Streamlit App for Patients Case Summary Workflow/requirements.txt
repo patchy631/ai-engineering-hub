@@ -1,0 +1,9 @@
+llama-index
+llama-index-indices-managed-llama-cloud
+llama-cloud
+llama-parse
+streamlit
+python-dotenv
+nest-asyncio
+openai
+pydantic
