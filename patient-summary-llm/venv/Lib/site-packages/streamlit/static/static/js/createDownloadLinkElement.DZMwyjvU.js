@@ -1,0 +1,1 @@
+const a=({enforceDownloadInNewTab:e,url:r,filename:n})=>{const t=document.createElement("a");return t.setAttribute("href",r),e?t.setAttribute("target","_blank"):t.setAttribute("target","_self"),t.setAttribute("download",n),t};export{a as c};
