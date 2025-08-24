@@ -3,13 +3,11 @@ import json
 from pydantic import BaseModel, HttpUrl
 from datetime import datetime
 from dotenv import load_dotenv
-from openai import AsyncOpenAI
+import ollama
 
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-
-openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+OLLAMA_MODEL = os.getenv('OLLAMA_MODEL', 'deepseek-r1')
 
 class GenerateInput(BaseModel):
     requestId: str
@@ -37,18 +35,19 @@ async def handler(input, context):
 
         context.logger.info("🔄 Twitter content generation started...")
 
-        twitter_content = await openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=[{'role': 'user', 'content': twitterPrompt}],
-                temperature=0.7,
-                max_tokens=2000,
-                response_format={'type': 'json_object'}
-        )  
+        twitter_content = ollama.chat(
+            model=OLLAMA_MODEL,
+            messages=[{'role': 'user', 'content': twitterPrompt}],
+            options={
+                'temperature': 0.7,
+                'num_predict': 2000
+            }
+        )    
 
         try:
-            twitter_content = json.loads(twitter_content.choices[0].message.content)
+            twitter_content = json.loads(twitter_content['message']['content'])
         except Exception:
-            twitter_content = {'text': twitter_content.choices[0].message.content}
+            twitter_content = {'text': twitter_content['message']['content']}
 
         context.logger.info(f"🎉 Twitter content generated successfully!")
 
