@@ -107,3 +107,7 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Typescript
+types.d.ts
+package-lock.json

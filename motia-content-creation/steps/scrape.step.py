@@ -1,6 +1,6 @@
 import os
 from pydantic import BaseModel, HttpUrl
-from firecrawl import FirecrawlApp
+from firecrawl import Firecrawl
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -26,15 +26,15 @@ config = {
 async def handler(input, context):
     context.logger.info(f"🕷️ Scraping article: {input['url']}")
 
-    app = FirecrawlApp(api_key=FIRECRAWL_API_KEY)
+    firecrawl = Firecrawl(api_key=FIRECRAWL_API_KEY)
 
-    scrapeResult = app.scrape_url(input['url'])
+    scrapeResult = firecrawl.scrape(input['url'], formats=["markdown"])
 
-    if not scrapeResult.success:
-        raise Exception(f"Firecrawl scraping failed: {scrapeResult.error}")
+    if not hasattr(scrapeResult, 'markdown'):
+        raise Exception(f"Firecrawl scraping failed: No content returned")
 
-    content = scrapeResult.markdown
-    title = scrapeResult.metadata.get('title', 'Untitled Article')
+    content = scrapeResult.markdown or ''
+    title = getattr(scrapeResult.metadata, 'title', 'Untitled Article') if hasattr(scrapeResult, 'metadata') else 'Untitled Article'
 
     context.logger.info(f"✅ Successfully scraped: {title} ({len(content) if content else 0} characters)")
 
