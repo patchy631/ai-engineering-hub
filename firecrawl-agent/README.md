@@ -12,7 +12,7 @@ This project implements an intelligent RAG (Retrieval-Augmented Generation) syst
 - **Vector Storage**: Uses Milvus for efficient document storage and retrieval
 - **Relevance Filtering**: Intelligent filtering of retrieved documents for better accuracy
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **LlamaIndex**: Core RAG framework for document processing and retrieval
 - **FireCrawl**: Web scraping and search API for real-time information
@@ -59,7 +59,7 @@ FIRECRAWL_API_KEY="your_firecrawl_api_key_here"
 OPENAI_API_KEY="your_openai_api_key_here"
 ```
 
-## 🚀 Running the Project
+## Running the Project
 
 ### Option 1: Streamlit App (Recommended)
 ```bash
@@ -76,7 +76,7 @@ python start_server.py
 jupyter notebook
 ```
 
-## 📖 How It Works
+## How It Works
 
 1. **Document Upload**: Users upload PDF documents through the Streamlit interface
 2. **Document Processing**: Documents are processed, embedded, and stored in vector databases
@@ -86,9 +86,11 @@ jupyter notebook
 6. **Answer Generation**: The LLM generates comprehensive answers using both document and web content
 7. **Relevance Filtering**: Results are filtered for relevance to ensure accuracy
 
-## 🔄 Workflow Architecture
+## Workflow Architecture
 
 The Corrective RAG workflow consists of several key steps:
+
+![Workflow Architecture](assets/animation.gif)
 
 - **Start Event**: Initializes the workflow with user query
 - **Retrieve**: Retrieves relevant documents from vector store
