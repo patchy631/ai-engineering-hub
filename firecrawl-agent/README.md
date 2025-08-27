@@ -96,14 +96,8 @@ The Corrective RAG workflow consists of several key steps:
 - **Query Processing**: Combines document and web search results
 - **Answer Generation**: Generates final response using LLM
 
-## 🎯 Use Cases
 
-- **Research & Analysis**: Combine document analysis with real-time web information
-- **Customer Support**: Provide comprehensive answers using internal documents and current web data
-- **Content Creation**: Generate content based on existing documents and latest information
-- **Knowledge Management**: Intelligent document search and retrieval systems
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 firecrawl-agent/
@@ -147,28 +141,19 @@ workflow = CorrectiveRAGWorkflow(
 )
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [LlamaIndex](https://github.com/run-llama/llama_index) for the RAG framework
+- [Beam](https://github.com/beam-cloud/beta9/) for deployment
 - [FireCrawl](https://firecrawl.dev/) for web scraping capabilities
 - [Streamlit](https://streamlit.io/) for the web interface
 - [Milvus](https://milvus.io/) for vector storage
 
-## 📞 Support
-
-If you encounter any issues or have questions, please:
-1. Check the troubleshooting section above
-2. Review the existing issues on GitHub
-3. Create a new issue with detailed information about your problem
-
----
-
-**Happy RAG-ing! 🚀**
