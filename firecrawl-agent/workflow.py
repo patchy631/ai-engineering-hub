@@ -1,5 +1,7 @@
 import os
 from typing import Optional, Any
+import re
+import requests
 
 from llama_index.core.workflow import (
     StartEvent,
@@ -11,10 +13,9 @@ from llama_index.core.workflow import (
 from llama_index.core import SummaryIndex
 from llama_index.core.schema import Document
 from llama_index.core.prompts import PromptTemplate
-from llama_index.core.llms import LLM
 from llama_index.llms.openai import OpenAI
+from llama_index.core.llms import LLM
 from llama_index.core.base.base_retriever import BaseRetriever
-from llama_index.readers.web import FireCrawlWebReader
 from typing import List
 
 from llama_index.core.schema import NodeWithScore
@@ -93,11 +94,24 @@ class CorrectiveRAGWorkflow(Workflow):
         """Init params."""
         super().__init__(**kwargs)
         self.index = index
-        self.firecrawl_tool = FireCrawlWebReader(
-            api_key=firecrawl_api_key,
-            mode="scrape",
-        )
-        self.llm = llm
+        self.firecrawl_api_key = firecrawl_api_key
+        
+        if llm is not None:
+            self.llm = llm
+        else:
+            # self.llm = Ollama(
+            #     model="gemma3:4b",
+            #     base_url="http://localhost:11434",
+            #     temperature=0.1,
+            # )
+            self.llm = OpenAI(
+                model="gpt-4o",
+                api_key=os.getenv("OPENAI_API_KEY"),
+            )
+        
+        # Set the global LLM settings to avoid conflicts
+        from llama_index.core import Settings
+        Settings.llm = self.llm
 
     @step
     async def retrieve(self, ctx: Context, ev: StartEvent) -> Optional[RetrieveEvent]:
@@ -105,11 +119,22 @@ class CorrectiveRAGWorkflow(Workflow):
         query_str = ev.get("query_str")
         retriever_kwargs = ev.get("retriever_kwargs", {})
 
+        print(f"DEBUG: retrieve - query_str: {query_str}")
+        print(f"DEBUG: retrieve - retriever_kwargs: {retriever_kwargs}")
+
         if query_str is None:
+            print("DEBUG: retrieve - query_str is None, returning None")
             return None
 
         retriever: BaseRetriever = self.index.as_retriever(**retriever_kwargs)
+        print(f"DEBUG: retrieve - retriever created: {type(retriever)}")
+        
         result = retriever.retrieve(query_str)
+        print(f"DEBUG: retrieve - retrieved {len(result)} nodes")
+        
+        if result:
+            print(f"DEBUG: retrieve - first node preview: {result[0].text[:100]}...")
+        
         await ctx.set("retrieved_nodes", result)
         await ctx.set("query_str", query_str)
         return RetrieveEvent(retrieved_nodes=result)
@@ -122,23 +147,90 @@ class CorrectiveRAGWorkflow(Workflow):
         retrieved_nodes = ev.retrieved_nodes
         query_str = await ctx.get("query_str")
 
+        print(f"DEBUG: Retrieved {len(retrieved_nodes)} nodes")
+        print(f"DEBUG: Query: {query_str}")
+
         relevancy_results = []
-        for node in retrieved_nodes:
+        for i, node in enumerate(retrieved_nodes):
+            print(f"DEBUG: Node {i} text preview: {node.text[:100]}...")
             prompt = DEFAULT_RELEVANCY_PROMPT_TEMPLATE.format(
                 context_str=node.text, query_str=query_str)
-            relevancy = self.llm.complete(prompt)
-            relevancy_results.append(relevancy.text.lower().strip())
+            try:
+                relevancy = await self.llm.acomplete(prompt)
+                relevancy_results.append(relevancy.text.lower().strip())
+                print(f"DEBUG: Node {i} relevancy: {relevancy.text}")
+            except Exception as e:
+                # Fallback to synchronous call if async is not supported
+                relevancy = self.llm.complete(prompt)
+                relevancy_results.append(relevancy.text.lower().strip())
+                print(f"DEBUG: Node {i} relevancy (sync): {relevancy.text}")
 
+        print(f"DEBUG: All relevancy results: {relevancy_results}")
+
+        relevancy_results_striped = [re.sub(r"<think>.*?</think>", "", s, flags=re.DOTALL).strip() for s in relevancy_results]
+
+        # Improved relevancy parsing - look for "yes" anywhere in the response
         relevant_texts = [
             retrieved_nodes[i].text
-            for i, result in enumerate(relevancy_results)
-            if result == "yes"
+            for i, result in enumerate(relevancy_results_striped)
+            if "yes" in result.lower()
         ]
         relevant_text = "\n".join(relevant_texts)
-        if "no" in relevancy_results:
+        
+        print(f"DEBUG: Relevant texts count: {len(relevant_texts)}")
+        print(f"DEBUG: Relevant text preview: {relevant_text[:200]}...")
+        
+        if "no" in relevancy_results_striped:
+            print("DEBUG: Some documents irrelevant, returning WebSearchEvent")
             return WebSearchEvent(relevant_text=relevant_text)
         else:
+            print("DEBUG: All documents relevant, returning QueryEvent")
             return QueryEvent(relevant_text=relevant_text, search_text="")
+
+    def _firecrawl_search(self, query: str, limit: int = 5) -> str:
+        """Perform web search using FireCrawl API directly."""
+        url = "https://api.firecrawl.dev/v1/search"
+        
+        payload = {
+            "query": query,
+            "limit": 5,
+            "timeout": 60000,
+        }
+        
+        headers = {
+            "Authorization": f"Bearer {self.firecrawl_api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        try:
+            response = requests.post(url, json=payload, headers=headers, timeout=60)
+            response.raise_for_status()
+            
+            data = response.json()
+            
+            if data.get("success") and data.get("data"):
+                # Extract title and description from each result
+                search_results = []
+                for result in data["data"]:
+                    title = result.get("title", "")
+                    description = result.get("description", "")
+                    url = result.get("url", "")
+                    
+                    if title or description:
+                        result_text = f"Title: {title}\nDescription: {description}\nURL: {url}\n"
+                        search_results.append(result_text)
+                
+                return "\n---\n".join(search_results)
+            else:
+                print(f"DEBUG: FireCrawl API returned no results or error: {data}")
+                return ""
+                
+        except requests.exceptions.RequestException as e:
+            print(f"DEBUG: FireCrawl API request failed: {e}")
+            return ""
+        except Exception as e:
+            print(f"DEBUG: Unexpected error in FireCrawl search: {e}")
+            return ""
 
     @step
     async def web_search(
@@ -150,12 +242,23 @@ class CorrectiveRAGWorkflow(Workflow):
         query_str = await ctx.get("query_str")
 
         prompt = DEFAULT_TRANSFORM_QUERY_TEMPLATE.format(query_str=query_str)
-        result = self.llm.complete(prompt)
-        transformed_query_str = result.text
-        # Conduct a search with the transformed query string and collect the results.
-        search_results = self.firecrawl_tool.search(
-            transformed_query_str).results
-        search_text = "\n".join([result.content for result in search_results])
+        try:
+            result = await self.llm.acomplete(prompt)
+            transformed_query_str = result.text
+        except Exception as e:
+            # Fallback to synchronous call if async is not supported
+            result = self.llm.complete(prompt)
+            transformed_query_str = result.text
+            
+        print(f"DEBUG: web_search - transformed query: {transformed_query_str}")
+        
+        # Conduct a search with the transformed query string using direct API call
+        search_text = self._firecrawl_search(transformed_query_str)
+        
+        print(f"DEBUG: web_search - search results length: {len(search_text)}")
+        if search_text:
+            print(f"DEBUG: web_search - search results preview: {search_text[:200]}...")
+        
         return QueryEvent(relevant_text=ev.relevant_text, search_text=search_text)
 
     @step
@@ -165,8 +268,39 @@ class CorrectiveRAGWorkflow(Workflow):
         search_text = ev.search_text
         query_str = await ctx.get("query_str")
 
-        documents = [Document(text=relevant_text + "\n" + search_text)]
-        index = SummaryIndex.from_documents(documents)
-        query_engine = index.as_query_engine()
-        result = query_engine.query(query_str)
-        return StopEvent(result=result)
+        print(f"DEBUG: query_result - query_str: {query_str}")
+        print(f"DEBUG: query_result - relevant_text: {relevant_text}")
+        print(f"DEBUG: query_result - search_text: {search_text}")
+
+        if not relevant_text.strip() and not search_text.strip():
+            print("DEBUG: No relevant text, returning empty response")
+            return StopEvent(result="No relevant information found in the documents.")
+        
+
+        context_str = relevant_text + "\n" + search_text
+
+        prompt = f"""As a helpful assistant, your task is to answer the user's question based on the given context.
+
+        A few things to keep in mind:
+        - The context can either be relevant text or web search results.
+        - The context can also be a mix of both.
+
+        Your task is to look at the query and the whole context and generate what you think is the best answer to the question.
+
+        Here is the context:
+        Context:
+        {context_str}
+
+        --------------------------------
+
+        Question:
+        {query_str}
+
+        --------------------------------
+
+        Generate an answer to the question:
+        """
+
+        result = await self.llm.acomplete(prompt)
+        print(f"DEBUG: query_result - final result: {result.text}")
+        return StopEvent(result=result.text)

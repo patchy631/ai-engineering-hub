@@ -3,11 +3,10 @@ import io
 from workflow import CorrectiveRAGWorkflow
 from llama_index.core import Settings
 from llama_index.embeddings.fastembed import FastEmbedEmbedding
-from llama_index.vector_stores.qdrant import QdrantVectorStore
-from llama_index.llms.lmstudio import LMStudio
+from llama_index.vector_stores.milvus import MilvusVectorStore
 from llama_index.core import StorageContext
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
-from IPython.display import Markdown, display
+from llama_index.llms.openai import OpenAI
 import time
 import uuid
 import tempfile
@@ -48,11 +47,8 @@ session_id = st.session_state.id
 
 @st.cache_resource
 def load_llm():
-    llm = LMStudio(
-        model_name="deepseek-r1-distill-qwen-7b",
-        base_url="http://localhost:1234/v1",
-        temperature=0.1,
-    )
+
+    llm = OpenAI(model="gpt-4o", api_key=os.getenv("OPENAI_API_KEY"))
     return llm
 
 
@@ -78,74 +74,85 @@ def display_pdf(file):
 
 
 def initialize_workflow(file_path):
-    with st.spinner("Loading documents and initializing the workflow..."):
-        documents = SimpleDirectoryReader(file_path).load_data()
+    try:
+        with st.spinner("Loading documents and initializing the workflow..."):
+            documents = SimpleDirectoryReader(file_path).load_data()
+            print(f"DEBUG: Loaded {len(documents)} documents")
+            for i, doc in enumerate(documents):
+                print(f"DEBUG: Document {i} preview: {doc.text[:100]}...")
 
-        client = qdrant_client.QdrantClient(
-            host="localhost",
-            port=6333
-        )
+            vector_store = MilvusVectorStore(
+                uri="./milvus_demo.db", dim= 1024, overwrite=True
+            )
+            print("DEBUG: Milvus vector store created")
+            
+            embed_model = FastEmbedEmbedding(model_name="BAAI/bge-large-en-v1.5", cache_dir="./hf_cache")
+            Settings.embed_model = embed_model
+            print("DEBUG: Embedding model set")
+            
+            llm = load_llm()
+            print("DEBUG: LLM loaded")
 
-        vector_store = QdrantVectorStore(client=client, collection_name="test")
-        embed_model = FastEmbedEmbedding(model_name="BAAI/bge-large-en-v1.5")
-        Settings.embed_model = embed_model
-        storage_context = StorageContext.from_defaults(
-            vector_store=vector_store)
-        index = VectorStoreIndex.from_documents(
-            documents,
-            storage_context=storage_context,
-        )
+            Settings.llm = llm
+            storage_context = StorageContext.from_defaults(
+                vector_store=vector_store)
+            print("DEBUG: Storage context created")
+            
+            index = VectorStoreIndex.from_documents(
+                documents,
+                storage_context=storage_context,
+            )
+            print("DEBUG: Index created")
 
-        workflow = CorrectiveRAGWorkflow(
-            index=index,
-            firecrawl_api_key=os.environ["FIRECRAWL_API_KEY"],
-            verbose=True,
-            timeout=60,
-            llm=load_llm()
-        )
+            # Check if FIRECRAWL_API_KEY is available
+            if "FIRECRAWL_API_KEY" not in os.environ:
+                raise ValueError("FireCrawl API key not found. Please enter it in the sidebar.")
 
-        st.session_state.workflow = workflow
-        return workflow
+            workflow = CorrectiveRAGWorkflow(
+                index=index,
+                firecrawl_api_key=os.environ["FIRECRAWL_API_KEY"],
+                verbose=True,
+                timeout=249,  # Increased timeout to match workflow execution
+                llm=llm
+            )
+            print("DEBUG: Workflow created")
+
+            st.session_state.workflow = workflow
+            return workflow
+    except Exception as e:
+        st.error(f"Failed to initialize workflow: {e}")
+        raise e
 
 # Function to run the async workflow
 
 
 async def run_workflow(query):
-    # Capture stdout to get the workflow logs
-    f = io.StringIO()
-    with redirect_stdout(f):
-        result = await st.session_state.workflow.run(query_str=query)
+    try:
+        # Capture stdout to get the workflow logs
+        f = io.StringIO()
+        with redirect_stdout(f):
+            # Add timeout to prevent hanging
+            result = await asyncio.wait_for(
+                st.session_state.workflow.run(query_str=query),
+                timeout=120  # 2 minutes timeout
+            )
 
-    # Get the captured logs and store them
-    logs = f.getvalue()
-    if logs:
-        st.session_state.workflow_logs.append(logs)
+        # Get the captured logs and store them
+        logs = f.getvalue()
+        if logs:
+            st.session_state.workflow_logs.append(logs)
 
-    return result
+        return result
+    except asyncio.TimeoutError:
+        st.error("Workflow execution timed out after 2 minutes")
+        raise Exception("Workflow execution timed out")
+    except Exception as e:
+        # Log the error and re-raise it
+        st.error(f"Workflow execution failed: {e}")
+        raise e
 
 # Sidebar for document upload
 with st.sidebar:
-    # Add FireCrawl logo and Configuration header in the same line
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        # Add vertical space to align with header
-        st.write("")
-        st.image("./assets/firecrawl_logo.png", width=65)
-    with col2:
-        st.header("Firecrawl Configuration")
-        st.write("Deep Web Search")
-
-    # Add hyperlink to get API key
-    st.markdown("[Get your API key](https://www.firecrawl.dev/signin/signup)",
-                unsafe_allow_html=True)
-
-    firecrawl_api_key = st.text_input(
-        "Enter your Firecrawl API Key", type="password")
-
-    # Store API key as environment variable
-    if firecrawl_api_key:
-        os.environ["FIRECRAWL_API_KEY"] = firecrawl_api_key
-        st.success("API Key stored successfully!")
 
     st.header("Add your documents!")
 
@@ -180,16 +187,43 @@ with st.sidebar:
 col1, col2 = st.columns([6, 1])
 
 with col1:
-    # Removed the original header
-    st.markdown("<h2 style='color: #0066cc;'>⚙️ Corrective RAG agentic workflow</h2>",
-                unsafe_allow_html=True)
-    # Replace text with image and subtitle styling
-    st.markdown("<div style='display: flex; align-items: center; gap: 10px;'><span style='font-size: 28px; color: #666;'>Powered by LlamaIndex</span><img src='data:image/png;base64,{}' width='50'></div>".format(
-        base64.b64encode(open("./assets/images.jpeg", "rb").read()).decode()
-    ), unsafe_allow_html=True)
+    # Centered main heading
+    st.markdown('''
+        <h1 style="text-align: center; font-weight: 500; color: #8de2ff;">
+            Corrective RAG Agentic Workflow
+        </h1>
+    ''', unsafe_allow_html=True)
+    
+    # Logos section below the heading
+    st.markdown('''
+        <div style="text-align: center; margin: 20px 0;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <img src="https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/logo/logo-dark.png" alt="Firecrawl" style="height: 60px; margin-bottom: 5px;">
+                </div>
+                <div style="text-align: center;">
+                    <img src="https://i.ibb.co/m5RtcvnY/beam-logo.png" alt="Beam Cloud" style="height: 60px; margin-bottom: 5px;">
+                </div>
+                <div style="text-align: center;">
+                    <img src="https://milvus.io/images/layout/milvus-logo.svg" alt="Milvus" style="height: 60px; margin-bottom: 5px;">
+                </div>
+                <div style="text-align: center;">
+                    <img src="https://www.comet.com/site/wp-content/uploads/2024/09/comet-logo-1.png" alt="CometML" style="height: 60px; margin-bottom: 5px;">
+                </div>
+            </div>
+        </div>
+    ''', unsafe_allow_html=True)
+    
+    # Animation GIF section
+    if "show_animation" not in st.session_state:
+        st.session_state.show_animation = True
+    
+    if st.session_state.show_animation:
+        st.image("https://d3e0luujhwn38u.cloudfront.net/original/img/original/186727/fbd774b8-29da-479a-a60c-880f84d66424.gif", use_container_width=True)
 
 with col2:
-    st.button("Clear ↺", on_click=reset_chat)
+    if st.button("Clear ↺", on_click=reset_chat):
+        st.session_state.show_animation = False
 
 # Display chat messages from history on app rerun
 for i, message in enumerate(st.session_state.messages):
@@ -217,22 +251,42 @@ if prompt := st.chat_input("Ask a question about your documents..."):
         st.markdown(prompt)
 
     if st.session_state.workflow:
-        # Run the async workflow
-        result = asyncio.run(run_workflow(prompt))
+        try:
+            # Run the async workflow with proper error handling
+            result = asyncio.run(run_workflow(prompt))
 
-        # Display the workflow logs in an expandable section OUTSIDE and BEFORE the assistant chat bubble
-        if log_index < len(st.session_state.workflow_logs):
-            with st.expander("View Workflow Execution Logs", expanded=False):
-                st.code(
-                    st.session_state.workflow_logs[log_index], language="text")
+            # Display the workflow logs in an expandable section OUTSIDE and BEFORE the assistant chat bubble
+            if log_index < len(st.session_state.workflow_logs):
+                with st.expander("View Workflow Execution Logs", expanded=False):
+                    st.code(
+                        st.session_state.workflow_logs[log_index], language="text")
 
-    # Display assistant response in chat message container
-    with st.chat_message("assistant"):
-        if st.session_state.workflow:
-            message_placeholder = st.empty()
-            full_response = ""
+            # Display assistant response in chat message container
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                full_response = ""
 
-            result = result.response
+                if hasattr(result, 'response'):
+                    result_text = result.response
+                else:
+                    result_text = str(result)
+
+                # Stream the response word by word
+                words = result_text.split()
+                for i, word in enumerate(words):
+                    full_response += word + " "
+                    message_placeholder.markdown(full_response + "▌")
+                    # Add a delay between words
+                    if i < len(words) - 1:  # Don't delay after the last word
+                        time.sleep(0.1)
+
+                # Display final response without cursor
+                message_placeholder.markdown(full_response)
+
+        except Exception as e:
+            st.error(f"Error running workflow: {e}")
+            full_response = f"An error occurred while processing your request: {e}"
+            st.markdown(full_response)
 
             # Stream the response word by word
             words = result.split()
@@ -245,9 +299,9 @@ if prompt := st.chat_input("Ask a question about your documents..."):
 
             # Display final response without cursor
             message_placeholder.markdown(full_response)
-        else:
-            full_response = "Please upload a document first to initialize the workflow."
-            st.markdown(full_response)
+        # else:
+        #     full_response = "Please upload a document first to initialize the workflow."
+        #     st.markdown(full_response)
 
     # Add assistant response to chat history
     st.session_state.messages.append(
