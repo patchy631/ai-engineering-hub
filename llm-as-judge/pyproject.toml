@@ -1,0 +1,11 @@
+[project]
+name = "llm-as-judge"
+version = "0.1.0"
+description = "Integration of Atla LLM Judge with Comet's Opik."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=1.75.0",
+    "opik>=1.7.7",
+    "python-dotenv>=1.1.0",
+]
