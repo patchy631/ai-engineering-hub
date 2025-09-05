@@ -59,6 +59,20 @@ def reset_analysis():
         if key in st.session_state:
             del st.session_state[key]
 
+def display_pdf(file):
+    """Display PDF preview using embedded iframe"""
+    st.markdown("### PDF Preview")
+    base64_pdf = base64.b64encode(file.read()).decode("utf-8")
+    
+    # Embedding PDF in HTML
+    pdf_display = f"""<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="400" type="application/pdf"
+                        style="border: 1px solid #ddd; border-radius: 8px;"
+                    >
+                    </iframe>"""
+    
+    # Displaying File
+    st.markdown(pdf_display, unsafe_allow_html=True)
+
 # Chat Interface Functions
 def prepare_chat_context(xray_data, prompt):
     """Prepare context from X-Ray data for the LLM"""
@@ -196,6 +210,35 @@ with st.sidebar:
         st.info(f"**File**: {uploaded.name}\n**Size**: {uploaded.size / 1024:.1f} KB\n**Type**: {uploaded.type}")
         st.session_state.uploaded_file_name = uploaded.name
         st.session_state.uploaded_file_type = uploaded.type
+        
+        # Document Preview Section
+        st.markdown("---")
+        st.markdown("### 📄 Document Preview")
+        
+        # Show preview based on file type
+        if uploaded.type == "application/pdf":
+            # For PDF files, show the actual PDF preview using iframe
+            display_pdf(uploaded)
+            
+        elif uploaded.type.startswith("image/"):
+            # For image files, show the actual image
+            st.image(uploaded, caption=f"Preview: {uploaded.name}", use_column_width=True)
+            
+        elif uploaded.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            # For DOCX files
+            st.info("📝 **Word Document** - Preview will be available after processing")
+            st.markdown(f"**Content**: Text extraction in progress...")
+            
+        else:
+            # For other file types
+            st.info(f"📄 **{uploaded.type}** - Preview will be available after processing")
+        
+        # Show file metadata
+        st.markdown("**File Details:**")
+        st.markdown(f"- **Name**: {uploaded.name}")
+        st.markdown(f"- **Size**: {uploaded.size / 1024:.1f} KB")
+        st.markdown(f"- **Type**: {uploaded.type}")
+        st.markdown(f"- **Status**: Ready for processing")
 
     st.button("🔄 Clear Analysis", on_click=reset_analysis)
 
@@ -295,6 +338,46 @@ if st.session_state.xray_data:
     
     st.markdown(f"**File Type:** {file_type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Language:** {language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Pages:** {pages} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Keywords:** {keywords}")
     
+    # Document Preview Section (after processing)
+    with st.expander("📄 Document Preview", expanded=False):
+        st.markdown("### 📋 Document Summary")
+        file_summary = xray.get("fileSummary")
+        if file_summary:
+            st.markdown(file_summary)
+        else:
+            st.info("No summary available")
+        
+        st.markdown("### 📝 Sample Content")
+        # Show first few chunks of extracted text
+        if "documentPages" in xray and xray["documentPages"]:
+            sample_texts = []
+            for page in xray["documentPages"][:2]:  # First 2 pages
+                if "chunks" in page:
+                    for chunk in page["chunks"][:2]:  # First 2 chunks per page
+                        if "text" in chunk and chunk["text"]:
+                            text = chunk["text"]
+                            if len(text) > 200:
+                                text = text[:200] + "..."
+                            sample_texts.append(text)
+            
+            if sample_texts:
+                for i, text in enumerate(sample_texts, 1):
+                    st.markdown(f"**Sample {i}:**")
+                    st.markdown(text)
+                    st.markdown("---")
+            else:
+                st.info("No text content available for preview")
+        
+        st.markdown("### 🏷️ Key Topics")
+        if xray.get("fileKeywords"):
+            keywords_list = xray["fileKeywords"].split(",")
+            # Show first 10 keywords
+            display_keywords = keywords_list[:10]
+            keyword_tags = " ".join([f"`{kw.strip()}`" for kw in display_keywords])
+            st.markdown(keyword_tags)
+        else:
+            st.info("No keywords available")
+    
     # Primary interface tabs for analysis and interaction
     main_tabs = st.tabs([
         "📊 X-Ray Analysis",
@@ -312,80 +395,80 @@ if st.session_state.xray_data:
             "🏷️ Keywords"
         ])
 
-    with tabs[0]:
-        st.subheader("🔍 Raw JSON Data")
-        st.json(xray)
+        with tabs[0]:
+            st.subheader("🔍 Raw JSON Data")
+            st.json(xray)
 
-    with tabs[1]:
-        st.subheader("📝 Narrative Summary")
-        # Extract and display narrative content from document chunks
-        narratives = []
-        if "documentPages" in xray:
-            for page in xray["documentPages"]:
-                if "chunks" in page:
-                    for chunk in page["chunks"]:
-                        if "narrative" in chunk and chunk["narrative"]:
-                            narratives.extend(chunk["narrative"])
-        
-        if narratives:
-            for i, narrative in enumerate(narratives, 1):
-                st.markdown(f"**Narrative {i}:**")
-                st.markdown(narrative)
-                st.divider()
-        else:
-            st.info("No narrative text found in the X-Ray data")
+        with tabs[1]:
+            st.subheader("📝 Narrative Summary")
+            # Extract and display narrative content from document chunks
+            narratives = []
+            if "documentPages" in xray:
+                for page in xray["documentPages"]:
+                    if "chunks" in page:
+                        for chunk in page["chunks"]:
+                            if "narrative" in chunk and chunk["narrative"]:
+                                narratives.extend(chunk["narrative"])
+            
+            if narratives:
+                for i, narrative in enumerate(narratives, 1):
+                    st.markdown(f"**Narrative {i}:**")
+                    st.markdown(narrative)
+                    st.divider()
+            else:
+                st.info("No narrative text found in the X-Ray data")
 
-    with tabs[2]:
-        st.subheader("📋 File Summary")
-        file_summary = xray.get("fileSummary")
-        if file_summary:
-            st.markdown(file_summary)
-        else:
-            st.info("No file summary found in the X-Ray data")
+        with tabs[2]:
+            st.subheader("📋 File Summary")
+            file_summary = xray.get("fileSummary")
+            if file_summary:
+                st.markdown(file_summary)
+            else:
+                st.info("No file summary found in the X-Ray data")
 
-    with tabs[3]:
-        st.subheader("💡 Suggested Text")
-        # Extract and display suggested text content from document chunks
-        suggested_texts = []
-        if "documentPages" in xray:
-            for page in xray["documentPages"]:
-                if "chunks" in page:
-                    for chunk in page["chunks"]:
-                        if "suggestedText" in chunk and chunk["suggestedText"]:
-                            suggested_texts.append(chunk["suggestedText"])
-        
-        if suggested_texts:
-            for i, suggested in enumerate(suggested_texts, 1):
-                st.markdown(f"**Suggested Text {i}:**")
-                st.markdown(suggested)
-                st.divider()
-        else:
-            st.info("No suggested text found in the X-Ray data")
+        with tabs[3]:
+            st.subheader("💡 Suggested Text")
+            # Extract and display suggested text content from document chunks
+            suggested_texts = []
+            if "documentPages" in xray:
+                for page in xray["documentPages"]:
+                    if "chunks" in page:
+                        for chunk in page["chunks"]:
+                            if "suggestedText" in chunk and chunk["suggestedText"]:
+                                suggested_texts.append(chunk["suggestedText"])
+            
+            if suggested_texts:
+                for i, suggested in enumerate(suggested_texts, 1):
+                    st.markdown(f"**Suggested Text {i}:**")
+                    st.markdown(suggested)
+                    st.divider()
+            else:
+                st.info("No suggested text found in the X-Ray data")
 
-    with tabs[4]:
-        st.subheader("📄 Extracted Text")
-        # Extract and display raw text content from document chunks
-        extracted_texts = []
-        if "documentPages" in xray:
-            for page in xray["documentPages"]:
-                if "chunks" in page:
-                    for chunk in page["chunks"]:
-                        if "text" in chunk and chunk["text"]:
-                            extracted_texts.append(chunk["text"])
-        
-        if extracted_texts:
-            combined_text = "\n\n---\n\n".join(extracted_texts)
-            st.text_area("Extracted Content", combined_text, height=400)
-        else:
-            st.info("No extracted text found in the X-Ray data")
+        with tabs[4]:
+            st.subheader("📄 Extracted Text")
+            # Extract and display raw text content from document chunks
+            extracted_texts = []
+            if "documentPages" in xray:
+                for page in xray["documentPages"]:
+                    if "chunks" in page:
+                        for chunk in page["chunks"]:
+                            if "text" in chunk and chunk["text"]:
+                                extracted_texts.append(chunk["text"])
+            
+            if extracted_texts:
+                combined_text = "\n\n---\n\n".join(extracted_texts)
+                st.text_area("Extracted Content", combined_text, height=400)
+            else:
+                st.info("No extracted text found in the X-Ray data")
 
-    with tabs[5]:
-        st.subheader("🏷️ Keywords")
-        keywords = xray.get("fileKeywords")
-        if keywords:
-            st.write(keywords)
-        else:
-            st.info("No keywords found in the X-Ray data")
+        with tabs[5]:
+            st.subheader("🏷️ Keywords")
+            keywords = xray.get("fileKeywords")
+            if keywords:
+                st.write(keywords)
+            else:
+                st.info("No keywords found in the X-Ray data")
     
     # Interactive Chat Interface
     with main_tabs[1]:
@@ -405,6 +488,9 @@ if st.session_state.xray_data:
         if prompt := st.chat_input("Ask a question about your document..."):
             # Store user message in conversation history
             st.session_state.chat_history.append({"role": "user", "content": prompt})
+            
+            # Ensure we stay in chat mode
+            st.session_state.in_chat_mode = True
             
             # Display user message in chat interface
             with st.chat_message("user"):
