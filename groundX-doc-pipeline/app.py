@@ -1,5 +1,6 @@
 import os
 import tempfile
+import base64
 import requests
 from typing import Any, Dict
 
@@ -15,10 +16,8 @@ from groundx_utils import (
 # Application Configuration
 st.set_page_config(page_title="Ground X - X-Ray", layout="wide")
 
-# Custom CSS for enhanced chat interface layout
 st.markdown("""
 <style>
-    /* Fixed chat input at bottom */
     .stChatInput {
         position: fixed !important;
         bottom: 0 !important;
@@ -32,21 +31,218 @@ st.markdown("""
         margin: 0 !important;
     }
     
-    /* Make chat area scrollable */
     .main .block-container {
         padding-bottom: 120px !important;
     }
     
-    /* Limit chat message width to match main content */
     .stChatMessage {
         max-width: 60% !important;
         width: 60% !important;
     }
     
-    /* Ensure chat message content doesn't overflow */
     .stChatMessageContent {
         max-width: 100% !important;
         word-wrap: break-word !important;
+    }
+    
+    .stButton > button {
+        background-color: #262730 !important;
+        color: #ffffff !important;
+        border: 1px solid #404040 !important;
+        border-radius: 0.5rem !important;
+        font-weight: 400 !important;
+        transition: all 0.2s ease !important;
+        box-shadow: none !important;
+    }
+    
+    .stButton > button:hover {
+        background-color: #404040 !important;
+        color: #ffffff !important;
+        border: 1px solid #555555 !important;
+        box-shadow: none !important;
+    }
+    
+    .stButton > button:focus {
+        border: 1px solid #555555 !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    
+    .stButton > button[kind="primary"] {
+        background-color: #404040 !important;
+        color: #ffffff !important;
+        border: 1px solid #555555 !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+    }
+    
+    .stButton > button[kind="secondary"] {
+        background-color: #262730 !important;
+        color: #ffffff !important;
+        border: 1px solid #404040 !important;
+        opacity: 0.8 !important;
+    }
+    
+    .stButton > button[kind="secondary"]:hover {
+        background-color: #404040 !important;
+        opacity: 1 !important;
+        border: 1px solid #555555 !important;
+    }
+    
+    /* Aggressive spacing removal for tab buttons */
+    .stColumns > div {
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+    }
+    
+    .stColumns {
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Target specific column containers */
+    div[data-testid="column"] {
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+    }
+    
+    /* Remove all button margins and padding */
+    .stButton {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .stButton > button {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Force zero spacing between columns */
+    .stColumns > div:first-child {
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        border-right: none !important;
+    }
+    
+    .stColumns > div:last-child {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        border-left: none !important;
+    }
+    
+    /* Target the specific button columns */
+    .stColumns > div[data-testid="column"] {
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+    }
+    
+    /* Override Streamlit's default column spacing */
+    .stColumns {
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Make buttons fill their containers completely */
+    .stButton {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Remove any internal spacing */
+    .stButton > button {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Make buttons full-width and adjacent */
+    .stColumns > div {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 50% !important;
+    }
+    
+    /* Remove gap between columns */
+    .stColumns {
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Force zero spacing between button columns */
+    .stColumns > div:first-child {
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        border-right: none !important;
+    }
+    
+    .stColumns > div:last-child {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        border-left: none !important;
+    }
+    
+    /* Override any Streamlit default spacing */
+    div[data-testid="column"] {
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+    }
+    
+    /* Use negative margins to pull buttons together */
+    .stColumns > div:first-child {
+        margin-right: -2px !important;
+    }
+    
+    .stColumns > div:last-child {
+        margin-left: -2px !important;
+    }
+    
+    /* Force buttons to overlap slightly */
+    .stButton {
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    .stButton:last-child {
+        z-index: 2 !important;
+    }
+    
+    /* Target the specific button columns more aggressively */
+    .stColumns > div[data-testid="column"] {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 50% !important;
+    }
+    
+    /* Override Streamlit's default column spacing completely */
+    .stColumns {
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+    }
+    
+    /* Make buttons fill their containers */
+    .stButton {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .stButton > button {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0.5rem 1rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -63,41 +259,46 @@ def display_pdf(file):
     """Display PDF preview using embedded iframe"""
     st.markdown("### PDF Preview")
     base64_pdf = base64.b64encode(file.read()).decode("utf-8")
+<<<<<<< Updated upstream
     
     # Embedding PDF in HTML
+=======
+>>>>>>> Stashed changes
     pdf_display = f"""<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="400" type="application/pdf"
                         style="border: 1px solid #ddd; border-radius: 8px;"
                     >
                     </iframe>"""
+<<<<<<< Updated upstream
     
     # Displaying File
     st.markdown(pdf_display, unsafe_allow_html=True)
 
 # Chat Interface Functions
+=======
+    st.markdown(pdf_display, unsafe_allow_html=True)
+
+>>>>>>> Stashed changes
 def prepare_chat_context(xray_data, prompt):
     """Prepare context from X-Ray data for the LLM"""
     context_parts = []
     
-    # Add summary first for quick overview
     if xray_data.get('fileSummary'):
         context_parts.append(f"Summary: {xray_data['fileSummary']}")
     
-    # Add limited document content (first 2 pages, first 3 chunks each)
     if 'documentPages' in xray_data and xray_data['documentPages']:
         extracted_texts = []
-        for page in xray_data['documentPages'][:2]:  # Only first 2 pages
+        for page in xray_data['documentPages'][:2]:
             if 'chunks' in page:
-                for chunk in page['chunks'][:3]:  # Only first 3 chunks per page
+                for chunk in page['chunks'][:3]:
                     if 'text' in chunk and chunk['text']:
                         text = chunk['text']
-                        if len(text) > 500:  # Shorter limit
+                        if len(text) > 500:
                             text = text[:500] + "..."
                         extracted_texts.append(text)
         
         if extracted_texts:
             context_parts.append(f"Document Content: {' '.join(extracted_texts)}")
     
-    # Add essential metadata
     if xray_data.get('fileType'):
         context_parts.append(f"File Type: {xray_data['fileType']}")
     if xray_data.get('language'):
@@ -106,8 +307,7 @@ def prepare_chat_context(xray_data, prompt):
     return "\n\n".join(context_parts)
 
 def generate_chat_response(prompt, context):
-    """Generate AI response using Ollama with structured prompt engineering"""
-    # Construct comprehensive prompt for intelligent query handling
+    """Generate AI response using Ollama"""
     full_prompt = f"""You are an AI assistant helping analyze a document. You have access to the following document information:
 
 {context}
@@ -124,7 +324,6 @@ Instructions:
 
 Response:"""
 
-    # Initialize Ollama API request
     try:
         response = requests.post(
             "http://localhost:11434/api/generate",
@@ -152,22 +351,15 @@ Response:"""
     except Exception as e:
         return f"I'm having trouble accessing the AI model right now. Error: {str(e)}"
 
-# Initialize Streamlit session state
-for key in ["xray_data", "uploaded_file_path", "uploaded_file_name", "uploaded_file_type", "processing_complete", "used_existing_file", "auto_loaded_file"]:
+for key in ["xray_data", "uploaded_file_path", "uploaded_file_name", "uploaded_file_type", "processing_complete", "used_existing_file", "auto_loaded_file", "active_tab"]:
     if key not in st.session_state:
         st.session_state[key] = None if key == "xray_data" else False
 
-# Application Header
-st.markdown("""
-# World-class Document Processing Pipeline
-""")
+st.markdown("# World-class Document Processing Pipeline")
 
-# Load and display GroundX branding
-import base64
 try:
     with open("assets/groundx.png", "rb") as img_file:
         logo_base64 = base64.b64encode(img_file.read()).decode()
-
     st.markdown(f"""
     <div style="display: flex; align-items: center; gap: 10px;">
         <strong>powered by</strong>
@@ -184,7 +376,6 @@ except FileNotFoundError:
     <br>
     """, unsafe_allow_html=True)
 
-# Document Upload Interface
 with st.sidebar:
     st.header("📄 Upload Document")
     
@@ -211,6 +402,7 @@ with st.sidebar:
         st.session_state.uploaded_file_name = uploaded.name
         st.session_state.uploaded_file_type = uploaded.type
         
+<<<<<<< Updated upstream
         # Document Preview Section
         st.markdown("---")
         st.markdown("### 📄 Document Preview")
@@ -239,10 +431,24 @@ with st.sidebar:
         st.markdown(f"- **Size**: {uploaded.size / 1024:.1f} KB")
         st.markdown(f"- **Type**: {uploaded.type}")
         st.markdown(f"- **Status**: Ready for processing")
+=======
+        st.markdown("---")
+        st.markdown("### 📄 Document Preview")
+        
+        if uploaded.type == "application/pdf":
+            display_pdf(uploaded)
+        elif uploaded.type.startswith("image/"):
+            st.image(uploaded, caption=f"Preview: {uploaded.name}", use_column_width=True)
+        elif uploaded.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            st.info("📝 **Word Document** - Preview will be available after processing")
+            st.markdown(f"**Content**: Text extraction in progress...")
+        else:
+            st.info(f"📄 **{uploaded.type}** - Preview will be available after processing")
+        
+>>>>>>> Stashed changes
 
     st.button("🔄 Clear Analysis", on_click=reset_analysis)
 
-# Initialize Ground X API client and storage bucket
 try:
     gx = create_client()
     bucket_id = ensure_bucket(gx)
@@ -250,9 +456,7 @@ except ValueError as e:
     st.error(f"❌ {e}")
     st.stop()
 
-# Auto-load existing document from bucket if available
 if not st.session_state.auto_loaded_file and not st.session_state.xray_data:
-    # Configurable sample file - can be set via environment variable
     existing_file_name = os.getenv("SAMPLE_FILE_NAME", "tmpivkf8qf8_sample-file.pdf")
     existing_doc_id = check_file_exists(gx, bucket_id, existing_file_name)
     
@@ -269,7 +473,6 @@ if not st.session_state.auto_loaded_file and not st.session_state.xray_data:
     else:
         st.session_state.auto_loaded_file = True
 
-# Document Processing Logic
 should_process = False
 file_to_process = None
 
@@ -298,39 +501,47 @@ elif st.session_state.uploaded_file_path and not st.session_state.processing_com
     )
 
 if should_process and st.session_state.xray_data is None:
-    with st.status("🔄 Processing document...", expanded=True) as status:
-        # Determine file path for processing (temporary for new uploads, stored for existing)
+    # Create half-width container for status
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
         if hasattr(file_to_process, 'path'):
             file_path = file_to_process.path
         else:
             file_path = st.session_state.uploaded_file_path
         
         try:
+            # Step 1: Upload
+            st.write("📤 **Uploading to Ground X...**")
+            
             xray, used_existing = process_document(gx, bucket_id, file_to_process, file_path)
-            st.session_state.xray_data = xray
-            st.session_state.processing_complete = True
-            st.session_state.used_existing_file = used_existing
             
             if used_existing:
                 st.write("✅ **File already exists in bucket**")
-                st.write("📥 **Fetched X-Ray data...**")
+                st.write("📥 **Fetching existing X-Ray data...**")
+            else:
+                st.write("⏳ **Processing document...**")
+                st.write("📥 **Fetching X-Ray data...**")
+            
+            st.session_state.xray_data = xray
+            st.session_state.processing_complete = True
+            st.session_state.used_existing_file = used_existing
+            st.session_state.active_tab = "analysis"  # Auto-switch to analysis tab
+            
+            if used_existing:
                 st.success("✅ Document analysis completed! (Used existing file)")
             else:
-                st.write("📤 **Uploaded to Ground X...**")
-                st.write("⏳ **Processed document...**")
-                st.write("📥 **Fetched X-Ray data...**")
                 st.success("✅ Document parsed successfully! Explore the results below.")
             
             st.write("🎉 **Analysis complete!**")
+                
         except Exception as e:
             st.error(f"❌ Error processing document: {str(e)}")
             st.session_state.processing_complete = False
 
-# Analysis Results Display
 if st.session_state.xray_data:
     xray = st.session_state.xray_data
     
-    # Extract and display document metadata metrics
     file_type = xray.get('fileType', 'Unknown')
     language = xray.get('language', 'Unknown')
     pages = len(xray.get("documentPages", []))
@@ -338,6 +549,7 @@ if st.session_state.xray_data:
     
     st.markdown(f"**File Type:** {file_type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Language:** {language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Pages:** {pages} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Keywords:** {keywords}")
     
+<<<<<<< Updated upstream
     # Document Preview Section (after processing)
     with st.expander("📄 Document Preview", expanded=False):
         st.markdown("### 📋 Document Summary")
@@ -383,8 +595,134 @@ if st.session_state.xray_data:
         "📊 X-Ray Analysis",
         "💬 Chat"
     ])
+=======
+    # Create a left-aligned container for the tab buttons
+    col1, col2 = st.columns([1, 4])
+>>>>>>> Stashed changes
     
-    with main_tabs[0]:
+    with col1:
+        # Create a single container with custom button styling
+        st.markdown("""
+        <style>
+        /* Make Streamlit buttons look like segmented control */
+        .stButton > button {
+            border-radius: 0 !important;
+            margin: 0 !important;
+            border: 1px solid #404040 !important;
+            background-color: #262730 !important;
+            color: #ffffff !important;
+            font-weight: 400 !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+        }
+        
+        .stButton > button:hover {
+            background-color: #404040 !important;
+            color: #ffffff !important;
+            border: 1px solid #555555 !important;
+            box-shadow: none !important;
+        }
+        
+        .stButton > button:focus {
+            border: 1px solid #555555 !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        .stButton > button[kind="primary"] {
+            background-color: #404040 !important;
+            color: #ffffff !important;
+            border: 1px solid #555555 !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+        }
+        
+        .stButton > button[kind="secondary"] {
+            background-color: #262730 !important;
+            color: #ffffff !important;
+            border: 1px solid #404040 !important;
+            opacity: 0.8 !important;
+        }
+        
+        .stButton > button[kind="secondary"]:hover {
+            background-color: #404040 !important;
+            opacity: 1 !important;
+            border: 1px solid #555555 !important;
+        }
+        
+        /* Make first button rounded on left, second on right */
+        .stColumns > div:first-child .stButton > button {
+            border-top-left-radius: 0.5rem !important;
+            border-bottom-left-radius: 0.5rem !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            border-right: none !important;
+        }
+        
+        .stColumns > div:last-child .stButton > button {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            border-top-right-radius: 0.5rem !important;
+            border-bottom-right-radius: 0.5rem !important;
+            border-left: none !important;
+        }
+        
+        /* Remove gap between columns completely */
+        .stColumns {
+            gap: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .stColumns > div {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        /* Force buttons to be adjacent with negative margins */
+        .stColumns > div:first-child {
+            margin-right: -5px !important;
+            padding-right: 0 !important;
+        }
+        
+        .stColumns > div:last-child {
+            margin-left: -15px !important;
+            padding-left: 0 !important;
+        }
+        
+        /* Make buttons overlap to eliminate gap */
+        .stButton {
+            position: relative !important;
+            z-index: 1 !important;
+        }
+        
+        .stButton:last-child {
+            z-index: 2 !important;
+        }
+        
+        /* Use transform to move chat button left */
+        .stColumns > div:last-child .stButton {
+            transform: translateX(-15px) !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        # Use uneven column widths to move chat button left
+        col1, col2 = st.columns([0.7, 1.3])
+        
+        with col1:
+            if st.button("📊 X-Ray Analysis", key="analysis_tab_btn", type="primary" if st.session_state.active_tab == "analysis" else "secondary"):
+                st.session_state.active_tab = "analysis"
+                st.rerun()
+        
+        with col2:
+            if st.button("💬 Chat", key="chat_tab_btn", type="primary" if st.session_state.active_tab == "chat" else "secondary"):
+                st.session_state.active_tab = "chat"
+                st.rerun()
+    
+    if st.session_state.active_tab is None:
+        st.session_state.active_tab = "analysis"
+    
+    if st.session_state.active_tab == "analysis":
         st.markdown("### 📊 X-Ray Analysis Results")
         tabs = st.tabs([
             "🔍 JSON Output",
@@ -401,7 +739,10 @@ if st.session_state.xray_data:
 
         with tabs[1]:
             st.subheader("📝 Narrative Summary")
+<<<<<<< Updated upstream
             # Extract and display narrative content from document chunks
+=======
+>>>>>>> Stashed changes
             narratives = []
             if "documentPages" in xray:
                 for page in xray["documentPages"]:
@@ -428,7 +769,10 @@ if st.session_state.xray_data:
 
         with tabs[3]:
             st.subheader("💡 Suggested Text")
+<<<<<<< Updated upstream
             # Extract and display suggested text content from document chunks
+=======
+>>>>>>> Stashed changes
             suggested_texts = []
             if "documentPages" in xray:
                 for page in xray["documentPages"]:
@@ -447,7 +791,10 @@ if st.session_state.xray_data:
 
         with tabs[4]:
             st.subheader("📄 Extracted Text")
+<<<<<<< Updated upstream
             # Extract and display raw text content from document chunks
+=======
+>>>>>>> Stashed changes
             extracted_texts = []
             if "documentPages" in xray:
                 for page in xray["documentPages"]:
@@ -470,33 +817,31 @@ if st.session_state.xray_data:
             else:
                 st.info("No keywords found in the X-Ray data")
     
-    # Interactive Chat Interface
-    with main_tabs[1]:
+    elif st.session_state.active_tab == "chat":
         st.markdown("### 💬 Chat with Document")
         st.markdown("Ask questions about your document.")
         
-        # Initialize and display chat conversation history
         if "chat_history" not in st.session_state:
             st.session_state.chat_history = []
         
-        # Render existing chat messages
         for message in st.session_state.chat_history:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
         
-        # Process user input and generate responses
         if prompt := st.chat_input("Ask a question about your document..."):
-            # Store user message in conversation history
             st.session_state.chat_history.append({"role": "user", "content": prompt})
+            st.session_state.active_tab = "chat"
             
+<<<<<<< Updated upstream
             # Ensure we stay in chat mode
             st.session_state.in_chat_mode = True
             
             # Display user message in chat interface
+=======
+>>>>>>> Stashed changes
             with st.chat_message("user"):
                 st.markdown(prompt)
             
-            # Generate and display AI assistant response
             with st.chat_message("assistant"):
                 with st.spinner("Thinking..."):
                     context = prepare_chat_context(xray, prompt)
