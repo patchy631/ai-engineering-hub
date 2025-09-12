@@ -1,0 +1,17 @@
+﻿[project]
+name = "stock-portfolio-agent"
+version = "0.1.0"
+description = "A comprehensive stock portfolio analysis and management system with AI agents"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "copilotkit>=0.1.52,<0.2.0",
+    "ag-ui-protocol>=0.1.7,<0.2.0",
+    "fastapi>=0.115.14,<0.116.0",
+    "uvicorn>=0.35.0,<0.36.0",
+    "yfinance>=0.2.64,<0.3.0",
+    "python-dotenv>=1.0.0",
+    "pandas>=2.3.0,<3.0.0",
+    "crewai>=0.140.0,<0.141.0",
+    "pybase64>=1.4.1,<2.0.0",
+]
