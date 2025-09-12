@@ -1,0 +1,308 @@
+[
+  {
+    "data": {
+      "paper": {
+        "abstract": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English- to-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature.",
+        "abstract_citation": [
+          {
+            "page_number": 1,
+            "x1": 142.0,
+            "x2": 469.0,
+            "y1": 359.0,
+            "y2": 500.0
+          }
+        ],
+        "authors": [
+          "Ashish Vaswani",
+          "Noam Shazeer",
+          "Niki Parmar",
+          "Jakob Uszkoreit",
+          "Llion Jones",
+          "Aidan N. Gomez",
+          "\u0141ukasz Kaiser",
+          "Illia Polosukhin"
+        ],
+        "authors_citation": [
+          {
+            "page_number": 1,
+            "x1": 111.0,
+            "x2": 222.0,
+            "y1": 181.0,
+            "y2": 208.0
+          },
+          {
+            "page_number": 1,
+            "x1": 222.0,
+            "x2": 315.0,
+            "y1": 181.0,
+            "y2": 207.0
+          },
+          {
+            "page_number": 1,
+            "x1": 315.0,
+            "x2": 413.0,
+            "y1": 181.0,
+            "y2": 207.0
+          },
+          {
+            "page_number": 1,
+            "x1": 413.0,
+            "x2": 501.0,
+            "y1": 181.0,
+            "y2": 207.0
+          },
+          {
+            "page_number": 1,
+            "x1": 122.0,
+            "x2": 222.0,
+            "y1": 231.0,
+            "y2": 257.0
+          },
+          {
+            "page_number": 1,
+            "x1": 222.0,
+            "x2": 351.0,
+            "y1": 231.0,
+            "y2": 257.0
+          },
+          {
+            "page_number": 1,
+            "x1": 351.0,
+            "x2": 490.0,
+            "y1": 231.0,
+            "y2": 257.0
+          },
+          {
+            "page_number": 1,
+            "x1": 237.0,
+            "x2": 374.0,
+            "y1": 284.0,
+            "y2": 307.0
+          }
+        ],
+        "key_findings": [
+          "The Transformer model achieves a BLEU score of 28.4 on the WMT 2014 English-to-German translation task, outperforming previous models by over 2 BLEU.",
+          "On the WMT 2014 English-to-French translation task, the Transformer model achieves a BLEU score of 41.0, setting a new state-of-the-art for single models."
+        ],
+        "key_findings_citation": [
+          {
+            "page_number": 8,
+            "x1": 107.0,
+            "x2": 504.0,
+            "y1": 357.0,
+            "y2": 423.0
+          },
+          {
+            "page_number": 8,
+            "x1": 107.0,
+            "x2": 505.0,
+            "y1": 428.0,
+            "y2": 473.0
+          }
+        ],
+        "keywords": [
+          "Transformer",
+          "Attention Mechanism",
+          "Machine Translation",
+          "Neural Networks",
+          "BLEU Score"
+        ],
+        "keywords_citation": [
+          {
+            "page_number": 1,
+            "x1": 210.0,
+            "x2": 400.0,
+            "y1": 99.0,
+            "y2": 115.0
+          },
+          {
+            "page_number": 1,
+            "x1": 142.0,
+            "x2": 469.0,
+            "y1": 359.0,
+            "y2": 500.0
+          },
+          {
+            "page_number": 8,
+            "x1": 107.0,
+            "x2": 504.0,
+            "y1": 357.0,
+            "y2": 423.0
+          },
+          {
+            "page_number": 8,
+            "x1": 107.0,
+            "x2": 505.0,
+            "y1": 428.0,
+            "y2": 473.0
+          }
+        ],
+        "sections": [
+          {
+            "heading": "1 Introduction",
+            "heading_citation": [],
+            "summary": "Recurrent neural networks and their variants have been the state of the art in sequence modeling. However, they have limitations in parallelization and computational efficiency. The Transformer model addresses these issues by using attention mechanisms instead of recurrence.",
+            "summary_citation": [
+              {
+                "page_number": 1,
+                "x1": 107.0,
+                "x2": 504.0,
+                "y1": 544.0,
+                "y2": 598.0
+              },
+              {
+                "page_number": 2,
+                "x1": 107.0,
+                "x2": 504.0,
+                "y1": 73.0,
+                "y2": 161.0
+              }
+            ]
+          },
+          {
+            "heading": "2 Background",
+            "heading_citation": [],
+            "summary": "The Transformer model builds on previous work in reducing sequential computation, using attention mechanisms to model dependencies without regard to distance in sequences.",
+            "summary_citation": [
+              {
+                "page_number": 2,
+                "x1": 106.0,
+                "x2": 505.0,
+                "y1": 298.0,
+                "y2": 397.0
+              },
+              {
+                "page_number": 2,
+                "x1": 107.0,
+                "x2": 505.0,
+                "y1": 402.0,
+                "y2": 447.0
+              }
+            ]
+          },
+          {
+            "heading": "3 Model Architecture",
+            "heading_citation": [],
+            "summary": "The Transformer uses a novel architecture based on self-attention and feed-forward networks, allowing for more parallelization and improved translation quality.",
+            "summary_citation": [
+              {
+                "page_number": 2,
+                "x1": 106.0,
+                "x2": 505.0,
+                "y1": 573.0,
+                "y2": 629.0
+              },
+              {
+                "page_number": 2,
+                "x1": 106.0,
+                "x2": 505.0,
+                "y1": 633.0,
+                "y2": 668.0
+              }
+            ]
+          },
+          {
+            "heading": "4 Why Self-Attention",
+            "heading_citation": [],
+            "summary": "Self-attention layers offer advantages in computational complexity and learning long-range dependencies compared to recurrent and convolutional layers.",
+            "summary_citation": [
+              {
+                "page_number": 6,
+                "x1": 107.0,
+                "x2": 505.0,
+                "y1": 476.0,
+                "y2": 530.0
+              },
+              {
+                "page_number": 6,
+                "x1": 107.0,
+                "x2": 504.0,
+                "y1": 536.0,
+                "y2": 559.0
+              }
+            ]
+          },
+          {
+            "heading": "5 Training",
+            "heading_citation": [],
+            "summary": "The Transformer model was trained on large datasets using efficient batching and hardware, achieving high performance with relatively low training costs.",
+            "summary_citation": [
+              {
+                "page_number": 7,
+                "x1": 106.0,
+                "x2": 250.0,
+                "y1": 304.0,
+                "y2": 316.0
+              },
+              {
+                "page_number": 7,
+                "x1": 106.0,
+                "x2": 505.0,
+                "y1": 324.0,
+                "y2": 401.0
+              }
+            ]
+          },
+          {
+            "heading": "6 Results",
+            "heading_citation": [],
+            "summary": "The Transformer model outperforms previous state-of-the-art models in translation tasks, achieving higher BLEU scores with less training cost.",
+            "summary_citation": [
+              {
+                "page_number": 8,
+                "x1": 107.0,
+                "x2": 504.0,
+                "y1": 357.0,
+                "y2": 423.0
+              },
+              {
+                "page_number": 8,
+                "x1": 107.0,
+                "x2": 505.0,
+                "y1": 428.0,
+                "y2": 473.0
+              }
+            ]
+          },
+          {
+            "heading": "7 Conclusion",
+            "heading_citation": [],
+            "summary": "The Transformer introduces a new paradigm in sequence transduction models, offering faster training and superior performance. Future work will explore its application to other modalities and tasks.",
+            "summary_citation": [
+              {
+                "page_number": 9,
+                "x1": 107.0,
+                "x2": 504.0,
+                "y1": 525.0,
+                "y2": 558.0
+              },
+              {
+                "page_number": 9,
+                "x1": 107.0,
+                "x2": 504.0,
+                "y1": 564.0,
+                "y2": 608.0
+              }
+            ]
+          }
+        ],
+        "title": "Attention Is All You Need",
+        "title_citation": []
+      }
+    },
+    "page_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "schema_name": "research_paper"
+  }
+]
