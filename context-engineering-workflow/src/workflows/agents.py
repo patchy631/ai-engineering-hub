@@ -13,7 +13,8 @@ from src.rag import RAGPipeline
 from src.memory import ZepMemoryLayer
 
 
-class AgentFactory:
+class Agents:
+    """Class for creating agents from configuration files"""
     def __init__(self, config_loader: Optional[ConfigLoader] = None):
         self.config_loader = config_loader or ConfigLoader()
     
@@ -78,53 +79,3 @@ class AgentFactory:
             backstory=config["backstory"],
             verbose=config.get("verbose", True)
         )
-
-def create_rag_agent(rag_pipeline: RAGPipeline) -> Agent:
-    """Create RAG agent for document-based retrieval and processing"""
-    factory = AgentFactory()
-    return factory.create_rag_agent(rag_pipeline)
-
-
-def create_memory_agent(memory_layer: ZepMemoryLayer) -> Agent:
-    """Create memory agent for conversation history retrieval"""
-    factory = AgentFactory()
-    return factory.create_memory_agent(memory_layer)
-
-
-def create_web_search_agent(firecrawl_api_key: str) -> Agent:
-    """Create web search agent using Firecrawl"""
-    factory = AgentFactory()
-    return factory.create_web_search_agent(firecrawl_api_key)
-
-
-def create_tool_calling_agent() -> Agent:
-    """Create ArXiv research agent for academic paper search"""
-    factory = AgentFactory()
-    return factory.create_arxiv_agent()
-
-
-def create_evaluator_agent() -> Agent:
-    """Create evaluator agent to filter and rank context relevance"""
-    factory = AgentFactory()
-    return factory.create_evaluator_agent()
-
-
-def create_synthesizer_agent() -> Agent:
-    """Create synthesizer agent to generate coherent final responses"""
-    factory = AgentFactory()
-    return factory.create_synthesizer_agent()
-
-from src.tools import RAGTool, MemoryTool, ArxivTool as ExternalAPITool
-
-__all__ = [
-    "AgentFactory",
-    "create_rag_agent",
-    "create_memory_agent",
-    "create_web_search_agent", 
-    "create_tool_calling_agent",
-    "create_evaluator_agent",
-    "create_synthesizer_agent",
-    "RAGTool",
-    "MemoryTool", 
-    "ExternalAPITool"
-]

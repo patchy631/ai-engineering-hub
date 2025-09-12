@@ -7,14 +7,7 @@ from crewai.flow.flow import Flow, listen, start
 
 from src.rag import RAGPipeline
 from src.memory import ZepMemoryLayer
-from .agents import (
-    create_rag_agent,
-    create_memory_agent,
-    create_web_search_agent,
-    create_tool_calling_agent,
-    create_evaluator_agent,
-    create_synthesizer_agent
-)
+from .agents import Agents
 from .tasks import Tasks
 
 class ResearchAssistantState(BaseModel):
@@ -94,16 +87,17 @@ class ResearchAssistantFlow(Flow[ResearchAssistantState]):
             zep_api_key=zep_api_key
         )
         
-        # Initialize tasks
+        # Initialize tasks and agents
         self.tasks = Tasks()
+        self.agents = Agents()
         
         # Create agents
-        self.rag_agent = create_rag_agent(self.rag_pipeline)
-        self.memory_agent = create_memory_agent(self.memory_layer)
-        self.web_search_agent = create_web_search_agent(firecrawl_api_key or os.getenv("FIRECRAWL_API_KEY"))
-        self.tool_calling_agent = create_tool_calling_agent()
-        self.evaluator_agent = create_evaluator_agent()
-        self.synthesizer_agent = create_synthesizer_agent()
+        self.rag_agent = self.agents.create_rag_agent(self.rag_pipeline)
+        self.memory_agent = self.agents.create_memory_agent(self.memory_layer)
+        self.web_search_agent = self.agents.create_web_search_agent(firecrawl_api_key or os.getenv("FIRECRAWL_API_KEY"))
+        self.tool_calling_agent = self.agents.create_arxiv_agent()
+        self.evaluator_agent = self.agents.create_evaluator_agent()
+        self.synthesizer_agent = self.agents.create_synthesizer_agent()
     
     @start()
     def process_query(self) -> Dict[str, Any]:
