@@ -1,0 +1,76 @@
+rag_search_task:
+  description: >
+    Search for information relevant to: {query}. Use query='{query}'. Search through documents that are already loaded in the vector database.
+  expected_output: >
+    JSON formatted response with status, answer, citations, and confidence score
+  agent: rag_agent
+
+memory_retrieval_task:
+  description: >
+    Retrieve relevant conversation history and context for: {query}
+  expected_output: >
+    JSON formatted response with memory context and relevance assessment
+  agent: memory_agent
+
+web_search_task:
+  description: >
+    Search the web for recent information and developments related to: {query}
+  expected_output: >
+    JSON formatted response with web search results and relevance assessment
+  agent: web_search_agent
+
+arxiv_search_task:
+  description: >
+    Search ArXiv for academic papers related to: {query}. Find relevant research papers, authors, and recent developments in the field.
+  expected_output: >
+    JSON formatted response with ArXiv search results including paper titles, authors, abstracts, and publication details
+  agent: arxiv_agent
+
+context_evaluation_task:
+  description: >
+    Evaluate the relevance of the following context sources for the query: "{query}"
+    
+    Context Sources:
+    1. RAG Result: {rag_result}
+    2. Memory Result: {memory_result}
+    3. Web Search Result: {web_result}
+    4. Tool Result (ArXiv): {tool_result}
+    
+    For each source, determine:
+    - Is it relevant to answering the query? (yes/no)
+    - Confidence score of relevance (0-1)
+    - Key information that should be included in the final response
+    - What information should be filtered out as irrelevant
+    
+    Note: If a source has ERROR status, it should not be included in relevant_sources, but mention it in the reasoning.
+    
+    Return only the relevant context that should be used for generating the final response.
+    
+    IMPORTANT: Your response must strictly follow the provided JSON schema structure.
+  expected_output: >
+    JSON response with:
+    - relevant_sources: list of source names that are relevant (e.g., ['RAG', 'Web', 'Memory', 'ArXiv'])
+    - filtered_context: dictionary with only relevant information from each source
+    - relevance_scores: confidence scores (0-1) for each source's relevance
+    - reasoning: brief explanation of filtering decisions
+    
+    The response must be valid JSON that conforms to the ContextEvaluationResult schema.
+  agent: evaluator_agent
+
+synthesis_task:
+  description: >
+    Create a comprehensive, coherent response to the query: "{query}"
+    
+    Use the following filtered and relevant context:
+    {filtered_context}
+    
+    Guidelines:
+    - Synthesize information from multiple sources into a coherent narrative
+    - Cite sources appropriately
+    - Maintain accuracy and don't add information not present in the context
+    - Structure the response clearly and logically
+  expected_output: >
+    Well-structured response with:
+    - Clear answer to the user's query
+    - Proper citations from all relevant sources
+  agent: synthesizer_agent
