@@ -112,7 +112,14 @@ graph TD
    FIRECRAWL_API_KEY=your_firecrawl_key
    ```
 
-3. **Prepare documents:**
+   Get the API keys here:
+   - [Tensorlake →](https://tensorlake.ai/)
+   - [Zep AI →](https://www.getzep.com/)
+   - [Firecrawl →](https://www.firecrawl.dev/)
+   - [OpenAI →](https://openai.com)
+   - [Voyage →](https://dashboard.voyageai.com/)
+
+4. **Prepare documents:**
    Place your research documents in the `data/` directory (PDF format supported)
 
 ## Usage
