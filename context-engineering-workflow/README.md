@@ -74,6 +74,45 @@ graph TD
     style J fill:#f3e5f5
 ```
 
+## Project Structure
+
+```
+context-engineering-workflow/
+├── 📁 src/                          # Main source code directory
+│   ├── 📁 workflows/                # 🎯 Complete workflow orchestration
+│   │   ├── 📄 agents.py            # Agent creation from YAML configs
+│   │   ├── 📄 tasks.py             # Task creation from YAML configs  
+│   │   ├── 📄 flow.py              # Main ResearchAssistantFlow
+│   ├── 📁 tools/                   # 🔧 All specialized tools
+│   │   ├── 📄 rag_tool.py          # RAG search functionality
+│   │   ├── 📄 memory_tool.py       # Memory retrieval tool
+│   │   ├── 📄 arxiv_tool.py        # ArXiv academic search
+│   │   ├── 📄 web_search_tool.py   # Web search via Firecrawl
+│   ├── 📁 rag/                     # 📚 RAG pipeline components
+│   │   ├── 📄 rag_pipeline.py      # Unified RAG orchestration
+│   │   ├── 📄 retriever.py         # Milvus vector database
+│   │   ├── 📄 embeddings.py        # Contextualized embeddings
+│   ├── 📁 document_processing/     # 📄 Document parsing & processing
+│   │   ├── 📄 doc_parser.py        # TensorLake document parser
+│   ├── 📁 memory/                  # 🧠 Memory management
+│   │   ├── 📄 memory.py            # Zep memory layer
+│   ├── 📁 generation/              # ✍️ Response generation
+│   │   ├── 📄 generation.py        # Structured response generation
+│   ├── 📁 config/                  # ⚙️ Configuration management
+│   │   ├── 📄 config_loader.py     # YAML configuration loader
+├── 📁 config/                      # 📋 YAML configuration files
+│   ├── 📁 agents/                  # Agent configurations
+│   │   └── 📄 research_agents.yaml # Agent roles, goals, backstories
+│   └── 📁 tasks/                   # Task configurations  
+│       └── 📄 research_tasks.yaml  # Task descriptions, expected outputs
+├── 📁 data/                        # 📊 Research documents (PDFs)
+├── 📁 outputs/                     # 📤 Generated outputs and results
+├── 📄 app.py                       # 🌐 Streamlit web interface
+├── 📄 pyproject.toml               # 🔧 Project configuration
+├── 📄 uv.lock                      # 🔒 Dependency lock file
+└── 📄 README.md                    
+```
+
 ## Installation & Setup
     
 1. **Install dependencies:**
