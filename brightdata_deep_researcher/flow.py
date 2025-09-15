@@ -52,9 +52,9 @@ def server_params() -> StdioServerParameters:
 
 # ---------- Flow Definition ----------
 class DeepResearchFlow(Flow[DeepResearchFlowState]):
-    search_llm: Any = LLM(model="openai/gpt-4o-mini", temperature=0.0)
+    search_llm: Any = LLM(model="openai/gpt-4o", temperature=0.0)
     specialist_llm: Any = LLM(model="openai/o3-mini", temperature=0.1)
-    response_llm: Any = LLM(model="gemini/gemini-2.5-pro", temperature=0.3)
+    response_llm: Any = LLM(model="ollama/gpt-oss", temperature=0.3)
 
     @start()
     def start_flow(self) -> Dict[str, Any]:
