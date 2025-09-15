@@ -1,4 +1,4 @@
-# Agentic Deep Researcher
+# Brightdata Deep Researcher
 
 We're building an MCP-powered multi-agent deep researcher, it can perform deep web searches using [Brightdata's](https://brightdata.com/ai/mcp-server) (Web MCP server), with agents orchestrated through CrewAI.
 
@@ -6,6 +6,7 @@ We use:
 
 - [Brightdata](https://brightdata.com/ai/mcp-server) (Web MCP server)
 - [CrewAI](https://docs.crewai.com/) (Agentic design)
+- [Ollama](https://ollama.com/) to locally serve LLM
 - [Streamlit](https://streamlit.io/) to wrap the logic in an interactive UI
 
 ## Set Up
@@ -20,6 +21,22 @@ Create a `.env` file in the root directory of your project with the following co
 OPENAI_API_KEY=<your_openai_api_key>
 BRIGHT_DATA_API_TOKEN=<your_bright_data_api_token>
 GEMINI_API_KEY=<your_gemini_api_key>
+```
+
+### Download Ollama
+
+Download and install [Ollama](https://ollama.com/download) for your operating system. Ollama is used to run large language models locally.
+
+For example, on linux, you can use the following command:
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+Pull the required model:
+
+```bash
+ollama pull gpt-oss
 ```
 
 ### Install Dependencies
