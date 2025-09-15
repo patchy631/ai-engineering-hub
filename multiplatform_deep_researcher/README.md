@@ -1,6 +1,6 @@
-# Brightdata Deep Researcher
+# Multiplatform Deep Researcher
 
-We're building an MCP-powered multi-agent deep researcher, it can perform deep web searches using [Brightdata's](https://brightdata.com/ai/mcp-server) (Web MCP server), with agents orchestrated through CrewAI.
+We're building an MCP-powered multi-agent, multi-platform deep researcher, it can perform deep web searches using [Brightdata's](https://brightdata.com/ai/mcp-server) (Web MCP server), with agents orchestrated through CrewAI.
 
 We use:
 
