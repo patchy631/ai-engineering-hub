@@ -1,4 +1,5 @@
 from flow import DeepResearchFlow
+from typing import Dict, Any
 
 
 async def run_deep_research(prompt):
@@ -6,7 +7,7 @@ async def run_deep_research(prompt):
     try:
         flow = DeepResearchFlow()
         flow.state.query = prompt
-        result = await flow.kickoff_async()
-        return result["result"]
+        payload: Dict[str, Any] = await flow.kickoff_async()
+        return str(payload.get("result", "No result returned"))
     except Exception as e:
-        return f"An error occurred: {str(e)}"
+        return f"An error occurred: {e}"

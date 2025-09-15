@@ -39,11 +39,15 @@ class DeepResearchFlowState(BaseModel):
 
 
 # ---------- MCP Server Configurations ----------
-server_configurations = StdioServerParameters(
-    command="npx",
-    args=["@brightdata/mcp"],
-    env={"API_TOKEN": os.getenv("BRIGHT_DATA_API_TOKEN"), "PRO_MODE": "true"},
-)
+def server_params() -> StdioServerParameters:
+    token = os.getenv("BRIGHT_DATA_API_TOKEN")
+    if not token:
+        raise RuntimeError("BRIGHT_DATA_API_TOKEN is not set")
+    return StdioServerParameters(
+        command="npx",
+        args=["@brightdata/mcp"],
+        env={"API_TOKEN": token, "PRO_MODE": "true"},
+    )
 
 
 # ---------- Flow Definition ----------
@@ -62,7 +66,7 @@ class DeepResearchFlow(Flow[DeepResearchFlowState]):
     def collect_urls(self) -> Dict[str, Any]:
         """Search web for user query and return URLBuckets object."""
         try:
-            with MCPServerAdapter(server_configurations) as mcp_tools:
+            with MCPServerAdapter(server_params()) as mcp_tools:
                 search_agent = Agent(
                     role="Multiplatform Web Discovery Specialist",
                     goal=(
@@ -114,7 +118,9 @@ Example shape (not a template):
                 return {"urls_buckets": out.model_dump(mode="raw")}
 
         except Exception as e:
-            return {"result": f"Error processing web search task: {e}"}
+            logging.exception("collect_urls failed")
+            empty = URLBuckets().model_dump(mode="raw")
+            return {"urls_buckets": empty, "error": f"{e}"}
 
     @listen(collect_urls)
     def dispatch_to_specialists(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
@@ -130,7 +136,7 @@ Example shape (not a template):
                 # Skip the function if no URLs are provided
                 return []
 
-            with MCPServerAdapter(server_configurations) as mcp_tools:
+            with MCPServerAdapter(server_params()) as mcp_tools:
                 tools_map: Dict[str, List[Any]] = {
                     "instagram": [mcp_tools["web_data_instagram_posts"]],
                     "linkedin": [mcp_tools["web_data_linkedin_posts"]],
