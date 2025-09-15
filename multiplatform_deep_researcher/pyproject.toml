@@ -1,5 +1,5 @@
 [project]
-name = "deep-research-flow"
+name = "multiplatform-deep-researcher"
 version = "0.1.0"
 description = "Implementing deep research using CrewAI and brightdata web mcp"
 readme = "README.md"
