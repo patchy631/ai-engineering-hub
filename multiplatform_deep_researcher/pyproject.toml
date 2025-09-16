@@ -1,0 +1,13 @@
+[project]
+name = "multiplatform-deep-researcher"
+version = "0.1.0"
+description = "Implementing deep research using CrewAI and brightdata web mcp"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "crewai-tools[mcp]>=0.69.0",
+    "mcp>=1.13.1",
+    "ollama>=0.5.3",
+    "python-dotenv>=1.1.1",
+    "streamlit>=1.49.1",
+]
