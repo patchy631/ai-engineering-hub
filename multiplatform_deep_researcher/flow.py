@@ -186,8 +186,8 @@ Output:
                     tasks=[specialist_research_task],
                     verbose=True,
                 )
-                platform_output: List[SpecialistOutput] = crew.kickoff()
-                return platform_output
+                platform_output: SpecialistOutput = crew.kickoff()
+                return [platform_output]
 
         # Process each platform bucket with clear failure isolation
         url_buckets_dict = (
