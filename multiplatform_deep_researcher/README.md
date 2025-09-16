@@ -20,7 +20,6 @@ Create a `.env` file in the root directory of your project with the following co
 ```env
 OPENAI_API_KEY=<your_openai_api_key>
 BRIGHT_DATA_API_TOKEN=<your_bright_data_api_token>
-GEMINI_API_KEY=<your_gemini_api_key>
 ```
 
 ### Download Ollama
