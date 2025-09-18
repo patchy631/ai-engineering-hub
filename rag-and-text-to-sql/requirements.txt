@@ -1,0 +1,14 @@
+openai==1.66.0
+sqlalchemy
+python-dotenv==1.0.1
+nest-asyncio==1.6.0
+llama-index==0.12.23
+llama-index-llms-ollama==0.5.3
+llama-index-vector-stores-qdrant==0.4.3
+llama-index-readers-file==0.4.6
+llama-index-embeddings-fastembed==0.3.0
+qdrant_client==1.13.3
+fastembed==0.6.0
+streamlit==1.43.1
+streamlit-pdf-viewer==0.0.21
+opik==1.5.8
