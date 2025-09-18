@@ -1,0 +1,20 @@
+[project]
+name = "meeting-notes-generator"
+version = "0.1.0"
+description = "AI-powered meeting notes generator with speaker diarization"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "streamlit>=1.49.1",
+    "assemblyai>=0.21.0",
+    "openai>=1.99.9",
+    "pandas>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "flake8>=7.0.0",
+]
