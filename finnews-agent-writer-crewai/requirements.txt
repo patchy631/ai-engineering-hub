@@ -1,0 +1,4 @@
+ipykernel
+pyyaml
+crewai_tools
+crewai
