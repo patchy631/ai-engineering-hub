@@ -1,0 +1,5 @@
+streamlit
+llama-index
+sqlalchemy
+openai
+nest_asyncio
