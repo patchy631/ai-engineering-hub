@@ -10,7 +10,7 @@ from code_evaluation_opik import evaluate_code
 load_dotenv()
 
 # Set page config
-st.set_page_config(page_title="Code Generation Model Comparison", layout="wide")
+st.set_page_config(page_title="⚔️ CodeArena: Compare Codegen Models", layout="wide")
 
 # Custom CSS for responsive code containers
 st.markdown(
@@ -60,7 +60,7 @@ if "evaluation_results" not in st.session_state:
     st.session_state.evaluation_results = {"model1": None, "model2": None}
 
 # Main interface
-st.title("Code Generation Model Comparison")
+st.title("⚔️ CodeArena: Compare Codegen Models")
 powered_by_html = """
     <div style='display: flex; align-items: center; gap: 10px; margin-top: -10px;'>
         <span style='font-size: 20px; color: #666;'>Powered by</span>
@@ -89,7 +89,7 @@ default_model2 = st.session_state.selected_models["model2"]
 
 # If default models are not in available models, use first two available
 if default_model1 not in all_models:
-    default_model1 = all_models[0] if all_models else "Claude Sonnet 4"
+    default_model1 = all_models[0] if all_models else "Claude Opus 4.1"
 if default_model2 not in all_models:
     default_model2 = all_models[1] if len(all_models) > 1 else all_models[0]
 
