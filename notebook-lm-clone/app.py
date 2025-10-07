@@ -6,6 +6,9 @@ import logging
 from typing import List, Dict, Any
 import uuid
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -570,9 +573,8 @@ def render_sources_sidebar():
     with st.sidebar:
         st.markdown('<div class="main-header">📚 Sources</div>', unsafe_allow_html=True)
         
-        # Add source button
-        if st.button("➕ Add", use_container_width=True):
-            st.session_state.show_source_dialog = True
+        # if st.button("➕ Add", use_container_width=True):
+        #     st.session_state.show_source_dialog = True
         
         # Display sources
         if st.session_state.sources:
@@ -940,9 +942,6 @@ def main():
     st.markdown("""
     <div style="display: flex; align-items: center; margin-bottom: 30px;">
         <h1 style="color: #ffffff; margin: 0;">🧠 NotebookLM: Understand Anything</h1>
-        <div style="margin-left: auto; color: #a0aec0;">
-            <span style="background: #4a5568; padding: 4px 12px; border-radius: 12px; font-size: 12px;">DEMO</span>
-        </div>
     </div>
     """, unsafe_allow_html=True)
     
