@@ -1,0 +1,13 @@
+[project]
+name = "guidelines-vs-traditional-prompt"
+version = "0.1.0"
+description = "Parlant Guidelines vs Traditional Prompt: Life Insurance Agent Comparison"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "parlant>=3.0.2",
+    "parlant-client>=3.0.1",
+    "python-dotenv>=1.0.1",
+    "rich>=13.9.4",
+    "openai>=1.0.0",
+]
