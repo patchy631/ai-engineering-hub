@@ -29,12 +29,11 @@ Whether you're a beginner, practitioner, or researcher, this repo provides resou
 ## 📋 Table of Contents
 
 - [Getting Started](#-getting-started)
+- [Newsletter](#-stay-updated-with-our-newsletter)
 - [Projects by Difficulty](#-projects-by-difficulty)
   - [Beginner Projects (22)](#-beginner-projects)
   - [Intermediate Projects (48)](#-intermediate-projects)
   - [Advanced Projects (23)](#-advanced-projects)
-- [Projects by Category](#-projects-by-category)
-- [Newsletter](#-stay-updated-with-our-newsletter)
 - [Contributing](#-contribute-to-the-ai-engineering-hub)
 - [License](#-license)
 
@@ -48,6 +47,14 @@ New to AI Engineering? Start here:
 2. **Learn the Basics**: Start with [Beginner Projects](#-beginner-projects) like OCR apps and simple RAG implementations
 3. **Build Your Skills**: Move to [Intermediate Projects](#-intermediate-projects) with agents and complex workflows
 4. **Master Advanced Concepts**: Tackle [Advanced Projects](#-advanced-projects) including fine-tuning and production systems
+
+---
+
+## 📬 Stay Updated with Our Newsletter!
+
+**Get a FREE Data Science eBook** 📖 with 150+ essential lessons in Data Science when you subscribe to our newsletter! Stay in the loop with the latest tutorials, insights, and exclusive resources. [Subscribe now!](https://join.dailydoseofds.com)
+
+[![Daily Dose of Data Science Newsletter](https://github.com/patchy631/ai-engineering/blob/main/resources/join_ddods.png)](https://join.dailydoseofds.com)
 
 ---
 
@@ -188,81 +195,6 @@ Complex systems, fine-tuning, production deployments, and cutting-edge implement
 
 #### Learning Resources
 - [**AI Engineering Roadmap**](./ai-engineering-roadmap) - Complete guide from Python to production AI
-
----
-
-## 🏷️ Projects by Category
-
-<details>
-<summary><b>RAG (Retrieval-Augmented Generation)</b> - 20+ projects</summary>
-
-- Simple RAG Workflow, Document Chat RAG, Fastest RAG Stack, GitHub RAG, ModernBERT RAG, Llama 4 RAG, Agentic RAG, Agentic RAG with DeepSeek, DeepSeek Multimodal RAG, ColiVara Website RAG, RAG with Dockling, Trustworthy RAG, Fastest RAG with Milvus, Chat with Code, RAG SQL Router, Multimodal RAG, GroundX Document Pipeline, NotebookLM Clone, and more...
-
-</details>
-
-<details>
-<summary><b>AI Agents & Multi-Agent Systems</b> - 25+ projects</summary>
-
-- AutoGen Stock Analyst, YouTube Trend Analysis, AI News Generator, Agentic RAG variants, Book Writer Flow, Content Planner Flow, Brand Monitoring, Hotel Booking Crew, Web Browsing Agent, Paralegal Agent Crew, Documentation Writer Flow, Multi-Agent Deep Researcher, Context Engineering Workflow, Stock Portfolio Analysis Agent, and more...
-
-</details>
-
-<details>
-<summary><b>MCP (Model Context Protocol)</b> - 15+ projects</summary>
-
-- Cursor Linkup MCP, EyeLevel MCP RAG, LlamaIndex MCP, MCP Agentic RAG variants, MCP Video RAG, MCP Voice Agent, SDV MCP, KitOps MCP, MindsDB MCP, Financial Analyst DeepSeek, Graphiti MCP, Pixeltable MCP, Ultimate AI Assistant, and more...
-
-</details>
-
-<details>
-<summary><b>Voice & Audio</b> - 5+ projects</summary>
-
-- Real-time Voice Bot, RAG Voice Agent, Chat with Audios, Audio Analysis Toolkit, Multilingual Meeting Notes, MCP Voice Agent
-
-</details>
-
-<details>
-<summary><b>OCR & Vision</b> - 5+ projects</summary>
-
-- LaTeX OCR with Llama, Llama OCR, Gemma-3 OCR, Qwen 2.5 OCR, Image Generation with Janus-Pro
-
-</details>
-
-<details>
-<summary><b>Multimodal AI</b> - 8+ projects</summary>
-
-- DeepSeek Multimodal RAG, ColiVara Website RAG, Video RAG with Gemini, Chat with Audios, Multimodal RAG with AssemblyAI, Image Generation with Janus-Pro, Audio Analysis Toolkit, Pixeltable MCP
-
-</details>
-
-<details>
-<summary><b>Model Comparison & Evaluation</b> - 8+ projects</summary>
-
-- Llama 4 vs DeepSeek-R1, Qwen3 vs DeepSeek-R1, O3 vs Claude Code, Sonnet4 vs O4, Sonnet4 vs Qwen3-Coder, Code Model Comparison, GPT-OSS vs Qwen3, Evaluation and Observability
-
-</details>
-
-<details>
-<summary><b>Fine-tuning & Model Development</b> - 3 projects</summary>
-
-- DeepSeek Fine-tuning, Build Reasoning Model, Attention Is All You Need Implementation
-
-</details>
-
-<details>
-<summary><b>Chat Interfaces & UI</b> - 7+ projects</summary>
-
-- Local ChatGPT variants (DeepSeek, Llama, Gemma 3), DeepSeek Thinking UI, Qwen3 Thinking UI, GPT-OSS Thinking UI, Streaming AI Chatbot
-
-</details>
-
----
-
-## 📬 Stay Updated with Our Newsletter!
-
-**Get a FREE Data Science eBook** 📖 with 150+ essential lessons in Data Science when you subscribe to our newsletter! Stay in the loop with the latest tutorials, insights, and exclusive resources. [Subscribe now!](https://join.dailydoseofds.com)
-
-[![Daily Dose of Data Science Newsletter](https://github.com/patchy631/ai-engineering/blob/main/resources/join_ddods.png)](https://join.dailydoseofds.com)
 
 ---
 
