@@ -1,4 +1,3 @@
-# validate_nb.py
 import nbformat
 from nbformat import ValidationError
 from pathlib import Path
