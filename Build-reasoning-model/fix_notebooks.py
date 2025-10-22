@@ -1,3 +1,5 @@
+# automatically repair metadata issues across all notebook
+
 import json
 import os
 
@@ -26,9 +28,9 @@ def fix_notebook(nb_path):
     if changed:
         with open(nb_path, "w", encoding="utf-8") as f:
             json.dump(nb, f, indent=2, ensure_ascii=False)
-        print(f"✅ Fixed metadata issues in: {nb_path}")
+        print(f"Fixed metadata issues in: {nb_path}")
     else:
-        print(f"✅ No fixes needed in: {nb_path}")
+        print(f"No fixes needed in: {nb_path}")
 
 if __name__ == "__main__":
     folder = "."
