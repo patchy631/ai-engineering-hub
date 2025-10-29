@@ -1,0 +1,32 @@
+.root {
+  @apply inline-flex text-center items-center leading-7;
+}
+
+.root span {
+  @apply bg-zinc-400 rounded-full h-2 w-2;
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  margin: 0 2px;
+}
+
+.root span:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.root span:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}

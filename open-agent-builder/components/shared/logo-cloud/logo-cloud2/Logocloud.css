@@ -1,0 +1,22 @@
+.logocloud-items {
+  animation: logocloud-items 100s infinite linear;
+  will-change: transform;
+}
+
+@keyframes logocloud-items {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Allow this component to animate even when the user prefers reduced motion.
+   This is a narrowly scoped opt-in to avoid disabling all animations globally. */
+@media (prefers-reduced-motion: reduce) {
+  [data-allow-motion="true"] .logocloud-items {
+    animation-duration: 100s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
