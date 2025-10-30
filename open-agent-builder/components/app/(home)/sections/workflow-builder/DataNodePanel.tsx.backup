@@ -1,0 +1,752 @@
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import type { Node } from "@xyflow/react";
+import { toast } from "sonner";
+
+interface DataNodePanelProps {
+  node: Node | null;
+  onClose: () => void;
+  onDelete: (nodeId: string) => void;
+  onUpdate: (nodeId: string, data: any) => void;
+}
+
+export default function DataNodePanel({
+  node,
+  onClose,
+  onDelete,
+  onUpdate,
+}: DataNodePanelProps) {
+  const nodeData = node?.data as any;
+  const nodeType = nodeData?.nodeType?.toLowerCase() || "";
+
+  // Transform state
+  const [transformScript, setTransformScript] = useState(
+    nodeData?.transformScript ||
+      `// Transform the input data
+return {
+  ...input,
+  processed: true,
+  timestamp: new Date().toISOString()
+};`,
+  );
+
+  // Transform mode (Expressions vs Object vs Advanced)
+  const [transformMode, setTransformMode] = useState<
+    "expressions" | "object" | "advanced"
+  >(nodeData?.transformMode || "expressions");
+  const [expressionPairs, setExpressionPairs] = useState<
+    Array<{ key: string; value: string }>
+  >(nodeData?.expressionPairs || [{ key: "", value: "" }]);
+
+  // JSON Schema Builder state (for Object mode)
+  const [schemaMode, setSchemaMode] = useState<"simple" | "advanced">(
+    nodeData?.schemaMode || "simple",
+  );
+  const [schemaName, setSchemaName] = useState(
+    nodeData?.schemaName || "blog_post_details",
+  );
+  const [schemaFields, setSchemaFields] = useState<
+    Array<{ name: string; type: string; value?: string; description?: string }>
+  >(
+    nodeData?.schemaFields || [
+      {
+        name: "title",
+        type: "STR",
+        value: "",
+        description: "The main heading of the blog post",
+      },
+      {
+        name: "author",
+        type: "STR",
+        value: "",
+        description: "The full name of the post's author",
+      },
+      {
+        name: "date_published",
+        type: "STR",
+        value: "",
+        description: "Date the post was published (YYYY-MM-DD)",
+      },
+      {
+        name: "content",
+        type: "STR",
+        value: "",
+        description: "The full content/body of the blog post",
+      },
+      {
+        name: "tags",
+        type: "ARR",
+        value: "",
+        description: "A list of tag strings associated with the blog post",
+      },
+    ],
+  );
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedSchema, setGeneratedSchema] = useState("");
+
+  // Set State variables
+  const [stateKey, setStateKey] = useState(nodeData?.stateKey || "myVariable");
+  const [stateValue, setStateValue] = useState(nodeData?.stateValue || "value");
+  const [valueType, setValueType] = useState<
+    "string" | "number" | "boolean" | "json" | "expression"
+  >(nodeData?.valueType || "string");
+
+  // Auto-save changes
+  useEffect(() => {
+    if (!node?.id) return;
+
+    const timeoutId = setTimeout(() => {
+      onUpdate(node.id, {
+        transformScript,
+        transformMode,
+        expressionPairs,
+        stateKey,
+        stateValue,
+        valueType,
+        schemaName,
+        schemaFields,
+        schemaMode,
+      });
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [
+    transformScript,
+    transformMode,
+    expressionPairs,
+    stateKey,
+    stateValue,
+    valueType,
+    schemaName,
+    schemaFields,
+    schemaMode,
+  ]);
+
+  // Generate schema using AI
+  const handleGenerateSchema = async () => {
+    setIsGenerating(true);
+    try {
+      // Build schema from fields
+      const properties: any = {};
+      schemaFields.forEach((field) => {
+        if (field.name) {
+          const typeMap: any = {
+            STR: "string",
+            NUM: "number",
+            BOOL: "boolean",
+            ARR: "array",
+            OBJ: "object",
+          };
+
+          const fieldDef: any = {
+            type: typeMap[field.type] || "string",
+          };
+
+          if (field.description) {
+            fieldDef.description = field.description;
+          }
+
+          if (field.value) {
+            fieldDef.default = field.value;
+          }
+
+          // Handle array type
+          if (field.type === "ARR") {
+            fieldDef.items = { type: "string" };
+          }
+
+          properties[field.name] = fieldDef;
+        }
+      });
+
+      const schema = {
+        type: "object",
+        properties,
+        additionalProperties: false,
+        required: schemaFields.filter((f) => f.name).map((f) => f.name),
+      };
+
+      const schemaJson = JSON.stringify(schema, null, 2);
+      setGeneratedSchema(schemaJson);
+
+      // Update transform script to use this schema
+      const newScript = `// Extract data matching the schema
+const result = ${schemaJson};
+
+// TODO: Map input data to schema fields
+return {
+${schemaFields.map((f) => `  ${f.name}: input.${f.name} || ${f.value ? `"${f.value}"` : "null"}`).join(",\n")}
+};`;
+
+      setTransformScript(newScript);
+      toast.success("Schema generated!", {
+        description: "Transform script updated with schema structure",
+      });
+    } catch (error) {
+      toast.error("Failed to generate schema", {
+        description: error instanceof Error ? error.message : "Unknown error",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const renderValueInput = () => {
+    switch (valueType) {
+      case "boolean":
+        return (
+          <select
+            value={stateValue}
+            onChange={(e) => setStateValue(e.target.value)}
+            className="w-full px-12 py-8 bg-accent-white border border-border-faint rounded-8 text-sm text-accent-black focus:outline-none focus:border-heat-100 transition-colors"
+          >
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
+        );
+      case "number":
+        return (
+          <input
+            type="text"
+            value={stateValue}
+            onChange={(e) => setStateValue(e.target.value)}
+            placeholder="42 or {{lastOutput.count}}"
+            className="w-full px-12 py-8 bg-accent-white border border-border-faint rounded-8 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100 transition-colors"
+          />
+        );
+      case "json":
+        return (
+          <textarea
+            value={stateValue}
+            onChange={(e) => setStateValue(e.target.value)}
+            rows={4}
+            placeholder='{"key": "value"} or {{lastOutput}}'
+            className="w-full px-12 py-8 bg-accent-white border border-border-faint rounded-8 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100 transition-colors resize-none"
+          />
+        );
+      case "expression":
+        return (
+          <textarea
+            value={stateValue}
+            onChange={(e) => setStateValue(e.target.value)}
+            rows={3}
+            placeholder="input.price * 1.1"
+            className="w-full px-12 py-8 bg-accent-white border border-border-faint rounded-8 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100 transition-colors resize-none"
+          />
+        );
+      default:
+        return (
+          <input
+            type="text"
+            value={stateValue}
+            onChange={(e) => setStateValue(e.target.value)}
+            placeholder="Hello {{input.name}}"
+            className="w-full px-12 py-8 bg-accent-white border border-border-faint rounded-8 text-sm text-accent-black focus:outline-none focus:border-heat-100 transition-colors"
+          />
+        );
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {node && (
+        <motion.aside
+          initial={{ x: 400, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 400, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed right-20 top-80 h-[calc(100vh-100px)] w-[calc(100vw-240px)] max-w-480 bg-accent-white border border-border-faint shadow-lg overflow-y-auto z-50 rounded-16"
+        >
+          {/* Header */}
+          <div className="p-20 border-b border-border-faint">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-label-large text-accent-black font-medium">
+                {nodeData?.nodeName || "Data"}
+              </h2>
+              <div className="flex items-center gap-8">
+                <button
+                  onClick={() => onDelete(node?.id || "")}
+                  className="w-32 h-32 rounded-6 hover:bg-black-alpha-4 transition-colors flex items-center justify-center group"
+                  title="Delete node"
+                >
+                  <svg
+                    className="w-16 h-16 text-black-alpha-48 group-hover:text-black-alpha-64"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
+                <button
+                  onClick={onClose}
+                  className="w-32 h-32 rounded-6 hover:bg-black-alpha-4 transition-colors flex items-center justify-center"
+                >
+                  <svg
+                    className="w-16 h-16 text-black-alpha-48"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <p className="text-body-small text-black-alpha-48">
+              {nodeType.includes("transform")
+                ? "Transform data using JavaScript"
+                : nodeType.includes("state")
+                  ? "Set workflow state variables"
+                  : "Configure data operation"}
+            </p>
+          </div>
+
+          {/* Form Fields */}
+          <div className="p-20 space-y-24">
+            {/* Transform Node - Multiple Modes */}
+            {nodeType.includes("transform") && (
+              <>
+                {/* Mode Selector */}
+                <div className="flex gap-4 mb-16">
+                  <button
+                    onClick={() => setTransformMode("expressions")}
+                    className={`flex-1 px-12 py-8 rounded-8 text-sm font-medium transition-colors ${
+                      transformMode === "expressions"
+                        ? "bg-accent-black text-white"
+                        : "bg-background-base text-accent-black border border-border-faint hover:bg-black-alpha-4"
+                    }`}
+                  >
+                    Expressions
+                  </button>
+                  <button
+                    onClick={() => setTransformMode("object")}
+                    className={`flex-1 px-12 py-8 rounded-8 text-sm font-medium transition-colors ${
+                      transformMode === "object"
+                        ? "bg-accent-black text-white"
+                        : "bg-background-base text-accent-black border border-border-faint hover:bg-black-alpha-4"
+                    }`}
+                  >
+                    Object
+                  </button>
+                </div>
+
+                <p className="text-sm text-black-alpha-48 mb-16">
+                  {transformMode === "expressions"
+                    ? "Reshape data using key-value expressions"
+                    : "Build a JSON object schema"}
+                </p>
+
+                {transformMode === "expressions" ? (
+                  <>
+                    {/* Expression Mode - Key/Value Pairs */}
+                    <div className="space-y-10">
+                      {expressionPairs.map((pair, index) => (
+                        <div key={index} className="flex items-center gap-8">
+                          <input
+                            type="text"
+                            value={pair.key}
+                            onChange={(e) => {
+                              const updated = [...expressionPairs];
+                              updated[index].key = e.target.value;
+                              setExpressionPairs(updated);
+                            }}
+                            placeholder="Key"
+                            className="flex-1 px-12 py-8 bg-background-base border border-border-faint rounded-8 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100"
+                          />
+                          <input
+                            type="text"
+                            value={pair.value}
+                            onChange={(e) => {
+                              const updated = [...expressionPairs];
+                              updated[index].value = e.target.value;
+                              setExpressionPairs(updated);
+                            }}
+                            placeholder="input.foo + 1"
+                            className="flex-1 px-12 py-8 bg-background-base border border-border-faint rounded-8 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100"
+                          />
+                          <button
+                            onClick={() =>
+                              setExpressionPairs(
+                                expressionPairs.filter((_, i) => i !== index),
+                              )
+                            }
+                            className="w-28 h-28 rounded-6 hover:bg-black-alpha-4 flex items-center justify-center"
+                          >
+                            <svg
+                              className="w-14 h-14 text-black-alpha-48"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        onClick={() =>
+                          setExpressionPairs([
+                            ...expressionPairs,
+                            { key: "", value: "" },
+                          ])
+                        }
+                        className="w-full px-12 py-8 bg-background-base hover:bg-black-alpha-4 border border-border-faint rounded-8 text-sm text-accent-black transition-colors flex items-center justify-center gap-6"
+                      >
+                        <svg
+                          className="w-14 h-14"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 4v16m8-8H4"
+                          />
+                        </svg>
+                        Add
+                      </button>
+                      <p className="text-xs text-black-alpha-48 mt-8">
+                        Use Common Expression Language.{" "}
+                        <a href="#" className="text-heat-100">
+                          Learn more
+                        </a>
+                      </p>
+                    </div>
+                  </>
+                ) : transformMode === "object" ? (
+                  <>
+                    {/* Object Mode - JSON Schema Builder */}
+                    <div>
+                      <div className="flex items-center justify-between mb-12">
+                        <h3 className="text-sm font-medium text-accent-black">
+                          Structured output (JSON)
+                        </h3>
+                        <div className="flex gap-4">
+                          <button
+                            onClick={() => setSchemaMode("simple")}
+                            className={`px-12 py-6 rounded-8 text-xs font-medium transition-colors ${
+                              schemaMode === "simple"
+                                ? "bg-accent-black text-white"
+                                : "bg-background-base text-accent-black border border-border-faint hover:bg-black-alpha-4"
+                            }`}
+                          >
+                            Simple
+                          </button>
+                          <button
+                            onClick={() => setSchemaMode("advanced")}
+                            className={`px-12 py-6 rounded-8 text-xs font-medium transition-colors ${
+                              schemaMode === "advanced"
+                                ? "bg-accent-black text-white"
+                                : "bg-background-base text-accent-black border border-border-faint hover:bg-black-alpha-4"
+                            }`}
+                          >
+                            Advanced
+                          </button>
+                        </div>
+                      </div>
+                      <p className="text-sm text-black-alpha-48 mb-16">
+                        The model will generate a JSON object that matches this
+                        schema.
+                      </p>
+
+                      {schemaMode === "simple" ? (
+                        <>
+                          {/* Schema Name */}
+                          <div className="mb-16">
+                            <label className="block text-sm font-medium text-accent-black mb-8">
+                              Name
+                            </label>
+                            <input
+                              type="text"
+                              value={schemaName}
+                              onChange={(e) => setSchemaName(e.target.value)}
+                              className="w-full px-14 py-10 bg-background-base border border-border-faint rounded-10 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100"
+                            />
+                          </div>
+
+                          {/* Properties */}
+                          <div className="mb-16">
+                            <div className="grid grid-cols-[100px_80px_1fr_80px_40px] gap-8 mb-10 text-xs text-black-alpha-48 font-medium">
+                              <div>Name</div>
+                              <div>Type</div>
+                              <div>Value</div>
+                              <div></div>
+                              <div></div>
+                            </div>
+                            <div className="space-y-8">
+                              {schemaFields.map((field, index) => (
+                                <div
+                                  key={index}
+                                  className="grid grid-cols-[100px_80px_1fr_80px_40px] gap-8 items-center"
+                                >
+                                  <svg
+                                    className="w-16 h-16 text-teal-500"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                    />
+                                  </svg>
+                                  <input
+                                    type="text"
+                                    value={field.name}
+                                    onChange={(e) => {
+                                      const updated = [...schemaFields];
+                                      updated[index].name = e.target.value;
+                                      setSchemaFields(updated);
+                                    }}
+                                    className="px-10 py-6 bg-background-base border border-border-faint rounded-6 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100"
+                                  />
+                                  <select
+                                    value={field.type}
+                                    onChange={(e) => {
+                                      const updated = [...schemaFields];
+                                      updated[index].type = e.target.value;
+                                      setSchemaFields(updated);
+                                    }}
+                                    className="px-8 py-6 bg-accent-white border border-border-faint rounded-6 text-xs text-accent-black focus:outline-none focus:border-heat-100"
+                                  >
+                                    <option value="STR">STR</option>
+                                    <option value="NUM">NUM</option>
+                                    <option value="BOOL">BOOL</option>
+                                    <option value="ARR">ARR</option>
+                                    <option value="OBJ">OBJ</option>
+                                  </select>
+                                  <input
+                                    type="text"
+                                    value={field.value || ""}
+                                    onChange={(e) => {
+                                      const updated = [...schemaFields];
+                                      updated[index].value = e.target.value;
+                                      setSchemaFields(updated);
+                                    }}
+                                    placeholder="Enter value..."
+                                    className="px-10 py-6 bg-background-base border border-border-faint rounded-6 text-sm text-accent-black focus:outline-none focus:border-heat-100"
+                                  />
+                                  <button className="px-10 py-6 bg-background-base hover:bg-black-alpha-4 border border-border-faint rounded-6 text-xs text-accent-black">
+                                    Enter
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setSchemaFields(
+                                        schemaFields.filter(
+                                          (_, i) => i !== index,
+                                        ),
+                                      );
+                                    }}
+                                    className="w-32 h-32 rounded-6 hover:bg-black-alpha-4 flex items-center justify-center"
+                                  >
+                                    <svg
+                                      className="w-16 h-16 text-black-alpha-48"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Add Field Button */}
+                            <button
+                              onClick={() => {
+                                setSchemaFields([
+                                  ...schemaFields,
+                                  { name: "", type: "STR", value: "" },
+                                ]);
+                              }}
+                              className="mt-12 px-16 py-8 bg-background-base hover:bg-black-alpha-4 border border-border-faint rounded-8 text-sm text-accent-black transition-colors flex items-center gap-6"
+                            >
+                              <svg
+                                className="w-14 h-14"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 4v16m8-8H4"
+                                />
+                              </svg>
+                              Add
+                            </button>
+                          </div>
+
+                          {/* Generate Button */}
+                          <button
+                            onClick={handleGenerateSchema}
+                            disabled={isGenerating}
+                            className="w-full px-20 py-12 bg-heat-100 hover:bg-heat-200 text-white rounded-10 text-sm font-medium transition-all active:scale-[0.98] flex items-center justify-center gap-8 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {isGenerating ? (
+                              <>
+                                <svg
+                                  className="w-16 h-16 animate-spin"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                                  />
+                                </svg>
+                                Generating...
+                              </>
+                            ) : (
+                              <>
+                                <svg
+                                  className="w-16 h-16"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                                  />
+                                </svg>
+                                Generate
+                              </>
+                            )}
+                          </button>
+                        </>
+                      ) : null}
+                    </div>
+                  </>
+                ) : null}
+              </>
+            )}
+
+            {/* Set State Node - Separate from Transform */}
+            {nodeType.includes("state") && !nodeType.includes("transform") && (
+              <>
+                <div>
+                  <h3 className="text-sm font-medium text-accent-black mb-12">
+                    Set global variables
+                  </h3>
+                  <p className="text-sm text-black-alpha-48 mb-16">
+                    Assign values to workflow's state variables
+                  </p>
+
+                  {/* State Assignments */}
+                  <div className="space-y-12">
+                    <div className="p-12 bg-background-base rounded-10 border border-border-faint">
+                      <div className="space-y-12">
+                        {/* Variable Name */}
+                        <div>
+                          <label className="block text-sm text-accent-black mb-6">
+                            Variable Name
+                          </label>
+                          <input
+                            type="text"
+                            value={stateKey}
+                            onChange={(e) => setStateKey(e.target.value)}
+                            placeholder="myVariable"
+                            className="w-full px-12 py-8 bg-accent-white border border-border-faint rounded-8 text-sm text-accent-black font-mono focus:outline-none focus:border-heat-100"
+                          />
+                          <p className="text-xs text-black-alpha-48 mt-4">
+                            Access later with <code className="px-4 py-1 bg-background-base rounded text-heat-100 font-mono text-xs">{`{{state.${stateKey}}}`}</code>
+                          </p>
+                        </div>
+
+                        {/* Value Type */}
+                        <div>
+                          <label className="block text-sm text-accent-black mb-6">
+                            Value Type
+                          </label>
+                          <select
+                            value={valueType}
+                            onChange={(e) => setValueType(e.target.value as any)}
+                            className="w-full px-12 py-8 bg-accent-white border border-border-faint rounded-8 text-sm text-accent-black focus:outline-none focus:border-heat-100 transition-colors appearance-none cursor-pointer"
+                          >
+                            <option value="string">String</option>
+                            <option value="number">Number</option>
+                            <option value="boolean">Boolean</option>
+                            <option value="json">JSON Object</option>
+                            <option value="expression">JavaScript Expression</option>
+                          </select>
+                        </div>
+
+                        {/* Value Input */}
+                        <div>
+                          <label className="block text-sm text-accent-black mb-6">
+                            Value
+                          </label>
+                          {renderValueInput()}
+                          <p className="text-xs text-black-alpha-48 mt-4">
+                            {valueType === 'string' && 'Use {{variables}} to reference other data'}
+                            {valueType === 'number' && 'Can use {{lastOutput.price}} to reference numbers'}
+                            {valueType === 'boolean' && 'true or false'}
+                            {valueType === 'json' && 'Valid JSON object or array'}
+                            {valueType === 'expression' && 'JavaScript expression like: input.x + lastOutput.y'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Add Assignment Button */}
+                    <button className="px-12 py-8 bg-background-base hover:bg-black-alpha-4 border border-border-faint rounded-8 text-sm text-accent-black transition-colors flex items-center gap-6">
+                      <svg
+                        className="w-14 h-14"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 4v16m8-8H4"
+                        />
+                      </svg>
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </motion.aside>
+      )}
+    </AnimatePresence>
+  );
+}

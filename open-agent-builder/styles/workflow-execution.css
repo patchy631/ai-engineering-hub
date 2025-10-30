@@ -1,0 +1,97 @@
+/* Workflow Execution Animations - Fire Design System */
+
+@keyframes pulse-heat {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(250, 93, 25, 0.4), 0 0 20px 0 rgba(250, 93, 25, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(250, 93, 25, 0), 0 0 30px 0 rgba(250, 93, 25, 0);
+  }
+}
+
+@keyframes glow-heat {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(250, 93, 25, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(250, 93, 25, 0.8));
+  }
+}
+
+.executing-node {
+  animation: pulse-heat 2s ease-in-out infinite;
+  border-color: #FA5D19 !important;
+  transition: border-color 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.completed-node {
+  animation: none !important; /* Stop any running animations immediately */
+  transition: border-color 0.4s ease-out, opacity 0.4s ease-out;
+  border-color: #9ca3af !important;
+  opacity: 1;
+}
+
+.failed-node {
+  animation: shake 0.4s ease-out !important; /* Only shake, no pulse */
+  border-color: #ef4444 !important;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* React Flow custom styles for execution */
+.react-flow__node.executing-node {
+  z-index: 2 !important;
+}
+
+/* Keep selected nodes within the normal stacking context so they don't float above others */
+.react-flow__node.selected {
+  z-index: 1 !important;
+}
+
+.react-flow__edge.active-edge {
+  stroke: #FA5D19 !important;
+  stroke-width: 2.5px !important;
+  animation: dash 1.5s linear infinite, glow-edge 2s ease-in-out infinite;
+  z-index: 100;
+}
+
+.react-flow__edge.active-edge .react-flow__edge-text,
+.react-flow__edge.selected-edge .react-flow__edge-text {
+  fill: #18181b !important;
+  font-weight: 600 !important;
+}
+
+.react-flow__edge.active-edge .react-flow__edge-textbg,
+.react-flow__edge.selected-edge .react-flow__edge-textbg {
+  fill: white !important;
+  opacity: 1 !important;
+}
+
+.react-flow__edge.selected-edge {
+  stroke: #FA5D19 !important;
+  stroke-width: 2px !important;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes glow-edge {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(250, 93, 25, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(250, 93, 25, 0.8));
+  }
+}
+
+/* No viewport transitions - keep canvas still */
+.react-flow__viewport {
+  transition: none;
+}

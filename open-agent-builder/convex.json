@@ -1,0 +1,9 @@
+{
+  "node": {
+    "externalPackages": [
+      "@langchain/langgraph",
+      "@langchain/core",
+      "@anthropic-ai/sdk"
+    ]
+  }
+}

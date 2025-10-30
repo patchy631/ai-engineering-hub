@@ -1,0 +1,52 @@
+{
+  "output": {
+    "filePath": "repomix-output.txt",
+    "style": "plain"
+  },
+  "ignore": {
+    "customPatterns": [
+      "**/.env*",
+      ".env*",
+      "**/*.md",
+      "**/*.css",
+      "**/*.scss",
+      "test-*.js",
+      "**/test-results/**",
+      "**/playwright-report/**",
+      "**/.playwright-mcp/**",
+      "repomix-output.*",
+      "**/*.tsbuildinfo",
+      "convex/_generated/**",
+      ".eslintrc.json",
+      ".gitignore",
+      ".npmrc",
+      "colors.json",
+      "convex.json",
+      "next.config.js",
+      "postcss.config.js",
+      "tsconfig.json",
+      "repomix.config.json",
+      "next-env.d.ts",
+      "scripts/**",
+      "tests/**",
+      "playwright.config.ts",
+      "atoms/**",
+      "**/*-data.json",
+      "**/data.json",
+      "**/core-flame.json",
+      "**/explosion-data.json",
+      "**/hero-flame-data.json",
+      "**/disposableDomains.ts",
+      "components/**",
+      "styles/**",
+      "public/**",
+      "tailwind.config.ts",
+      "postcss.config.mjs",
+      "lib/workflow/templates.ts",
+      ".cursor/**",
+      "app/workflows/**",
+      "app/page.tsx",
+      "app/layout.tsx"
+    ]
+  }
+}

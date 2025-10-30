@@ -1,0 +1,4 @@
+.section-head-shadow {
+  -webkit-text-stroke-color: var(--background-base);
+  -webkit-text-stroke-width: 24px;
+}
