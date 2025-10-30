@@ -10,7 +10,7 @@ export default {
     {
       // This reads from Convex environment variable (not process.env)
       // Set via: npx convex env set CLERK_JWT_ISSUER_DOMAIN "https://..."
-      domain: "https://dear-manatee-38.clerk.accounts.dev",
+      domain: "https://your-clerk-domain.clerk.accounts.dev",
       applicationID: "convex",
     },
   ],
