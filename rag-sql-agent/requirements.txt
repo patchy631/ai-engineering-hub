@@ -1,0 +1,7 @@
+streamlit
+llama-index
+sqlalchemy
+pyvis
+python-dotenv
+arize-phoenix
+llama-index-callbacks-arize-phoenix
