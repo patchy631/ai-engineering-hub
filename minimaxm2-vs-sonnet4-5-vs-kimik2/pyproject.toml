@@ -1,7 +1,7 @@
 [project]
-name = "code-model-comparison"
+name = "minimaxm2-vs-sonnet4-5-vs-kimik2"
 version = "0.1.0"
-description = "Code Generation model comparison using OpenRouter and Opik"
+description = "Claude Sonnet 4.5 vs Minimax M2 vs Kimi K2 code generation comparison using OpenRouter and Opik"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
