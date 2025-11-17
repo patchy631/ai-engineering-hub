@@ -53,6 +53,8 @@ streamlit run app.py
 
 ## Workflow
 
+![](assets/workflow.gif)
+
 Here's how the application works step by step:
 
 ### 0️⃣ Load API Keys
