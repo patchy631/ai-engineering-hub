@@ -1,12 +1,12 @@
-# Claude Sonnet 4.5 vs Minimax M2 vs Kimi K2 on code generation using Opik
+# Claude Sonnet 4.5 vs Minimax M2 vs Kimi K2 vs Gemini 3.0 on code generation using Opik
 
-This application compares the code generation capabilities of different frontier models (MiniMax-M2, Kimi-K2, Claude Sonnet 4.5, and more) that you can select from the dropdown menu, using Opik metrics. The app allows users to ingest code from a GitHub repository as context and generate new code based on that context. Both models run in parallel side by side, giving a fair comparison of their capabilities. Finally, it evaluates both models on custom code metrics and provides a detailed performance comparison with neat and clean visuals.
+This application compares the code generation capabilities of different frontier models (MiniMax-M2, Kimi-K2, Claude Sonnet 4.5, and Gemini 3.0) that you can select from the dropdown menu, using Opik metrics. The app allows users to ingest code from a GitHub repository as context and generate new code based on that context. Both models run in parallel side by side, giving a fair comparison of their capabilities. Finally, it evaluates both models on custom code metrics and provides a detailed performance comparison with neat and clean visuals.
 
 ## Tech Stack
 
 - **[LiteLLM](https://github.com/BerriAI/litellm)** - For orchestration and model management
 - **[Opik by Comet](https://www.comet.com/)** - To build the evaluation pipeline using G-Eval
-- **[OpenRouter](https://openrouter.ai/)** - To access cutting-edge models like MiniMax-M2, Kimi-K2, and Claude Sonnet 4.5
+- **[OpenRouter](https://openrouter.ai/)** - To access cutting-edge models like MiniMax-M2, Gemini 3.0, Kimi-K2, and Claude Sonnet 4.5
 - **[Gitingest](https://gitingest.com/)** - For ingesting code from GitHub repositories
 - **[Streamlit](https://streamlit.io/)** - For the intuitive UI
 
@@ -17,6 +17,7 @@ This application supports comparison of various frontier models accessible via O
 - **MiniMax-M2**: Features 200k context window (128k max output tokens) with ~100 TPS throughput. Offers the best intelligence-to-cost ratio, enabling practical large-scale use cases. Currently free for developers worldwide for a limited time.
 - **Kimi-K2**: High-performance model for code generation from Moonshot AI
 - **Claude Sonnet 4.5**: Advanced model from Anthropic
+- **Gemini 3.0**: Newest and advanced model from Google expert in code, reasoning, etc.
 
 You'll also learn about **G-Eval** and building custom evaluation metrics through this project.
 
@@ -40,7 +41,7 @@ OPENROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
 **Note**: 
-- OpenRouter API key is needed to access models like MiniMax-M2, Kimi-K2, and Claude Sonnet 4.5
+- OpenRouter API key is needed to access models like MiniMax-M2, Gemini 3.0, Kimi-K2, and Claude Sonnet 4.5
 - OpenAI API key is required as the judge LLM in G-Eval for evaluation metrics
 
 Look for the `.opik.config` file in the root directory and set your respective credentials for Opik.
@@ -53,11 +54,13 @@ streamlit run app.py
 
 ## Workflow
 
+![Application workflow diagram of step-by-step code generation and evaluation pr](assets/workflow.gif)
+
 Here's how the application works step by step:
 
 ### 0️⃣ Load API Keys
 
-Access models like MiniMax-M2, Kimi-K2, and Claude Sonnet 4.5 via OpenRouter. MiniMax-M2 offers ~100 TPS throughput and is scalable for enterprise use. Store your OpenRouter and OpenAI keys in the `.env` file.
+Access models like MiniMax-M2, Gemini 3.0, Kimi-K2, and Claude Sonnet 4.5 via OpenRouter. MiniMax-M2 offers ~100 TPS throughput and is scalable for enterprise use. Store your OpenRouter and OpenAI keys in the `.env` file.
 
 ![](assets/api_keys.png)
 

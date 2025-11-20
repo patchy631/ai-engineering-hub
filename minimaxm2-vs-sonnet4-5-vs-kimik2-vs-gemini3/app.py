@@ -60,7 +60,7 @@ if "evaluation_results" not in st.session_state:
     st.session_state.evaluation_results = {"model1": None, "model2": None}
 
 # Main interface
-st.title("</> MiniMax-M2 vs Kimi-K2 vs Claude Sonnet 4.5")
+st.title("</> MiniMax-M2 vs Kimi-K2 vs Gemini 3.0 vs Claude Sonnet 4.5")
 powered_by_html = """
     <div style='display: flex; align-items: center; gap: 10px; margin-top: -10px;'>
         <span style='font-size: 20px; color: #666;'>Powered by</span>
