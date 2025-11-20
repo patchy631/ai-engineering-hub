@@ -9,6 +9,7 @@ AVAILABLE_MODELS = {
     "Claude Sonnet 4.5": "openrouter/anthropic/claude-sonnet-4.5",
     "Minimax M2": "openrouter/minimax/minimax-m2",
     "Kimi K2": "openrouter/moonshotai/kimi-k2-0905",
+    "Gemini 3.0 Pro": "openrouter/google/gemini-3-pro-preview",
 }
 
 
