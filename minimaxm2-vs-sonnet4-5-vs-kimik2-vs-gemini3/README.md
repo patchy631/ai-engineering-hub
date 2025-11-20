@@ -54,7 +54,7 @@ streamlit run app.py
 
 ## Workflow
 
-![](assets/workflow.gif)
+![Application workflow diagram of step-by-step code generation and evaluation pr](assets/workflow.gif)
 
 Here's how the application works step by step:
 
