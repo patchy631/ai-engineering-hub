@@ -11,8 +11,8 @@ class LLMService:
         """Initialize LLM service with OpenRouter."""
         if not settings.openrouter_api_key:
             raise ValueError("OPENROUTER_API_KEY not configured")
-        from openai import OpenAI
-        self.client = OpenAI(
+        from openai import AsyncOpenAI
+        self.client = AsyncOpenAI(
             base_url="https://openrouter.ai/api/v1",
             api_key=settings.openrouter_api_key
         )
@@ -29,7 +29,7 @@ class LLMService:
 
         try:
             # Stream response
-            stream = self.client.chat.completions.create(
+            stream = await self.client.chat.completions.create(
                 model="minimax/minimax-m2",
                 messages=cast(Any, openai_messages),
                 stream=True,
@@ -37,13 +37,13 @@ class LLMService:
                 max_tokens=2048,
             )
 
-            for chunk in stream:
+            async for chunk in stream:
                 if chunk.choices and chunk.choices[0].delta.content:
                     yield chunk.choices[0].delta.content
         except Exception as e:
             # If streaming fails, try non-streaming
             print(f"\nStreaming failed, using non-streaming mode: {e}")
-            response = self.client.chat.completions.create(
+            response = await self.client.chat.completions.create(
                 model="minimax/minimax-m2",
                 messages=cast(Any, openai_messages),
                 stream=False,
