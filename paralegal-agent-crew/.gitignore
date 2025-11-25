@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+.wheels/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Caches
+.cache/
+.pytest_cache/
+
+# Data and model caches
+cache/
+cache/**
+
+# Local databases and artifacts
+data/*.db
+data/*.db.lock
+*.db
+*.sqlite
+*.sqlite3
+
+# Streamlit
+.streamlit/
+
+# Env files / secrets
+.env
+*.env
+
+# uv / pip tools
+uv.lock
+pip-wheel-metadata/
+
+# Firecrawl temp
+.firecrawl/

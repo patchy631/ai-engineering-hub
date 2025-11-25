@@ -1,0 +1,23 @@
+[project]
+name = "paralegal-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "firecrawl-py>=0.0.16",
+    "crewai>=0.74.0",
+    "crewai-tools>=0.10.0",
+    "loguru>=0.7.0",
+    "nest-asyncio>=1.6.0",
+    "numpy>=1.24.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.10.1",
+    "pymilvus>=2.4.0",
+    "python-dotenv>=1.0.0",
+    "streamlit>=1.48.0",
+    "sentence-transformers>=3.0.0",
+    "pypdf>=4.2.0",
+    "openai>=1.43.0",
+    "ansi2html>=1.9.1",
+]

@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "browserbase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@browserbasehq/mcp-server-browserbase",
+        "--modelName", 
+        "ollama/llama3.2:8b"
+      ],
+      "env": {
+        "BROWSERBASE_API_KEY": "your-browserbase-api-key",
+        "BROWSERBASE_PROJECT_ID": "your-browserbase-project-id",
+        "OLLAMA_HOST": "http://127.0.0.1:11434"
+      }
+    }
+  }
+}

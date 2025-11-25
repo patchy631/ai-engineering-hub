@@ -1,0 +1,7 @@
+# Copy this file to .env and add your actual API keys
+
+# Required API Keys
+ASSEMBLYAI_API_KEY=your_assemblyai_api_key_here
+
+#Example LLM
+OPENAI_API_KEY=your_openai_api_key_here 

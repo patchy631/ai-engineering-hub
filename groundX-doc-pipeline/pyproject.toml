@@ -1,0 +1,43 @@
+[project]
+name = "groundx-doc-pipeline"
+version = "0.1.0"
+description = "World-class Document Processing Pipeline with Ground X"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.8.1"
+dependencies = [
+    "streamlit>=1.28.0",
+    "groundx>=0.1.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+    "openai>=1.99.9",
+    "opik>=1.8.20",
+    "PyMuPDF>=1.23.0",
+    "beam-client>=0.1.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["*"]
+exclude = ["file*", "assets*", "tests*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

@@ -1,0 +1,14 @@
+[project]
+name = "context-engineering-pipeline"
+version = "0.1.0"
+description = "Context Engineering Pipeline using Pixeltable and Pixelagent"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "lancedb>=0.25.3",
+    "openai>=2.8.1",
+    "pixelagent>=0.1.5",
+    "pixeltable>=0.4.24",
+    "sentence-transformers>=5.1.2",
+    "tiktoken>=0.12.0",
+]
