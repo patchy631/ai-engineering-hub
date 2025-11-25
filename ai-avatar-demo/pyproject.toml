@@ -1,0 +1,16 @@
+[project]
+name = "zep-ai-avatar-demo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.121.3",
+    "httpx==0.27.2",
+    "pydantic==2.9.2",
+    "pydantic-settings==2.6.0",
+    "python-dotenv==1.0.1",
+    "streamlit>=1.51.0",
+    "uvicorn>=0.38.0",
+    "zep-cloud==3.0.0",
+]
