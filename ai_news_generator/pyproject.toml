@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "ai-news-generator"
+version = "0.1.0"
+description = "AI News Generator with CrewAI Flow Integration"
+authors = ["AI Engineering Hub"]
+readme = "README.md"
+packages = [{include = "ai_news_flow", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+crewai = "^0.80.0"
+crewai-tools = "^0.17.0"
+streamlit = "^1.32.0"
+pydantic = "^2.6.0"
+python-dotenv = "^1.0.0"
+asyncio = "^3.4.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.0"
+black = "^24.0.0"
+isort = "^5.13.0"
+flake8 = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+ai-news-flow = "ai_news_flow.main:kickoff"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
