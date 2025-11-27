@@ -1,0 +1,12 @@
+llama-index
+llama-index-core
+llama-index-callbacks-arize-phoenix
+llama-index-llms-openai
+llama-index-readers-file
+openai
+sqlalchemy
+sentence-transformers
+torch
+transformers
+ollama
+streamlit
