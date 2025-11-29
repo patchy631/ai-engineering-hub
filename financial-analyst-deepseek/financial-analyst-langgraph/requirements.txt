@@ -1,0 +1,10 @@
+langgraph
+langchain
+langchain-core
+langchain-openai
+pydantic
+ipython
+python-dotenv
+yfinance
+matplotlib
+mcp
