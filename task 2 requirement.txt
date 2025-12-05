@@ -1,0 +1,22 @@
+# Core dependencies
+pydantic==<version>        # For structured data validation and models
+pandas==<version>          # For data manipulation and analysis
+numpy==<version>           # For numerical operations
+
+# Synthetic data and processing
+synthea==<version>         # Library for generating synthetic patient data (if applicable)
+
+# Large Language Models (LLMs) and AI tools
+openai==<version>          # For integrating with OpenAI's API
+llama-index==<version>     # Indexing tool for efficient data workflows
+llama-cloud==<version>     # Cloud-based tool for guideline retrieval and indexing
+
+# Data retrieval and requests
+requests==<version>        # For handling HTTP requests
+
+# Additional libraries for API and workflow orchestration
+fastapi==<version>         # To build API endpoints (if part of the workflow)
+uvicorn==<version>         # To run FastAPI applications
+scikit-learn==<version>    # For potential preprocessing or additional ML tasks
+
+# Add your specific dependencies as needed
