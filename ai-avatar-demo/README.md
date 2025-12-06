@@ -10,6 +10,10 @@ We use:
 - FastAPI for streaming backend
 - Streamlit to wrap the logic in an interactive UI
 
+## Architecture
+
+![Architecture Diagram](assets/architecture.gif)
+
 ## Set Up
 
 Run these commands in project root
