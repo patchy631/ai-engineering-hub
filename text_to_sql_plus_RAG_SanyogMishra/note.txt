@@ -1,0 +1,16 @@
+Submission for Task 1: RAG and Text-to-SQL
+
+By Sanyog Mishra (sanyog16355@gmail.com)
+
+Typefully Draft: https://typefully.com/t/54ko1YU
+
+Reference Notebook: https://github.com/run-llama/llamacloud-demo/blob/main/examples/advanced_rag/llamacloud_sql_router.ipynb
+
+- I have studied the reference code and worked on designing a Streamlit-based system for the same.
+- The code I have prepared is largely from the notebook itself, however I have made a few modifications of my own.
+- There's a support for uploading CSV files which are appropriately parsed into SQL tables and vector index.
+- Apart from LLM-based tool selection, I included an additional "SQL first, then RAG" pipeline.
+- The reference code used OpenAI and other services requiring API keys, but in my code I have used Ollama and VectorStoreIndex from LlamaIndex.
+- To test the application on my system, I used `Qwen2.5-Coder 7B` (LLM) and `all-minilm` (Embeddings), via Ollama.
+
+NOTE: I have prepared a demo video too, which is part of my submission in this repo. However, I was not able to use it in thread prepared on Typefully, since it required me to purchase a premium plan.
