@@ -46,6 +46,7 @@ API → Scrape → Generate → Schedule
 2. **Install project dependencies:**
    ```bash
    npm install or pnpm install
+   npx motia install
    ```
 
 3. **Configure environment:**
