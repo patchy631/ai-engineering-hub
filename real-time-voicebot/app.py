@@ -9,9 +9,19 @@ load_dotenv()
 
 class AI_Assistant:
     def __init__(self):
-        aai.settings.api_key = os.getenv("ASSEMBLYAI_API_KEY")
-        self.openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        self.elevenlabs_client = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
+        assemblyai_key = os.getenv("ASSEMBLYAI_API_KEY")
+        openai_key = os.getenv("OPENAI_API_KEY")
+        elevenlabs_key = os.getenv("ELEVENLABS_API_KEY")
+
+        if not all([assemblyai_key, openai_key, elevenlabs_key]):
+            raise ValueError(
+                "Missing required API keys. Please set ASSEMBLYAI_API_KEY, "
+                "OPENAI_API_KEY, and ELEVENLABS_API_KEY in your .env file."
+            )
+
+        aai.settings.api_key = assemblyai_key
+        self.openai_client = OpenAI(api_key=openai_key)
+        self.elevenlabs_client = ElevenLabs(api_key=elevenlabs_key)
         self.transcriber = None
         self.interaction = [
             {"role": "system", "content": "You are a helpful travel guide in London, UK, helping a tourist plan their trip. Be conversational and concise in your responses."},
@@ -64,7 +74,7 @@ class AI_Assistant:
         ai_response = response.choices[0].message.content
         self.generate_audio(ai_response)
         self.start_transcription()
-        print(f"\nReal-time transcription: ", end="\r\n")
+        print("\nReal-time transcription: ", end="\r\n")
 
     def generate_audio(self, text):
         self.interaction.append({"role": "assistant", "content": text})
