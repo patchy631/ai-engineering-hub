@@ -1,165 +1,329 @@
 import os
+import sys
 import streamlit as st
-from crewai import Agent, Task, Crew, LLM
-from crewai_tools import SerperDevTool
+from datetime import datetime
 from dotenv import load_dotenv
+
+# Add the src directory to the Python path
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+try:
+    from ai_news_flow.main import NewsGeneratorFlow
+except ImportError as e:
+    st.error(f"Failed to import NewsGeneratorFlow: {e}")
+    st.stop()
 
 # Load environment variables
 load_dotenv()
 
 # Streamlit page config
-st.set_page_config(page_title="AI News Generator", page_icon="📰", layout="wide")
+st.set_page_config(
+    page_title="AI News Generator with CrewAI Flow", 
+    page_icon="📰", 
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # Title and description
-st.title("🤖 AI News Generator, powered by CrewAI and Cohere's Command R7B")
-st.markdown("Generate comprehensive blog posts about any topic using AI agents.")
+st.title("🤖 AI News Generator")
+st.markdown("**Powered by CrewAI Flows, Cohere's Command R7B, and Multi-Agent Workflow**")
+st.markdown("Generate comprehensive, well-researched blog posts using our advanced multi-phase AI workflow.")
 
 # Sidebar
 with st.sidebar:
-    st.header("Content Settings")
+    st.header("🎛️ Content Settings")
     
-    # Make the text input take up more space
+    # Topic input
     topic = st.text_area(
-        "Enter your topic",
-        height=100,
-        placeholder="Enter the topic you want to generate content about..."
+        "📝 Enter your topic",
+        height=120,
+        placeholder="e.g., 'Latest developments in artificial intelligence', 'Climate change impacts in 2025', 'Cryptocurrency market trends'...",
+        help="Be specific about what you want to research and write about"
     )
     
-    # Add more sidebar controls if needed
-    st.markdown("### Advanced Settings")
-    temperature = st.slider("Temperature", 0.0, 1.0, 0.7)
+    # Advanced Settings
+    st.markdown("### ⚙️ Advanced Settings")
     
-    # Add some spacing
+    col1, col2 = st.columns(2)
+    with col1:
+        temperature = st.slider(
+            "🌡️ Temperature", 
+            0.0, 1.0, 0.7,
+            help="Higher values make output more creative, lower values more focused"
+        )
+    with col2:
+        max_sources = st.slider(
+            "📚 Max Sources", 
+            5, 20, 10,
+            help="Maximum number of sources to research"
+        )
+    
+    # Generation button
     st.markdown("---")
+    generate_button = st.button(
+        "🚀 Generate Article", 
+        type="primary", 
+        use_container_width=True,
+        disabled=not topic.strip()
+    )
     
-    # Make the generate button more prominent in the sidebar
-    generate_button = st.button("Generate Content", type="primary", use_container_width=True)
-    
-    # Add some helpful information
-    with st.expander("ℹ️ How to use"):
+    # Workflow information
+    with st.expander("🔄 CrewAI Workflow Phases"):
         st.markdown("""
-        1. Enter your desired topic in the text area above
-        2. Adjust the temperature if needed (higher = more creative)
-        3. Click 'Generate Content' to start
-        4. Wait for the AI to generate your article
-        5. Download the result as a markdown file
+        **Phase 1: Research** 🔍
+        - Senior Research Analyst finds sources
+        - Fact Checker verifies information
+        - Data Synthesizer organizes findings
+        
+        **Phase 2: Content Creation** ✍️
+        - Content Strategist plans structure
+        - Content Writer creates engaging copy
+        - SEO Specialist optimizes for search
+        
+        **Phase 3: Editing** 📝
+        - Copy Editor improves clarity
+        - Technical Editor verifies accuracy
+        - Publishing Editor finalizes format
+        
+        **Phase 4: Finalization** 🎯
+        - Creates structured article
+        - Calculates metrics
+        - Prepares for delivery
         """)
+    
+    # Usage guide
+    with st.expander("💡 Usage Tips"):
+        st.markdown("""
+        **Best Topics:**
+        - Current events and trends
+        - Technology developments
+        - Industry analysis
+        - Scientific discoveries
+        - Market insights
+        
+        **Tips for Better Results:**
+        - Be specific in your topic
+        - Use recent/trending keywords
+        - Include context or timeframes
+        - Consider your target audience
+        """)
+    
+    # API Keys status
+    st.markdown("---")
+    st.markdown("### 🔑 API Status")
+    
+    serper_key = os.getenv("SERPER_API_KEY")
+    cohere_key = os.getenv("COHERE_API_KEY") or os.getenv("CO_API_KEY")
+    
+    if serper_key:
+        st.success("✅ Serper API connected")
+    else:
+        st.error("❌ Serper API key missing")
+        
+    if cohere_key:
+        st.success("✅ Cohere API connected") 
+    else:
+        st.error("❌ Cohere API key missing")
 
-def generate_content(topic):
-    llm = LLM(
-        model="command-r",
-        temperature=0.7
-    )
+# Initialize session state for workflow tracking
+if 'workflow_state' not in st.session_state:
+    st.session_state.workflow_state = None
+if 'generation_complete' not in st.session_state:
+    st.session_state.generation_complete = False
 
-    search_tool = SerperDevTool(n_results=10)
+def generate_content_with_flow(topic: str, temperature: float = 0.7, max_sources: int = 10):
+    """Generate content using the CrewAI flow workflow."""
+    try:
+        # Create and run the flow
+        flow = NewsGeneratorFlow(
+            topic=topic, 
+            temperature=temperature, 
+            max_sources=max_sources
+        )
+        
+        # Store flow in session state for tracking
+        st.session_state.workflow_state = flow
+        
+        # Run the flow
+        result = flow.kickoff()
+        
+        return flow
+    
+    except Exception as e:
+        st.error(f"Error during content generation: {str(e)}")
+        return None
 
-    # First Agent: Senior Research Analyst
-    senior_research_analyst = Agent(
-        role="Senior Research Analyst",
-        goal=f"Research, analyze, and synthesize comprehensive information on {topic} from reliable web sources",
-        backstory="You're an expert research analyst with advanced web research skills. "
-                "You excel at finding, analyzing, and synthesizing information from "
-                "across the internet using search tools. You're skilled at "
-                "distinguishing reliable sources from unreliable ones, "
-                "fact-checking, cross-referencing information, and "
-                "identifying key patterns and insights. You provide "
-                "well-organized research briefs with proper citations "
-                "and source verification. Your analysis includes both "
-                "raw data and interpreted insights, making complex "
-                "information accessible and actionable.",
-        allow_delegation=False,
-        verbose=True,
-        tools=[search_tool],
-        llm=llm
-    )
-
-    # Second Agent: Content Writer
-    content_writer = Agent(
-        role="Content Writer",
-        goal="Transform research findings into engaging blog posts while maintaining accuracy",
-        backstory="You're a skilled content writer specialized in creating "
-                "engaging, accessible content from technical research. "
-                "You work closely with the Senior Research Analyst and excel at maintaining the perfect "
-                "balance between informative and entertaining writing, "
-                "while ensuring all facts and citations from the research "
-                "are properly incorporated. You have a talent for making "
-                "complex topics approachable without oversimplifying them.",
-        allow_delegation=False,
-        verbose=True,
-        llm=llm
-    )
-
-    # Research Task
-    research_task = Task(
-        description=("""
-            1. Conduct comprehensive research on {topic} including:
-                - Recent developments and news
-                - Key industry trends and innovations
-                - Expert opinions and analyses
-                - Statistical data and market insights
-            2. Evaluate source credibility and fact-check all information
-            3. Organize findings into a structured research brief
-            4. Include all relevant citations and sources
-        """),
-        expected_output="""A detailed research report containing:
-            - Executive summary of key findings
-            - Comprehensive analysis of current trends and developments
-            - List of verified facts and statistics
-            - All citations and links to original sources
-            - Clear categorization of main themes and patterns
-            Please format with clear sections and bullet points for easy reference.""",
-        agent=senior_research_analyst
-    )
-
-    # Writing Task
-    writing_task = Task(
-        description=("""
-            Using the research brief provided, create an engaging blog post that:
-            1. Transforms technical information into accessible content
-            2. Maintains all factual accuracy and citations from the research
-            3. Includes:
-                - Attention-grabbing introduction
-                - Well-structured body sections with clear headings
-                - Compelling conclusion
-            4. Preserves all source citations in [Source: URL] format
-            5. Includes a References section at the end
-        """),
-        expected_output="""A polished blog post in markdown format that:
-            - Engages readers while maintaining accuracy
-            - Contains properly structured sections
-            - Includes Inline citations hyperlinked to the original source url
-            - Presents information in an accessible yet informative way
-            - Follows proper markdown formatting, use H1 for the title and H3 for the sub-sections""",
-        agent=content_writer
-    )
-
-    # Create Crew
-    crew = Crew(
-        agents=[senior_research_analyst, content_writer],
-        tasks=[research_task, writing_task],
-        verbose=True
-    )
-
-    return crew.kickoff(inputs={"topic": topic})
+def display_workflow_progress():
+    """Display real-time workflow progress."""
+    if st.session_state.workflow_state:
+        flow = st.session_state.workflow_state
+        
+        # Progress indicators
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            if flow.state.research_completed:
+                st.success("✅ Research")
+            else:
+                st.info("🔍 Research")
+                
+        with col2:
+            if flow.state.content_completed:
+                st.success("✅ Content")
+            else:
+                st.info("✍️ Content")
+                
+        with col3:
+            if flow.state.editing_completed:
+                st.success("✅ Editing")
+            else:
+                st.info("📝 Editing")
+                
+        with col4:
+            if flow.state.generation_completed:
+                st.success("✅ Complete")
+            else:
+                st.info("🎯 Finalizing")
 
 # Main content area
-if generate_button:
-    with st.spinner('Generating content... This may take a moment.'):
+if not topic.strip():
+    # Welcome message when no topic is entered
+    st.markdown("### 👋 Welcome to AI News Generator!")
+    
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.markdown("""
+        **Ready to create comprehensive, well-researched articles in minutes?**
+        
+        Our advanced AI workflow uses multiple specialized agents working together:
+        
+        🔍 **Research Team** - Finds and verifies information from reliable sources
+        ✍️ **Content Team** - Creates engaging, well-structured articles  
+        📝 **Editing Team** - Polishes and perfects the final output
+        
+        Simply enter your topic in the sidebar and click "Generate Article" to begin!
+        """)
+    
+    with col2:
+        st.image("https://via.placeholder.com/300x200?text=AI+News+Generator", 
+                caption="Multi-Agent AI Workflow")
+
+elif generate_button:
+    # Check API keys before proceeding
+    serper_key = os.getenv("SERPER_API_KEY")
+    cohere_key = os.getenv("COHERE_API_KEY") or os.getenv("CO_API_KEY")
+    
+    if not serper_key or not cohere_key:
+        st.error("🔑 Please set up your API keys (SERPER_API_KEY and COHERE_API_KEY) to use the generator.")
+        st.stop()
+    
+    # Main generation process
+    st.markdown(f"### 🚀 Generating Article: *{topic}*")
+    
+    # Progress section
+    progress_container = st.container()
+    
+    with st.spinner('🤖 AI agents are working on your article...'):
         try:
-            result = generate_content(topic)
-            st.markdown("### Generated Content")
-            st.markdown(result)
+            # Generate content using the flow
+            flow_result = generate_content_with_flow(topic, temperature, max_sources)
             
-            # Add download button
-            st.download_button(
-                label="Download Content",
-                data=result.raw,
-                file_name=f"{topic.lower().replace(' ', '_')}_article.md",
-                mime="text/markdown"
-            )
+            if flow_result and flow_result.state.generation_completed:
+                st.session_state.generation_complete = True
+                
+                # Display success metrics
+                with progress_container:
+                    display_workflow_progress()
+                    
+                    # Show processing summary
+                    summary = flow_result.get_processing_summary()
+                    
+                    col1, col2, col3, col4 = st.columns(4)
+                    with col1:
+                        st.metric("📊 Research Sources", summary.get('research_sources', 0))
+                    with col2:
+                        st.metric("📝 Word Count", summary.get('word_count', 0))
+                    with col3:
+                        st.metric("⏱️ Processing Time", f"{summary.get('processing_time', 0):.1f}s")
+                    with col4:
+                        st.metric("📖 Readability Score", f"{summary.get('readability_score', 0):.1f}")
+                
+                # Display the generated content
+                st.markdown("---")
+                st.markdown("### 📰 Generated Article")
+                
+                final_content = flow_result.get_final_content()
+                st.markdown(final_content)
+                
+                # Download options
+                st.markdown("---")
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    # Download as Markdown
+                    st.download_button(
+                        label="📥 Download as Markdown",
+                        data=final_content,
+                        file_name=f"{topic.lower().replace(' ', '_')}_article.md",
+                        mime="text/markdown",
+                        type="primary"
+                    )
+                
+                with col2:
+                    # Download processing summary
+                    import json
+                    summary_json = json.dumps(summary, indent=2)
+                    st.download_button(
+                        label="📊 Download Summary",
+                        data=summary_json,
+                        file_name=f"{topic.lower().replace(' ', '_')}_summary.json",
+                        mime="application/json"
+                    )
+                
+                # Reset for new generation
+                if st.button("🔄 Generate Another Article", type="secondary"):
+                    st.session_state.workflow_state = None
+                    st.session_state.generation_complete = False
+                    st.rerun()
+                
+            else:
+                st.error("❌ Content generation failed. Please try again.")
+                
         except Exception as e:
-            st.error(f"An error occurred: {str(e)}")
+            st.error(f"❌ An error occurred during generation: {str(e)}")
+            st.error("Please check your API keys and internet connection, then try again.")
+
+else:
+    # Show sample or previous result
+    if st.session_state.generation_complete and st.session_state.workflow_state:
+        st.markdown("### 📰 Previous Article")
+        st.markdown("*(Click 'Generate Article' in the sidebar to create a new one)*")
+        
+        display_workflow_progress()
+        final_content = st.session_state.workflow_state.get_final_content()
+        st.markdown(final_content)
+    else:
+        # Show examples or tips
+        st.markdown("### 💡 Example Topics")
+        
+        examples = [
+            "Latest developments in quantum computing",
+            "Climate change impact on agriculture in 2025", 
+            "Artificial intelligence in healthcare innovations",
+            "Cryptocurrency market trends and regulations",
+            "Space exploration missions planned for 2025"
+        ]
+        
+        for i, example in enumerate(examples, 1):
+            st.markdown(f"**{i}.** {example}")
 
 # Footer
 st.markdown("---")
-st.markdown("Built with CrewAI, Streamlit and powered by Cohere's Command R7B")
+st.markdown("""
+<div style='text-align: center'>
+    <p>🤖 <strong>AI News Generator v2.0</strong></p>
+    <p>Built with CrewAI Flows, Streamlit, and powered by Cohere's Command R7B</p>
+    <p><em>Advanced Multi-Agent Workflow for Professional Content Creation</em></p>
+</div>
+""", unsafe_allow_html=True)
