@@ -1,0 +1,3 @@
+[console_scripts]
+llamaindex-cli=llama_index.cli.command_line:main
+
