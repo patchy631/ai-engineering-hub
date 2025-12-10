@@ -1,0 +1,7 @@
+llama-index 
+llama-parse 
+streamlit
+nest_asyncio
+llama-index-llms-groq
+llama-index-embeddings-google
+llama-index-utils-workflow
