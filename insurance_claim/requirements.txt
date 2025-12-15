@@ -1,0 +1,5 @@
+llama_cloud==0.1.14
+llama_index==0.12.22
+nest_asyncio==1.6.0
+pydantic==2.10.6
+streamlit==1.43.0
