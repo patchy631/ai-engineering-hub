@@ -1,0 +1,17 @@
+[project]
+name = "database-memory-agent"
+version = "0.1.0"
+description = "Database Memory Agent with RAG capabilities using MongoDB Atlas Vector Search, Voyage AI, and OpenAI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pymongo",
+    "voyageai",
+    "openai",
+    "langchain",
+    "langchain-mongodb",
+    "langchain-community",
+    "python-dotenv",
+    "streamlit",
+    "pypdf",
+]
