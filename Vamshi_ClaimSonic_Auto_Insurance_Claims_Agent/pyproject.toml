@@ -1,0 +1,22 @@
+[project]
+name = "auto-insurance-claims-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "llama-cloud>=0.1.13",
+    "llama-index>=0.12.22",
+    "llama-index-core>=0.12.22",
+    "llama-index-indices-managed-llama-cloud>=0.6.8",
+    "llama-index-utils-workflow>=0.3.0",
+    "llama-parse>=0.6.4.post1",
+    "streamlit>=1.43.0",
+    "streamlit-ace>=0.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+]
