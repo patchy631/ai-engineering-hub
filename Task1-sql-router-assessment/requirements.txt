@@ -1,0 +1,6 @@
+llama_index==0.12.24
+arize-phoenix==8.13.1
+nest-asyncio==1.6.0
+sqlalchemy== 2.0.39
+streamlit==1.43.2
+llama-index-callbacks-arize-phoenix==0.4.0
