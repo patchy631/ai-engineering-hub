@@ -1,0 +1,14 @@
+[project]
+name = "minimax"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "firecrawl-py>=4.12.0",
+    "ipykernel>=7.1.0",
+    "pydub>=0.25.1",
+    "python-dotenv>=1.2.1",
+    "requests>=2.32.5",
+    "streamlit>=1.52.2",
+]
