@@ -1,0 +1,6 @@
+streamlit
+llama-index
+sqlalchemy
+llama-index-llms-openai
+llama-index-indices-managed
+llama-index-utils-workflow
