@@ -23,7 +23,7 @@ st.markdown("""
         font-weight: bold;
         text-align: center;
         margin-bottom: 1rem;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(90deg, #ffffff 0%, #ffffff 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -81,9 +81,9 @@ with st.sidebar:
     st.header("⚙️ Configuration")
     
     st.subheader("API Keys")
+    minimax_key = st.text_input("Minimax API Key", type="password", help="Get your key from platform.minimax.io")
     firecrawl_key = st.text_input("Firecrawl API Key", type="password", help="Get your key from firecrawl.dev")
     openrouter_key = st.text_input("OpenRouter API Key", type="password", help="Get your key from openrouter.ai")
-    minimax_key = st.text_input("Minimax API Key", type="password", help="Get your key from platform.minimax.io")
     
     st.divider()
     
@@ -150,9 +150,9 @@ if generate_btn:
                     audio_files = []
                     
                     for i, (speaker, text) in enumerate(segments, 1):
-                        progress_text.text(f"Processing segment {i}/{total_segments} ({speaker})...")
+                        progress_text.text(f"Processing segment {i}/{total_segments} ...")
                         voice = converter.voices.get(speaker, converter.voices["male"])
-                        audio_file = os.path.join(audio_dir, f"segment_{i:03d}_{speaker}.mp3")
+                        audio_file = os.path.join(audio_dir, f"segment_{i:03d}.mp3")
                         
                         converter._generate_and_save_speech(text, voice, audio_file)
                         
@@ -174,20 +174,49 @@ if generate_btn:
             # Step 4: Merge Audio
             with st.status("🔗 Merging audio segments...", expanded=True) as status:
                 try:
-                    # Verify all files exist before merging
+                    # Verify all files exist and filter out corrupted ones
                     st.info(f"Verifying {len(audio_files)} audio files...")
+                    valid_files = []
+                    corrupted_segments = []
+                    
                     for i, (speaker, filepath) in enumerate(audio_files, 1):
                         if not os.path.exists(filepath):
-                            raise Exception(f"Audio file missing: {filepath}")
-                        if os.path.getsize(filepath) == 0:
-                            raise Exception(f"Audio file is empty: {filepath}")
-                        st.text(f"✓ Segment {i} verified ({os.path.getsize(filepath)} bytes)")
+                            corrupted_segments.append(i)
+                            st.warning(f"⚠️ Segment {i} missing")
+                            continue
+                        
+                        file_size = os.path.getsize(filepath)
+                        if file_size < 1024:  # Less than 1KB is likely corrupted
+                            corrupted_segments.append(i)
+                            st.warning(f"⚠️ Segment {i} corrupted ({file_size} bytes)")
+                            continue
+                        
+                        # Verify it's a valid MP3
+                        try:
+                            test_audio = AudioSegment.from_mp3(filepath)
+                            if len(test_audio) < 100:  # Less than 100ms is suspicious
+                                corrupted_segments.append(i)
+                                st.warning(f"⚠️ Segment {i} too short")
+                                continue
+                        except Exception as e:
+                            corrupted_segments.append(i)
+                            st.warning(f"⚠️ Segment {i} invalid MP3: {str(e)}")
+                            continue
+                        
+                        valid_files.append((speaker, filepath))
+                        st.text(f"✓ Segment {i} verified ({file_size} bytes)")
                     
-                    st.info("Merging audio segments...")
+                    if corrupted_segments:
+                        st.warning(f"⚠️ Skipping {len(corrupted_segments)} corrupted segments: {corrupted_segments}")
+                    
+                    if len(valid_files) == 0:
+                        raise Exception("No valid audio segments to merge")
+                    
+                    st.info(f"Merging {len(valid_files)} valid audio segments...")
                     combined = AudioSegment.empty()
                     
-                    for i, (speaker, filepath) in enumerate(audio_files, 1):
-                        st.text(f"Adding segment {i}/{len(audio_files)}...")
+                    for i, (speaker, filepath) in enumerate(valid_files, 1):
+                        st.text(f"Adding segment {i}/{len(valid_files)}...")
                         audio = AudioSegment.from_mp3(filepath)
                         combined += audio
                     
@@ -201,7 +230,12 @@ if generate_btn:
                         raise Exception("Failed to create merged podcast file")
                     
                     st.success(f"✅ Podcast merged successfully ({os.path.getsize(output_path)} bytes)")
+                    if corrupted_segments:
+                        st.info(f"ℹ️ Note: {len(corrupted_segments)} segments were skipped due to corruption")
                     status.update(label="✅ Podcast ready!", state="complete")
+                    
+                    # Update audio_files to only include valid ones
+                    audio_files = valid_files
                     
                 except Exception as e:
                     st.error(f"❌ Audio merging failed: {str(e)}")

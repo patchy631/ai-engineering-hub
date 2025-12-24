@@ -29,9 +29,9 @@ class TTSConverter:
         audio_files = []
         
         for i, (speaker, text) in enumerate(segments, 1):
-            print(f"  Generating segment {i}/{len(segments)} ({speaker})...")
+            print(f"  Generating segment {i}/{len(segments)} ...")
             voice = self.voices.get(speaker, self.voices["male"])
-            audio_file = os.path.join(output_dir, f"segment_{i:03d}_{speaker}.mp3")
+            audio_file = os.path.join(output_dir, f"segment_{i:03d}.mp3")
             
             self._generate_and_save_speech(text, voice, audio_file)
             audio_files.append((speaker, audio_file))
