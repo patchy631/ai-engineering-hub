@@ -20,7 +20,7 @@ class ScriptGenerator:
         }
         
         payload = {
-            "model": "minimax/minimax-m2",
+            "model": "minimax/minimax-m2.1",
             "messages": [
                 {"role": "user", "content": prompt}
             ]
@@ -47,9 +47,8 @@ Requirements:
 - Break down complex topics into digestible segments
 - Use conversational language
 - Include natural transitions and reactions
-- Keep it engaging, informative and concise
+- Keep it engaging, informative and concise. 
 - Format each line as "Host 1:" or "Host 2:" followed by their dialogue
-- Try to keep the script within 12-15 total dialogues
 
 Content to convert:
 {content}

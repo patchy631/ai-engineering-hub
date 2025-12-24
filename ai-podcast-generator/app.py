@@ -3,9 +3,6 @@ import tempfile
 import streamlit as st
 from pathlib import Path
 from pydub import AudioSegment
-from dotenv import load_dotenv
-
-load_dotenv()
 
 from scraper import WebScraper
 from script_generator import ScriptGenerator
@@ -81,12 +78,12 @@ st.markdown('<div class="sub-header">Transform any web article into an engaging 
 with st.sidebar:
     st.header("⚙️ Configuration")
     
-    # st.subheader("API Keys")
-    # minimax_key = st.text_input("Minimax API Key", type="password", help="Get your key from platform.minimax.io")
-    # firecrawl_key = st.text_input("Firecrawl API Key", type="password", help="Get your key from firecrawl.dev")
-    # openrouter_key = st.text_input("OpenRouter API Key", type="password", help="Get your key from openrouter.ai")
+    st.subheader("API Keys")
+    minimax_key = st.text_input("Minimax API Key", type="password", help="Get your key from platform.minimax.io")
+    firecrawl_key = st.text_input("Firecrawl API Key", type="password", help="Get your key from firecrawl.dev")
+    openrouter_key = st.text_input("OpenRouter API Key", type="password", help="Get your key from openrouter.ai")
     
-    # st.divider()
+    st.divider()
     
     st.subheader("📝 Input")
     url = st.text_input("Article URL", placeholder="https://example.com/article")
@@ -94,18 +91,12 @@ with st.sidebar:
     st.divider()
     
     generate_btn = st.button("🚀 Generate Podcast", type="primary", use_container_width=True)
-    
-    # st.divider()
-    # st.caption("💡 Tip: Make sure all API keys are valid before generating")
 
 # Main area
 if generate_btn:
-    # if not all([firecrawl_key, openrouter_key, minimax_key, url]):
-    #     st.error("❌ Please fill in all API keys and provide a URL")
-    # else:
-    #     os.environ['FIRECRAWL_API_KEY'] = firecrawl_key
-    #     os.environ['OPENROUTER_API_KEY'] = openrouter_key
-    #     os.environ['MINIMAX_API_KEY'] = minimax_key
+    os.environ['FIRECRAWL_API_KEY'] = firecrawl_key
+    os.environ['OPENROUTER_API_KEY'] = openrouter_key
+    os.environ['MINIMAX_API_KEY'] = minimax_key
         
         progress_container = st.container()
         
@@ -279,19 +270,19 @@ if generate_btn:
         st.balloons()
 
 else:
-    # st.info("👈 Get started by entering your API keys in the sidebar and providing an article URL")
+    st.info("👈 Get started by entering your API keys in the sidebar and providing an article URL")
     
     with st.expander("ℹ️ How it works"):
         st.markdown("""
         1. **Scraping**: We use Firecrawl to extract clean content from any URL
-        2. **Script Generation**: Minimax-M2 transforms the content into an engaging dialogue
-        3. **Audio Synthesis**: Minimax TTS creates natural-sounding voices for both hosts
+        2. **Script Generation**: Minimax-M2.1 transforms the content into an engaging dialogue
+        3. **Audio Synthesis**: Minimax Speech 2.6 creates natural-sounding voices for both hosts
         4. **Merging**: All segments are combined into one seamless podcast
         """)
     
     with st.expander("🔑 Where to get API keys"):
         st.markdown("""
+        - **Minimax**: [platform.minimax.io](https://platform.minimax.io)
         - **Firecrawl**: [firecrawl.dev](https://firecrawl.dev)
         - **OpenRouter**: [openrouter.ai](https://openrouter.ai)
-        - **Minimax**: [platform.minimax.io](https://platform.minimax.io)
         """)
