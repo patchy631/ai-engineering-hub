@@ -15,8 +15,8 @@ class TTSConverter:
         
         # Voice configurations
         self.voices = {
-            "male": "male-qn-qingse",
-            "female": "female-shaonv"
+            "male": "English_Explanatory_Man",
+            "female": "English_captivating_female1"
         }
     
     def convert(self, script: str, output_dir: str = "audio_segments") -> list:

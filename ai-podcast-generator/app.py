@@ -3,6 +3,9 @@ import tempfile
 import streamlit as st
 from pathlib import Path
 from pydub import AudioSegment
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from scraper import WebScraper
 from script_generator import ScriptGenerator
@@ -23,9 +26,7 @@ st.markdown("""
         font-weight: bold;
         text-align: center;
         margin-bottom: 1rem;
-        background: linear-gradient(90deg, #ffffff 0%, #ffffff 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #ffffff;
     }
     .sub-header {
         text-align: center;
@@ -74,18 +75,18 @@ st.markdown('''
     </div>
 ''', unsafe_allow_html=True)
 
-st.markdown('<div class="sub-header">Transform any article into an engaging podcast conversation</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Transform any web article into an engaging podcast</div>', unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
     st.header("⚙️ Configuration")
     
-    st.subheader("API Keys")
-    minimax_key = st.text_input("Minimax API Key", type="password", help="Get your key from platform.minimax.io")
-    firecrawl_key = st.text_input("Firecrawl API Key", type="password", help="Get your key from firecrawl.dev")
-    openrouter_key = st.text_input("OpenRouter API Key", type="password", help="Get your key from openrouter.ai")
+    # st.subheader("API Keys")
+    # minimax_key = st.text_input("Minimax API Key", type="password", help="Get your key from platform.minimax.io")
+    # firecrawl_key = st.text_input("Firecrawl API Key", type="password", help="Get your key from firecrawl.dev")
+    # openrouter_key = st.text_input("OpenRouter API Key", type="password", help="Get your key from openrouter.ai")
     
-    st.divider()
+    # st.divider()
     
     st.subheader("📝 Input")
     url = st.text_input("Article URL", placeholder="https://example.com/article")
@@ -94,17 +95,17 @@ with st.sidebar:
     
     generate_btn = st.button("🚀 Generate Podcast", type="primary", use_container_width=True)
     
-    st.divider()
-    st.caption("💡 Tip: Make sure all API keys are valid before generating")
+    # st.divider()
+    # st.caption("💡 Tip: Make sure all API keys are valid before generating")
 
 # Main area
 if generate_btn:
-    if not all([firecrawl_key, openrouter_key, minimax_key, url]):
-        st.error("❌ Please fill in all API keys and provide a URL")
-    else:
-        os.environ['FIRECRAWL_API_KEY'] = firecrawl_key
-        os.environ['OPENROUTER_API_KEY'] = openrouter_key
-        os.environ['MINIMAX_API_KEY'] = minimax_key
+    # if not all([firecrawl_key, openrouter_key, minimax_key, url]):
+    #     st.error("❌ Please fill in all API keys and provide a URL")
+    # else:
+    #     os.environ['FIRECRAWL_API_KEY'] = firecrawl_key
+    #     os.environ['OPENROUTER_API_KEY'] = openrouter_key
+    #     os.environ['MINIMAX_API_KEY'] = minimax_key
         
         progress_container = st.container()
         
@@ -247,7 +248,7 @@ if generate_btn:
         st.divider()
         st.header("📊 Results")
         
-        tab1, tab2, tab3 = st.tabs(["🎧 Podcast", "📝 Script", "🎵 Individual Segments"])
+        tab1, tab2 = st.tabs(["🎧 Podcast", "📝 Script"])
         
         with tab1:
             st.subheader("Full Podcast")
@@ -275,25 +276,10 @@ if generate_btn:
                 use_container_width=True
             )
         
-        with tab3:
-            st.subheader("Individual Audio Segments")
-            for i, (speaker, filepath) in enumerate(audio_files, 1):
-                with st.expander(f"Segment {i} - {speaker.title()}"):
-                    with open(filepath, "rb") as f:
-                        audio_data = f.read()
-                        st.audio(audio_data, format="audio/mp3")
-                        st.download_button(
-                            label=f"Download Segment {i}",
-                            data=audio_data,
-                            file_name=f"segment_{i}_{speaker}.mp3",
-                            mime="audio/mp3",
-                            key=f"download_{i}"
-                        )
-        
         st.balloons()
 
 else:
-    st.info("👈 Get started by entering your API keys in the sidebar and providing an article URL")
+    # st.info("👈 Get started by entering your API keys in the sidebar and providing an article URL")
     
     with st.expander("ℹ️ How it works"):
         st.markdown("""
