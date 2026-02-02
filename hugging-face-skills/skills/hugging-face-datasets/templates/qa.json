@@ -1,0 +1,54 @@
+{
+  "type": "qa",
+  "description": "Question-answering datasets for reading comprehension, knowledge QA, and factual question answering",
+  "system_prompt": "Generate high-quality question-answer pairs with clear, informative answers. Include context when needed and ensure questions are well-formed and answerable. Cover diverse topics and question types.",
+  "validation_schema": {
+    "required_fields": ["question", "answer"],
+    "recommended_fields": ["context", "answer_type", "difficulty", "topic", "source"],
+    "field_types": {
+      "question": "string",
+      "answer": "string|array",
+      "context": "string",
+      "answer_type": "enum:factual,explanatory,opinion,yes_no,multiple_choice",
+      "difficulty": "enum:easy,medium,hard",
+      "topic": "string",
+      "source": "string"
+    }
+  },
+  "example_structure": {
+    "question": "What is the question being asked?",
+    "answer": "The complete answer to the question",
+    "context": "Additional context or passage (if needed)",
+    "answer_type": "factual|explanatory|opinion|yes_no|multiple_choice",
+    "difficulty": "easy|medium|hard",
+    "topic": "subject_area",
+    "source": "where_this_came_from"
+  },
+  "examples": [
+    {
+      "question": "What is the capital of France?",
+      "answer": "Paris",
+      "answer_type": "factual",
+      "difficulty": "easy",
+      "topic": "geography",
+      "source": "general_knowledge"
+    },
+    {
+      "question": "How does photosynthesis work?",
+      "answer": "Photosynthesis is the process by which plants use sunlight, carbon dioxide, and water to produce glucose and oxygen. Chlorophyll in plant cells captures light energy, which drives chemical reactions that convert CO2 and H2O into C6H12O6 (glucose) and O2. This process occurs primarily in the chloroplasts of leaf cells.",
+      "answer_type": "explanatory",
+      "difficulty": "medium",
+      "topic": "biology",
+      "source": "educational_content"
+    },
+    {
+      "question": "Based on the passage, what was the main cause of the economic downturn?",
+      "answer": "According to the passage, the main cause was the sudden drop in consumer confidence following the bank failures, which led to reduced spending and business investment.",
+      "context": "The economic downturn of 2008 began when several major banks failed due to subprime mortgage losses. This triggered a crisis of confidence among consumers and businesses, leading to decreased spending and investment. The ripple effects spread throughout the global economy.",
+      "answer_type": "explanatory",
+      "difficulty": "medium",
+      "topic": "economics",
+      "source": "reading_comprehension"
+    }
+  ]
+}

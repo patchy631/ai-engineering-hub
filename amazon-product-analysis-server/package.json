@@ -1,0 +1,57 @@
+{
+  "name": "amazon-product-analysis-server",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "MCP server: amazon product analysis",
+  "author": "Sitam Meur",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "server",
+    "starter",
+    "tools",
+    "resources",
+    "prompts",
+    "uiresource",
+    "ui",
+    "react",
+    "widgets",
+    "mcp-ui",
+    "apps-sdk"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "mcp-use build",
+    "dev": "mcp-use dev",
+    "start": "mcp-use start",
+    "deploy": "mcp-use deploy"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^2.0.89",
+    "@brightdata/sdk": "^0.2.0",
+    "@openai/apps-sdk-ui": "^0.2.1",
+    "@tanstack/react-query": "^5.90.12",
+    "ai": "^5.0.118",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mcp-use": "^1.12.1",
+    "node-mocks-http": "^1.17.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router": "^7.10.1",
+    "tailwindcss": "^4.1.18",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^25.0.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  },
+  "overrides": {
+    "sugarss": "^5.0.1"
+  }
+}

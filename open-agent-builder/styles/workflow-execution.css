@@ -2,25 +2,25 @@
 
 @keyframes pulse-heat {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(250, 93, 25, 0.4), 0 0 20px 0 rgba(250, 93, 25, 0.2);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4), 0 0 20px 0 rgba(34, 197, 94, 0.2);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(250, 93, 25, 0), 0 0 30px 0 rgba(250, 93, 25, 0);
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0), 0 0 30px 0 rgba(34, 197, 94, 0);
   }
 }
 
 @keyframes glow-heat {
   0%, 100% {
-    filter: drop-shadow(0 0 2px rgba(250, 93, 25, 0.3));
+    filter: drop-shadow(0 0 2px rgba(34, 197, 94, 0.3));
   }
   50% {
-    filter: drop-shadow(0 0 8px rgba(250, 93, 25, 0.8));
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.8));
   }
 }
 
 .executing-node {
   animation: pulse-heat 2s ease-in-out infinite;
-  border-color: #FA5D19 !important;
+  border-color: #22C55E !important;
   transition: border-color 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .react-flow__edge.active-edge {
-  stroke: #FA5D19 !important;
+  stroke: #22C55E !important;
   stroke-width: 2.5px !important;
   animation: dash 1.5s linear infinite, glow-edge 2s ease-in-out infinite;
   z-index: 100;
@@ -72,7 +72,7 @@
 }
 
 .react-flow__edge.selected-edge {
-  stroke: #FA5D19 !important;
+  stroke: #22C55E !important;
   stroke-width: 2px !important;
 }
 
@@ -84,10 +84,10 @@
 
 @keyframes glow-edge {
   0%, 100% {
-    filter: drop-shadow(0 0 2px rgba(250, 93, 25, 0.4));
+    filter: drop-shadow(0 0 2px rgba(34, 197, 94, 0.4));
   }
   50% {
-    filter: drop-shadow(0 0 6px rgba(250, 93, 25, 0.8));
+    filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.8));
   }
 }
 

@@ -1,0 +1,66 @@
+{
+  "name": "huggingface-skills",
+  "owner": {
+    "name": "Hugging Face"
+  },
+  "metadata": {
+    "description": "Agent Skills for AI/ML tasks including dataset creation, model training, evaluation, and research paper publishing on Hugging Face Hub",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "hugging-face-model-trainer",
+      "source": "./skills/hugging-face-model-trainer",
+      "skills": "./",
+      "description": "Train or fine-tune language models using TRL on Hugging Face Jobs infrastructure. Covers SFT, DPO, GRPO and reward modeling training methods, plus GGUF conversion for local deployment. Includes hardware selection, cost estimation, Trackio monitoring, and Hub persistence."
+    },
+    {
+      "name": "hugging-face-paper-publisher",
+      "source": "./skills/hugging-face-paper-publisher",
+      "skills": "./",
+      "description": "Publish and manage research papers on Hugging Face Hub. Supports creating paper pages, linking papers to models/datasets, claiming authorship, and generating professional markdown-based research articles."
+    },
+    {
+      "name": "hugging-face-datasets",
+      "source": "./skills/hugging-face-datasets",
+      "skills": "./",
+      "description": "Create and manage datasets on Hugging Face Hub. Supports initializing repos, defining configs/system prompts, streaming row updates, and SQL-based dataset querying/transformation."
+    },
+    {
+      "name": "hugging-face-evaluation",
+      "source": "./skills/hugging-face-evaluation",
+      "skills": "./",
+      "description": "Add and manage evaluation results in Hugging Face model cards. Supports extracting eval tables from README content, importing scores from Artificial Analysis API, and running custom evaluations with vLLM/lighteval."
+    },
+    {
+      "name": "hugging-face-tool-builder",
+      "source": "./skills/hugging-face-tool-builder",
+      "skills": "./",
+      "description": "Build reusable scripts for Hugging Face API operations. Useful for chaining API calls or automating repeated tasks."
+    },
+    {
+      "name": "hugging-face-cli",
+      "source": "./skills/hugging-face-cli",
+      "skills": "./",
+      "description": "Execute Hugging Face Hub operations using the hf CLI. Download models/datasets, upload files, manage repos, and run cloud compute jobs."
+    },
+    {
+      "name": "hugging-face-jobs",
+      "source": "./skills/hugging-face-jobs",
+      "skills": "./",
+      "description": "Run compute jobs on Hugging Face infrastructure. Execute Python scripts, manage scheduled jobs, and monitor job status."
+    },
+    {
+      "name": "hugging-face-trackio",
+      "source": "./skills/hugging-face-trackio",
+      "skills": "./",
+      "description": "Track and visualize ML training experiments with Trackio. Log metrics via Python API and retrieve them via CLI. Supports real-time dashboards synced to HF Spaces."
+    },
+    {
+      "name": "brightdata-web-mcp",
+      "source": "./skills/brightdata-web-mcp",
+      "skills": "./",
+      "description": "Use Brightdata Web MCP to interact with the web and perform various tasks."
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+wheels/
+*.egg-info
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Virtual environments
+.venv
+venv/
+ENV/
+env/
+.uv/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/config.toml
+
+# Audio files
+*.mp3
+*.wav
+*.ogg
+*.flac
+test_audio/
+*.m4a
+*.aac
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+.cache/
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Project-specific
+podcast_script*.txt
+audio_urls.txt

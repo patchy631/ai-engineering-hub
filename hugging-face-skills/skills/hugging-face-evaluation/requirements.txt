@@ -1,0 +1,20 @@
+# Core dependencies
+huggingface-hub>=0.26.0
+python-dotenv>=1.2.1
+pyyaml>=6.0.3
+requests>=2.32.5
+markdown-it-py>=3.0.0
+
+# Inference provider evaluation
+inspect-ai>=0.3.0
+inspect-evals
+openai
+
+# vLLM custom model evaluation (optional, GPU required)
+# Note: These are auto-installed via PEP 723 headers when using `uv run`
+# Uncomment if installing manually:
+# lighteval[accelerate,vllm]>=0.6.0
+# vllm>=0.4.0
+# torch>=2.0.0
+# transformers>=4.40.0
+# accelerate>=0.30.0

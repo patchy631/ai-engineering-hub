@@ -6,7 +6,6 @@ import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   addEdge,
   useNodesState,
   useEdgesState,
@@ -21,20 +20,20 @@ import "@xyflow/react/dist/style.css";
 import "@/styles/workflow-execution.css";
 import { motion } from "framer-motion";
 import {
-  Bot,
+  Brain,
   GitBranch,
-  Repeat,
-  CheckCircle,
-  Braces,
-  Search,
-  Plug,
+  RefreshCw,
+  UserCheck,
+  Shuffle,
+  ScanSearch,
+  Sparkles,
   Play,
-  StopCircle,
+  Flag,
   Zap,
-  FileText,
+  StickyNote,
   MoreHorizontal,
-  Server,
-  MousePointer2,
+  Globe,
+  Database,
 } from "lucide-react";
 import NodePanel from "./NodePanel";
 import MCPPanel from "./MCPPanel";
@@ -116,32 +115,32 @@ const nodeCategories = [
   {
     category: "Core",
     nodes: [
-      { type: "agent", label: "Agent", color: "bg-blue-500", icon: MousePointer2 },
-      { type: "end", label: "End", color: "bg-teal-500", icon: StopCircle },
-      { type: "note", label: "Note", color: "bg-[#E4E4E7] dark:bg-[#52525B]", icon: FileText },
+      { type: "agent", label: "Agent", color: "bg-blue-500", icon: Brain },
+      { type: "end", label: "End", color: "bg-teal-500", icon: Flag },
+      { type: "note", label: "Note", color: "bg-[#E4E4E7] dark:bg-[#52525B]", icon: StickyNote },
     ],
   },
   {
     category: "Tools",
     nodes: [
-      { type: "mcp", label: "Composio", color: "bg-[#FFEFA4] dark:bg-[#FFDD40]", icon: Plug },
+      { type: "mcp", label: "Composio", color: "bg-[#FFEFA4] dark:bg-[#FFDD40]", icon: Sparkles },
     ],
   },
   {
     category: "Logic",
     nodes: [
       { type: "if-else", label: "Condition", color: "bg-[#FEE7C2] dark:bg-[#FFAE2B]", icon: GitBranch },
-      { type: "while", label: "While", color: "bg-[#FEE7C2] dark:bg-[#FFAE2B]", icon: Repeat },
-      { type: "user-approval", label: "User approval", color: "bg-[#E5E7EB] dark:bg-[#9CA3AF]", icon: CheckCircle },
+      { type: "while", label: "While", color: "bg-[#FEE7C2] dark:bg-[#FFAE2B]", icon: RefreshCw },
+      { type: "user-approval", label: "User approval", color: "bg-[#E5E7EB] dark:bg-[#9CA3AF]", icon: UserCheck },
     ],
   },
   {
     category: "Data",
     nodes: [
-      { type: "transform", label: "Transform", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: Braces },
-      { type: "extract", label: "Extract", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: Search },
-      { type: "http", label: "HTTP", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: Server },
-      { type: "set-state", label: "Set state", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: Braces },
+      { type: "transform", label: "Transform", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: Shuffle },
+      { type: "extract", label: "Extract", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: ScanSearch },
+      { type: "http", label: "HTTP", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: Globe },
+      { type: "set-state", label: "Set state", color: "bg-[#ECE3FF] dark:bg-[#9665FF]", icon: Database },
     ],
   },
 ];
@@ -814,7 +813,7 @@ function WorkflowBuilderInner({ onBack, initialWorkflowId, initialTemplateId }: 
 
         const nextClassName = isActive ? 'active-edge' : isSelected ? 'selected-edge' : '';
         const currentClassName = edge.className || '';
-        const nextStroke = isActive ? '#FA5D19' : isSelected ? '#FA5D19' : '#d1d5db';
+        const nextStroke = isActive ? '#22C55E' : isSelected ? '#22C55E' : '#d1d5db';
         const nextWidth = isActive ? 2 : isSelected ? 2 : 1;
 
         const classChanged = currentClassName !== nextClassName;
@@ -1647,16 +1646,13 @@ function WorkflowBuilderInner({ onBack, initialWorkflowId, initialTemplateId }: 
           proOptions={{ hideAttribution: true }}
         >
           <Background
-            color="#E5E5E5"
-            gap={20}
-            size={1}
+            variant="dots"
+            color="#D0D0D0"
+            gap={24}
+            size={2}
           />
           <Controls
             className="!bg-accent-white !border-border-faint"
-          />
-          <MiniMap
-            className="!bg-accent-white !border-border-faint"
-            nodeColor="#FA5D19"
           />
         </ReactFlow>
 

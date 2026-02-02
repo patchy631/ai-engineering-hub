@@ -1,0 +1,3 @@
+gradio>=5.50.0
+huggingface_hub>=1.1.4
+requests>=2.32.5
