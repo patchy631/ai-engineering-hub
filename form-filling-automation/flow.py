@@ -23,8 +23,8 @@ load_dotenv()
 # LLM Configuration
 # =============================================================================
 llm = LLM(
-    model="openrouter/minimax/minimax-m2.1",
-    api_key=os.environ.get("OPENROUTER_API_KEY"),
+    model="gemini/gemini-2.5-flash",
+    api_key=os.environ.get("GOOGLE_API_KEY"),
 )
 
 
@@ -206,6 +206,10 @@ class FormFillingFlow(Flow[FormFillingFlowState]):
 
         if not self.state.extracted_text:
             self.state.errors.append("No text extracted from document")
+            return "failed"
+
+        if self.state.extracted_text.startswith("Error:"):
+            self.state.errors.append(self.state.extracted_text)
             return "failed"
 
         self.state.status = "data_extracted"

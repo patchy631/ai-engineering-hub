@@ -326,6 +326,8 @@ with steps_container:
             extracted_text = result.raw if result.raw else ""
             if not extracted_text:
                 raise ValueError("No text extracted from document")
+            if extracted_text.startswith("Error:"):
+                raise ValueError(extracted_text)
 
             log_listener.display()
             s1.update(
