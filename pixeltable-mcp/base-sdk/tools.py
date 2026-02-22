@@ -29,7 +29,7 @@ _SAFE_OPERATORS = {
 }
 
 # Validate identifiers to prevent injection through crafted attribute names
-_IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+_IDENTIFIER_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 
 
 def _safe_eval(expression: str, table):
@@ -55,12 +55,10 @@ def _eval_node(node, namespace):
     if isinstance(node, ast.Constant):
         return node.value
 
-    # Variable lookup (only 'table' and 'True'/'False'/'None' allowed)
+    # Variable lookup (only 'table' allowed; True/False/None are ast.Constant on 3.8+)
     if isinstance(node, ast.Name):
         if node.id == "table":
             return namespace["table"]
-        if node.id in ("True", "False", "None"):
-            return {"True": True, "False": False, "None": None}[node.id]
         raise ValueError(
             f"Unsupported variable '{node.id}'. Only 'table' references are allowed."
         )
@@ -71,6 +69,8 @@ def _eval_node(node, namespace):
         attr = node.attr
         if not _IDENTIFIER_RE.match(attr):
             raise ValueError(f"Invalid attribute name: '{attr}'")
+        if attr.startswith("_"):
+            raise ValueError(f"Access to private attribute '{attr}' is not allowed.")
         if not hasattr(value, attr):
             raise ValueError(f"Attribute '{attr}' not found.")
         return getattr(value, attr)
@@ -84,16 +84,19 @@ def _eval_node(node, namespace):
         right = _eval_node(node.right, namespace)
         return op_func(left, right)
 
-    # Comparison operations
+    # Comparison operations (handles chained comparisons like a < b < c correctly)
     if isinstance(node, ast.Compare):
         left = _eval_node(node.left, namespace)
+        result = None
         for op, comparator in zip(node.ops, node.comparators):
             op_func = _SAFE_OPERATORS.get(type(op))
             if op_func is None:
                 raise ValueError(f"Unsupported comparison: {type(op).__name__}")
             right = _eval_node(comparator, namespace)
-            left = op_func(left, right)
-        return left
+            cmp = op_func(left, right)
+            result = cmp if result is None else (result & cmp)
+            left = right
+        return result
 
     # Unary operations: -, not
     if isinstance(node, ast.UnaryOp):
@@ -357,10 +360,10 @@ def create_query(
     select_columns: list[str] = None,
     where_expr: str = None,
 ) -> str:
-    """Create a named query in Pixeltable.
+    """Create a named query as a persistent view in Pixeltable.
 
     Args:
-        query_name: The name of the query to create.
+        query_name: The name of the query to create (stored as a Pixeltable view).
         table_name: The name of the table the query will operate on.
         select_columns: Optional list of column names to select.
                         If None, selects all columns.
@@ -397,6 +400,9 @@ def create_query(
                 else:
                     return f"Error: Column '{col_name}' not found in table '{table_name}'."
             query = query.select(*select_args)
+
+        # Persist the query as a Pixeltable view so it can be retrieved later
+        pxt.create_view(query_name, query)
 
         return f"Query '{query_name}' created successfully for table '{table_name}'."
     except ValueError as e:
