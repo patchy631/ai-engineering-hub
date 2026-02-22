@@ -40,6 +40,8 @@ def _safe_eval(expression: str, table):
 
     Raises ValueError for any unsupported or potentially dangerous construct.
     """
+    if len(expression) > 2000:
+        raise ValueError("Expression too long (max 2000 characters).")
     try:
         tree = ast.parse(expression, mode="eval")
     except SyntaxError as e:
@@ -53,6 +55,10 @@ def _eval_node(node, namespace):
 
     # Literals: numbers, strings, booleans, None
     if isinstance(node, ast.Constant):
+        if not isinstance(node.value, (int, float, str, bool, type(None))):
+            raise ValueError(
+                f"Unsupported literal type: {type(node.value).__name__}"
+            )
         return node.value
 
     # Variable lookup (only 'table' allowed; True/False/None are ast.Constant on 3.8+)
@@ -317,6 +323,8 @@ def execute_query(
 
         # Apply order by if provided
         if order_by_column:
+            if not _IDENTIFIER_RE.match(order_by_column):
+                return f"Error: Invalid column name: '{order_by_column}'"
             # Handle ordering on a specific column
             if hasattr(data_source, order_by_column):
                 order_col = getattr(data_source, order_by_column)
@@ -332,6 +340,8 @@ def execute_query(
         if select_columns:
             select_args = []
             for col_name in select_columns:
+                if not _IDENTIFIER_RE.match(col_name):
+                    return f"Error: Invalid column name: '{col_name}'"
                 if hasattr(data_source, col_name):
                     select_args.append(getattr(data_source, col_name))
                 else:
