@@ -25,7 +25,7 @@ _SAFE_OPERATORS = {
     ast.Gt: operator.gt,
     ast.GtE: operator.ge,
     ast.USub: operator.neg,
-    ast.Not: operator.not_,
+    ast.Not: operator.invert,  # Use ~ (invert) instead of not for Pixeltable expressions
 }
 
 # Validate identifiers to prevent injection through crafted attribute names
