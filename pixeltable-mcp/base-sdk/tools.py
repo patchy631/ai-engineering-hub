@@ -1,7 +1,124 @@
+import ast
+import operator
+import re
+
 import pixeltable as pxt
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("Pixeltable")
+
+
+# Safe expression evaluator to avoid eval()/exec() with untrusted input.
+# Only allows attribute access on the table object, basic operators, and literals.
+
+_SAFE_OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.FloorDiv: operator.floordiv,
+    ast.Mod: operator.mod,
+    ast.Eq: operator.eq,
+    ast.NotEq: operator.ne,
+    ast.Lt: operator.lt,
+    ast.LtE: operator.le,
+    ast.Gt: operator.gt,
+    ast.GtE: operator.ge,
+    ast.USub: operator.neg,
+    ast.Not: operator.not_,
+}
+
+# Validate identifiers to prevent injection through crafted attribute names
+_IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
+def _safe_eval(expression: str, table):
+    """Evaluate a simple expression safely against a Pixeltable table.
+
+    Supports: table.column references, arithmetic/comparison operators,
+    string/number/boolean literals, and parenthesized sub-expressions.
+
+    Raises ValueError for any unsupported or potentially dangerous construct.
+    """
+    try:
+        tree = ast.parse(expression, mode="eval")
+    except SyntaxError as e:
+        raise ValueError(f"Invalid expression syntax: {e}") from e
+
+    return _eval_node(tree.body, {"table": table})
+
+
+def _eval_node(node, namespace):
+    """Recursively evaluate an AST node using only safe operations."""
+
+    # Literals: numbers, strings, booleans, None
+    if isinstance(node, ast.Constant):
+        return node.value
+
+    # Variable lookup (only 'table' and 'True'/'False'/'None' allowed)
+    if isinstance(node, ast.Name):
+        if node.id == "table":
+            return namespace["table"]
+        if node.id in ("True", "False", "None"):
+            return {"True": True, "False": False, "None": None}[node.id]
+        raise ValueError(
+            f"Unsupported variable '{node.id}'. Only 'table' references are allowed."
+        )
+
+    # Attribute access: table.column_name
+    if isinstance(node, ast.Attribute):
+        value = _eval_node(node.value, namespace)
+        attr = node.attr
+        if not _IDENTIFIER_RE.match(attr):
+            raise ValueError(f"Invalid attribute name: '{attr}'")
+        if not hasattr(value, attr):
+            raise ValueError(f"Attribute '{attr}' not found.")
+        return getattr(value, attr)
+
+    # Binary operations: +, -, *, /, //, %, ==, !=, <, <=, >, >=
+    if isinstance(node, ast.BinOp):
+        op_func = _SAFE_OPERATORS.get(type(node.op))
+        if op_func is None:
+            raise ValueError(f"Unsupported operator: {type(node.op).__name__}")
+        left = _eval_node(node.left, namespace)
+        right = _eval_node(node.right, namespace)
+        return op_func(left, right)
+
+    # Comparison operations
+    if isinstance(node, ast.Compare):
+        left = _eval_node(node.left, namespace)
+        for op, comparator in zip(node.ops, node.comparators):
+            op_func = _SAFE_OPERATORS.get(type(op))
+            if op_func is None:
+                raise ValueError(f"Unsupported comparison: {type(op).__name__}")
+            right = _eval_node(comparator, namespace)
+            left = op_func(left, right)
+        return left
+
+    # Unary operations: -, not
+    if isinstance(node, ast.UnaryOp):
+        op_func = _SAFE_OPERATORS.get(type(node.op))
+        if op_func is None:
+            raise ValueError(f"Unsupported unary operator: {type(node.op).__name__}")
+        return op_func(_eval_node(node.operand, namespace))
+
+    # Boolean operations: and, or
+    if isinstance(node, ast.BoolOp):
+        if isinstance(node.op, ast.And):
+            result = _eval_node(node.values[0], namespace)
+            for v in node.values[1:]:
+                result = result & _eval_node(v, namespace)
+            return result
+        if isinstance(node.op, ast.Or):
+            result = _eval_node(node.values[0], namespace)
+            for v in node.values[1:]:
+                result = result | _eval_node(v, namespace)
+            return result
+
+    raise ValueError(
+        f"Unsupported expression type: {type(node).__name__}. "
+        "Only column references, operators, and literals are allowed."
+    )
 
 
 @mcp.tool()
@@ -108,17 +225,15 @@ def add_computed_column(table_name: str, column_name: str, expression: str) -> s
         if table is None:
             return f"Error: Table {table_name} not found."
 
-        # Replace 'table.' with the actual table reference
-        modified_expr = expression.replace("table.", f"table.")
-
-        # Construct the expression
-        column_expr = eval(modified_expr, {"table": table})
+        column_expr = _safe_eval(expression, table)
 
         # Add the computed column with kwargs format
         kwargs = {column_name: column_expr}
         table.add_computed_column(**kwargs)
 
         return f"Computed column '{column_name}' added successfully to table '{table_name}'."
+    except ValueError as e:
+        return f"Error: Invalid expression: {e}"
     except Exception as e:
         return f"Error adding computed column: {str(e)}"
 
@@ -143,11 +258,7 @@ def create_view(view_name: str, table_name: str, filter_expr: str = None) -> str
             return f"Error: Table {table_name} not found."
 
         if filter_expr:
-            # Replace 'table.' with the actual table reference
-            modified_expr = filter_expr.replace("table.", f"{table.name}.")
-
-            # Use eval to convert the string expression to a Python expression
-            filter_condition = eval(modified_expr)
+            filter_condition = _safe_eval(filter_expr, table)
 
             # Create the view with the filter
             view = pxt.create_view(view_name, table.where(filter_condition))
@@ -156,6 +267,8 @@ def create_view(view_name: str, table_name: str, filter_expr: str = None) -> str
             view = pxt.create_view(view_name, table)
 
         return f"View '{view_name}' created successfully."
+    except ValueError as e:
+        return f"Error: Invalid filter expression: {e}"
     except Exception as e:
         return f"Error creating view: {str(e)}"
 
@@ -196,8 +309,7 @@ def execute_query(
 
         # Apply where clause if provided
         if where_expr:
-            modified_expr = where_expr.replace("table.", f"{data_source.name}.")
-            where_condition = eval(modified_expr)
+            where_condition = _safe_eval(where_expr, data_source)
             query = query.where(where_condition)
 
         # Apply order by if provided
@@ -232,25 +344,35 @@ def execute_query(
         result_str = result.to_pandas().to_string()
         return f"Query executed successfully:\n\n{result_str}"
 
+    except ValueError as e:
+        return f"Error: Invalid expression: {e}"
     except Exception as e:
         return f"Error executing query: {str(e)}"
 
 
 @mcp.tool()
-def create_query(query_name: str, table_name: str, query_function: str) -> str:
+def create_query(
+    query_name: str,
+    table_name: str,
+    select_columns: list[str] = None,
+    where_expr: str = None,
+) -> str:
     """Create a named query in Pixeltable.
 
     Args:
         query_name: The name of the query to create.
         table_name: The name of the table the query will operate on.
-        query_function: A string representation of the query function body.
-                       Should be a function that returns a query result.
+        select_columns: Optional list of column names to select.
+                        If None, selects all columns.
+        where_expr: Optional filter expression as a string.
+                    The expression should refer to columns using 'table.column_name'.
 
     Example:
         create_query(
             "get_active_users",
             "users",
-            "return users.where(users.is_active == True).select(users.name, users.email)"
+            select_columns=["name", "email"],
+            where_expr="table.is_active == True"
         )
     """
     try:
@@ -258,16 +380,26 @@ def create_query(query_name: str, table_name: str, query_function: str) -> str:
         if table is None:
             return f"Error: Table {table_name} not found."
 
-        # Create a function definition
-        func_def = f"""
-        @{table.name}.query
-        def {query_name}():
-            {query_function}
-        """
+        # Build the query using Pixeltable's API directly instead of exec()
+        query = table
 
-        # Execute the function definition
-        exec(func_def)
+        if where_expr:
+            filter_condition = _safe_eval(where_expr, table)
+            query = query.where(filter_condition)
+
+        if select_columns:
+            select_args = []
+            for col_name in select_columns:
+                if not _IDENTIFIER_RE.match(col_name):
+                    return f"Error: Invalid column name: '{col_name}'"
+                if hasattr(table, col_name):
+                    select_args.append(getattr(table, col_name))
+                else:
+                    return f"Error: Column '{col_name}' not found in table '{table_name}'."
+            query = query.select(*select_args)
 
         return f"Query '{query_name}' created successfully for table '{table_name}'."
+    except ValueError as e:
+        return f"Error: Invalid expression: {e}"
     except Exception as e:
         return f"Error creating query: {str(e)}"
