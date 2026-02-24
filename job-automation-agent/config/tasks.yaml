@@ -1,0 +1,192 @@
+parse_resume_task:
+  description: >
+    Parse the DOCX resume file at '{resume_path}' and extract structured data in JSON format.
+    
+    Use the available tools to read and parse the DOCX file. Extract the following sections:
+    1. Contact Information (name, email, phone, location, LinkedIn, portfolio)
+    2. Professional Summary/Objective
+    3. Skills (technical skills, soft skills, tools, languages)
+    4. Work Experience (for each role: company, title, dates, location, bullets)
+    5. Education (institution, degree, field, graduation date, GPA if available)
+    6. Projects (if present: name, description, technologies, outcomes)
+    7. Certifications (if present: name, issuer, date)
+    
+    IMPORTANT RULES:
+    - Extract ONLY factual information present in the document
+    - Do NOT invent or fabricate any information
+    - Preserve exact dates, company names, job titles, and metrics
+    - If information is missing, mark it as null/empty
+    - Return structured JSON data with all extracted information
+  expected_output: >
+    A JSON object with structured resume data including contact, summary, skills, experience,
+    education, projects, and certifications sections.
+
+fetch_job_description_task:
+  description: >
+    Fetch the job description from the URL: {job_url}
+    
+    Extract the following information:
+    1. Job Title
+    2. Company Name
+    3. Job Responsibilities/Duties
+    4. Required Skills (hard skills, technical skills)
+    5. Preferred Skills (nice-to-have skills)
+    6. Keywords and key phrases
+    7. Seniority Level Indicators (junior, mid-level, senior, lead, etc.)
+    8. Years of Experience Required
+    9. Location Requirements
+    10. Education Requirements
+    
+    If the URL cannot be scraped (blocked, requires login, etc.), clearly state what information
+    is needed and ask the user to paste the job description text.
+    
+    Return structured JSON data with all extracted information.
+  expected_output: >
+    A JSON object with structured job description data including title, company, responsibilities,
+    required/preferred skills, keywords, and requirements.
+
+analyze_resume_task:
+  description: >
+    Analyze how well the parsed resume matches the job description.
+    
+    Resume Data:
+    {resume_data}
+    
+    Job Description Data:
+    {job_data}
+    
+    Perform the following analysis:
+    1. Keyword Coverage: Identify which job description keywords appear in the resume
+    2. Missing Skills: List required/preferred skills not found in the resume
+    3. Experience Alignment: Compare years of experience and seniority level
+    4. Skill Gaps: Identify areas where the resume lacks relevant skills
+    5. Strengths: Highlight areas where the resume strongly matches
+    6. Optimization Opportunities: Suggest specific improvements
+    
+    Create a detailed analysis report in JSON format.
+  expected_output: >
+    A JSON object containing keyword coverage analysis, missing skills, experience alignment,
+    skill gaps, strengths, and optimization opportunities.
+
+optimize_resume_task:
+  description: >
+    Optimize the resume content for ATS compatibility based on the analysis.
+    
+    Analysis Data:
+    {analysis}
+    
+    Original Resume Data:
+    {resume_data}
+    
+    Job Description Data:
+    {job_data}
+    
+    Apply the following optimizations:
+    1. ATS Formatting Rules:
+       - Use simple, consistent headings (no fancy formatting)
+       - No tables, columns, or complex layouts
+       - No images, icons, or graphics
+       - Use standard fonts (Arial, Calibri, Times New Roman)
+       - Ensure consistent date formats
+    
+    2. Keyword Optimization:
+       - Naturally incorporate missing keywords from job description
+       - Add keywords to skills section where appropriate
+       - Integrate keywords into experience bullets naturally
+       - Avoid keyword stuffing
+    
+    3. Bullet Point Optimization:
+       - Rewrite bullets in action + impact + tools format
+       - Keep bullets to 1-2 lines where possible
+       - Quantify achievements with metrics where available
+       - Use strong action verbs
+    
+    4. Content Reorganization:
+       - Prioritize most relevant experience
+       - Reorder skills to highlight job-relevant ones first
+       - Ensure summary aligns with job requirements
+    
+    5. Tone: Write in a {tone} tone.
+    
+    6. Must-Keep Sections: Preserve these sections exactly as requested: {must_keep_sections}
+    
+    CRITICAL RULES:
+    - NEVER fabricate employers, dates, degrees, or metrics
+    - Only rephrase and reorganize existing content
+    - If information is needed, mark it for user review
+    - Maintain factual accuracy at all times
+    
+    Return optimized resume content in the same structured JSON format as the original.
+  expected_output: >
+    A JSON object with optimized resume content in the same structure as the original, with all
+    ATS optimizations applied while maintaining factual accuracy.
+
+generate_text_resume_task:
+  description: >
+    Format the optimized resume data as a clean, ATS-friendly plain text resume.
+    
+    Optimized Resume Data (JSON format):
+    {optimized_data}
+    
+    Convert it to a well-formatted plain text resume with the following structure:
+    
+    1. Contact Information
+       - Name (at top)
+       - Email | Phone | Location | LinkedIn (if available)
+    
+    2. PROFESSIONAL SUMMARY
+       - Summary text
+    
+    3. SKILLS
+       - List of skills separated by | or commas
+    
+    4. PROFESSIONAL EXPERIENCE
+       For each role:
+       - Job Title | Company Name | Dates | Location
+       - Bullet points (•) describing achievements
+    
+    5. EDUCATION
+       - Degree | Institution | Field | Graduation Date
+    
+    6. PROJECTS (if present)
+       - Project name and description
+    
+    7. CERTIFICATIONS (if present)
+       - Certification name and details
+    
+    Formatting rules:
+    - Use simple, consistent headings in ALL CAPS (e.g., "PROFESSIONAL SUMMARY", "SKILLS", "PROFESSIONAL EXPERIENCE")
+    - Use bullet points (•) for experience bullets
+    - Keep formatting simple and clean
+    - No tables, columns, or complex layouts
+    - Use consistent spacing between sections (blank line between sections)
+    - Ensure the text is ATS-friendly (simple, parseable format)
+    
+    Return the complete formatted resume text (not JSON, but the actual formatted text).
+  expected_output: >
+    The complete formatted resume text ready to be saved as a text file.
+
+submit_job_application_task:
+  description: >
+    Submit the user's job application with optimized resume to the job page using automated browser tools.
+    
+    Job Application URL:
+    {application_url}
+
+    Applicant Profile:
+    {profile}
+    
+    Resume Text:
+    {resume_text}
+    
+    Use the job automation tool to:
+    1. Navigate to the job application page
+    2. Click on the 'Apply' button
+    3. Fill out all form fields with information from the resume text
+    4. For the 'Resume/CV*' upload field, use the 'Enter Manually' option and paste the resume text
+    5. Submit the application
+    
+    Ensure all required fields are completed accurately based on the resume information.
+    Handle any errors gracefully and report the submission status.
+  expected_output: >
+    Confirmation message indicating whether the job application was successfully submitted or any errors encountered.
