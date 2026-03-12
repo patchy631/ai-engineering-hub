@@ -24,7 +24,7 @@ PARAMETERS = {
 CREATE DATABASE hubspot_data
 WITH ENGINE = 'hubspot',
 PARAMETERS = {
-    "access_token": ""
+    "access_token": "pat-na1-d7a93c10-07d1-45fd-ac7a-b109d00d9e2b"
 };
 ```
 
