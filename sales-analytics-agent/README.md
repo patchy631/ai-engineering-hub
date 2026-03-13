@@ -1,4 +1,4 @@
-# Sales Analytics Agent
+# [Sales Analytics Agent](https://github.com/mindsdb/mindsdb)
 
 This project demonstrates how to connect **MongoDB** and **HubSpot** in MindsDB, query across them with SQL, and use an **AI agent** over the same data. The full workflow — from creating datasources and running cross-database queries to creating and querying a sales analytics agent via SQL or the Python SDK — is covered in `QUERY.md` and `main.py`.
 
