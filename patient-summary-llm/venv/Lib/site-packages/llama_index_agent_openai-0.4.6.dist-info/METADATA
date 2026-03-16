@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: llama-index-agent-openai
+Version: 0.4.6
+Summary: llama-index agent openai integration
+License: MIT
+Author: Your Name
+Author-email: you@example.com
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: llama-index-core (>=0.12.18,<0.13.0)
+Requires-Dist: llama-index-llms-openai (>=0.3.0,<0.4.0)
+Requires-Dist: openai (>=1.14.0)
+Description-Content-Type: text/markdown
+
+# LlamaIndex Agent Integration: Openai
+
