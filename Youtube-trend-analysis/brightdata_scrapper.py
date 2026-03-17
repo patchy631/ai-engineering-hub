@@ -105,9 +105,9 @@ def get_output(api_key, snapshot_id, format="json"):
         f"https://api.brightdata.com/datasets/v3/snapshot/{snapshot_id}?format={format}"
     ]
 
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8')
 
-    if result.returncode == 0:
+    if result.returncode == 0  and result.stdout: 
         json_lines = result.stdout.strip().split("\n")
         print(json_lines)
         json_objects = [json.loads(line) for line in json_lines]
