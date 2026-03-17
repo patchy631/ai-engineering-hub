@@ -1,20 +1,30 @@
+import os
+from dotenv import load_dotenv
 import assemblyai as aai
 from elevenlabs import stream
 from elevenlabs.client import ElevenLabs
 from openai import OpenAI
 
+load_dotenv()
+
 class AI_Assistant:
     def __init__(self):
-        aai.settings.api_key = "<AssemblyAI API Key>"
-        self.openai_client = OpenAI(api_key = "<OpenAI API Key>")
-        self.elevenlabs_api_key = "<ElevenLabs API Key>"
+        assemblyai_key = os.getenv("ASSEMBLYAI_API_KEY")
+        openai_key = os.getenv("OPENAI_API_KEY")
+        elevenlabs_key = os.getenv("ELEVENLABS_API_KEY")
 
-        self.elevenlabs_client = ElevenLabs(api_key = self.elevenlabs_api_key)
+        if not all([assemblyai_key, openai_key, elevenlabs_key]):
+            raise ValueError(
+                "Missing required API keys. Please set ASSEMBLYAI_API_KEY, "
+                "OPENAI_API_KEY, and ELEVENLABS_API_KEY in your .env file."
+            )
 
+        aai.settings.api_key = assemblyai_key
+        self.openai_client = OpenAI(api_key=openai_key)
+        self.elevenlabs_client = ElevenLabs(api_key=elevenlabs_key)
         self.transcriber = None
-
         self.interaction = [
-            {"role":"system", "content":"You are a helpful travel guide in London, UK, helping a tourist plan their trip. Be conversational and concise in your responses."},
+            {"role": "system", "content": "You are a helpful travel guide in London, UK, helping a tourist plan their trip. Be conversational and concise in your responses."},
         ]
 
     def stop_transcription(self):
@@ -24,15 +34,12 @@ class AI_Assistant:
 
     def on_open(self, session_opened: aai.RealtimeSessionOpened):
         print("Session ID:", session_opened.session_id)
-        return
 
     def on_error(self, error: aai.RealtimeError):
         print("An error occured:", error)
-        return
 
     def on_close(self):
         print("Closing Session")
-        return
 
     def on_data(self, transcript: aai.RealtimeTranscript):
         if not transcript.text:
@@ -44,50 +51,41 @@ class AI_Assistant:
 
     def start_transcription(self):
         self.transcriber = aai.RealtimeTranscriber(
-            sample_rate = 16000,
-            on_data = self.on_data,
-            on_error = self.on_error,
-            on_open = self.on_open,
-            on_close = self.on_close,
-            end_utterance_silence_threshold = 1000
+            sample_rate=16000,
+            on_data=self.on_data,
+            on_error=self.on_error,
+            on_open=self.on_open,
+            on_close=self.on_close,
+            end_utterance_silence_threshold=1000
         )
-
         self.transcriber.connect()
         microphone_stream = aai.extras.MicrophoneStream(sample_rate=16000)
         self.transcriber.stream(microphone_stream)
 
     def generate_ai_response(self, transcript):
-
         self.stop_transcription()
-
-        self.interaction.append({"role":"user", "content": transcript.text})
+        self.interaction.append({"role": "user", "content": transcript.text})
         print(f"\nTourist: {transcript.text}", end="\r\n")
 
         response = self.openai_client.chat.completions.create(
-            model = "gpt-3.5-turbo",
-            messages = self.interaction
+            model="gpt-3.5-turbo",
+            messages=self.interaction
         )
-
         ai_response = response.choices[0].message.content
-
         self.generate_audio(ai_response)
-
         self.start_transcription()
-        print(f"\nReal-time transcription: ", end="\r\n")
-
+        print("\nReal-time transcription: ", end="\r\n")
 
     def generate_audio(self, text):
-
-        self.interaction.append({"role":"assistant", "content": text})
+        self.interaction.append({"role": "assistant", "content": text})
         print(f"\nAI Guide: {text}")
-
         audio_stream = self.elevenlabs_client.generate(
-            text = text,
-            voice = "Rachel",
-            stream = True
+            text=text,
+            voice="Rachel",
+            stream=True
         )
-
         stream(audio_stream)
+
 
 greeting = "Thank you for calling London Travel Guide. My name is Rachel, how may I assist you?"
 ai_assistant = AI_Assistant()

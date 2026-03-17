@@ -20,11 +20,16 @@ Before running the application, you need API keys for the following services:
 - [Get the API key for OpenAI here →](https://platform.openai.com/api-keys)
 - [Get the API key for ElevenLabs here →](https://elevenlabs.io/app/sign-in)
 
-Update the API keys in the code by replacing the placeholders in the `AI_Assistant` class.
+Copy `.env.example` to `.env` and add your API keys:
+
+```bash
+cp .env.example .env
+```
 
 ## Run the application
 
 ```bash
+pip install assemblyai openai elevenlabs python-dotenv
 python app.py
 ```
 ---
@@ -36,5 +41,3 @@ python app.py
 
 ## Contribution
 Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
-
-
