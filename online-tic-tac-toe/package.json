@@ -1,0 +1,21 @@
+{
+  "name": "online-tic-tac-toe",
+  "version": "1.0.0",
+  "description": "A simple online multiplayer tic-tac-toe game using Firebase Realtime Database",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "tic-tac-toe",
+    "multiplayer",
+    "firebase",
+    "game",
+    "realtime"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
