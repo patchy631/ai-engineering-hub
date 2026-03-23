@@ -57,6 +57,31 @@ const User = {
   verifyPassword(user, password) {
     return bcrypt.compareSync(password, user.password_hash);
   },
+
+  delete(id) {
+    // Validate the id parameter - basic UUID format check
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      throw new Error("Invalid user ID");
+    }
+
+    // Use a transaction to ensure atomicity
+    db.exec("BEGIN TRANSACTION");
+    try {
+      // First delete all tasks created by or assigned to this user
+      const taskStmt = db.prepare("DELETE FROM tasks WHERE created_by = ? OR assignee_id = ?");
+      taskStmt.run(id, id);
+
+      // Then delete the user
+      const userStmt = db.prepare("DELETE FROM users WHERE id = ?");
+      const result = userStmt.run(id);
+
+      db.exec("COMMIT");
+      return result.changes > 0; // Return true if user was deleted
+    } catch (err) {
+      db.exec("ROLLBACK");
+      throw err;
+    }
+  },
 };
 
 module.exports = User;

@@ -9,5 +9,6 @@ router.use(authenticate);
 router.get("/", userController.list);
 router.get("/:id", userController.get);
 router.patch("/:id", userController.update);
+router.delete("/:id", userController.deleteAccount);
 
 module.exports = router;
