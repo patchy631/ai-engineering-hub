@@ -10,10 +10,11 @@ export async function GET() {
       anthropicConfigured: !!process.env.ANTHROPIC_API_KEY,
       groqConfigured: !!process.env.GROQ_API_KEY,
       openaiConfigured: !!process.env.OPENAI_API_KEY,
+      novitaConfigured: !!process.env.NOVITA_API_KEY,
       firecrawlConfigured: !!process.env.FIRECRAWL_API_KEY,
       arcadeConfigured: !!process.env.ARCADE_API_KEY,
       hasKeys: !!(
-        (process.env.ANTHROPIC_API_KEY || process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY) &&
+        (process.env.ANTHROPIC_API_KEY || process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY || process.env.NOVITA_API_KEY) &&
         process.env.FIRECRAWL_API_KEY
       ),
     };

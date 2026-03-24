@@ -7,6 +7,7 @@ export interface APIKeys {
   anthropic?: string;
   groq?: string;
   openai?: string;
+  novita?: string;
   arcade?: string;
   e2b?: string;
 }
@@ -19,6 +20,7 @@ export function getServerAPIKeys(): APIKeys {
   const anthropic = process.env.ANTHROPIC_API_KEY;
   const groq = process.env.GROQ_API_KEY;
   const openai = process.env.OPENAI_API_KEY;
+  const novita = process.env.NOVITA_API_KEY;
   const arcade = process.env.ARCADE_API_KEY;
   const e2b = process.env.E2B_API_KEY;
 
@@ -26,6 +28,7 @@ export function getServerAPIKeys(): APIKeys {
     anthropic,
     groq,
     openai,
+    novita,
     arcade,
     e2b,
   };
@@ -35,6 +38,6 @@ export function getServerAPIKeys(): APIKeys {
  * Check if required API keys are configured
  */
 export function hasServerAPIKeys(): boolean {
-  const hasLLMKey = !!(process.env.ANTHROPIC_API_KEY || process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY);
+  const hasLLMKey = !!(process.env.ANTHROPIC_API_KEY || process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY || process.env.NOVITA_API_KEY);
   return hasLLMKey;
 }

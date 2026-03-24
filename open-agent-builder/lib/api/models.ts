@@ -2,7 +2,7 @@
  * Model validation and configuration for LLM providers
  */
 
-export type Provider = 'openai' | 'anthropic' | 'groq';
+export type Provider = 'openai' | 'anthropic' | 'groq' | 'novita';
 
 export interface ModelConfig {
   provider: Provider;
@@ -33,6 +33,11 @@ export const SUPPORTED_MODELS = {
     // Only Groq models that support Responses API (per Groq docs)
     'gpt-oss-120b',
   ],
+  novita: [
+    'moonshotai/kimi-k2.5',
+    'zai-org/glm-5',
+    'minimax/minimax-m2.5',
+  ],
 } as const;
 
 /**
@@ -42,6 +47,7 @@ export const DEFAULT_MODELS = {
   openai: 'gpt-4o',
   anthropic: 'claude-sonnet-4-5-20250929', // Claude 4.5 Sonnet
   groq: 'gpt-oss-120b', // Using Responses API model for better MCP support
+  novita: 'moonshotai/kimi-k2.5',
 } as const;
 
 /**
@@ -56,10 +62,12 @@ export function parseModelString(modelString?: string): { provider: Provider; mo
   }
 
   if (modelString.includes('/')) {
-    const [provider, modelName] = modelString.split('/', 2) as [string, string];
+    const firstSlashIndex = modelString.indexOf('/');
+    const provider = modelString.substring(0, firstSlashIndex);
+    const modelName = modelString.substring(firstSlashIndex + 1);
 
     // Validate provider
-    if (provider !== 'openai' && provider !== 'anthropic' && provider !== 'groq') {
+    if (provider !== 'openai' && provider !== 'anthropic' && provider !== 'groq' && provider !== 'novita') {
       // Default to openai if provider is unknown
       return { provider: 'openai', modelName: DEFAULT_MODELS.openai };
     }
@@ -108,7 +116,7 @@ export function getDefaultModel(provider: Provider): string {
  * Check if a provider is supported
  */
 export function isSupportedProvider(provider: string): provider is Provider {
-  return provider === 'openai' || provider === 'anthropic' || provider === 'groq';
+  return provider === 'openai' || provider === 'anthropic' || provider === 'groq' || provider === 'novita';
 }
 
 /**
