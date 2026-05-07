@@ -1,0 +1,33 @@
+figure_analysis:
+  agent: figure_analyst
+  description: |
+    You will receive a list of figures extracted from a scientific paper via Datalab's
+    chart_understanding pipeline. Each figure entry contains: figure_id, page_number,
+    chart_type (as detected by OCR), title, x_axis, y_axis, data_summary, conditions,
+    caption, and optionally an image_path pointing to the chart image on disk.
+
+    For EACH figure, if an image_path is present, use it to visually inspect the chart
+    before extracting intelligence — this gives you ground truth that text alone cannot.
+
+    For EACH figure in the list, produce a FigureIntelligence object containing:
+    - figure_id: copy exactly from input
+    - chart_type: refine to the most precise descriptor (dose-response, survival curve,
+      bar chart, scatter plot, Western blot, heatmap, etc.) — use the image where available
+    - key_finding: one declarative sentence summarizing the single most important result,
+      including direction and magnitude of any effect
+      (e.g. 'Semaglutide 2.4 mg produced 14.9% mean weight loss vs 2.4% placebo at 68 weeks, p<0.001')
+    - variables_compared: list all independent variables or comparison groups explicitly shown
+    - quantitative_highlights: list every numerical result, p-value, fold-change, or percentage
+      difference readable from the figure or caption — minimum 2 items per figure
+    - biological_significance: 2-3 sentences on why this finding matters scientifically or
+      clinically, referencing the mechanism or implication
+    - knowledge_base_tags: 4-8 short tags for knowledge base indexing — include drug names,
+      target names, assay types, disease areas, and statistical methods used
+
+    Return ALL figures as a FigureIntelligenceList with a 'figures' list field.
+    Do not skip any figure. Do not add commentary outside the schema.
+
+    Input figures: {figures}
+  expected_output: |
+    A FigureIntelligenceList Pydantic object containing one FigureIntelligence entry
+    per input figure, with all required fields populated. No figures skipped.
