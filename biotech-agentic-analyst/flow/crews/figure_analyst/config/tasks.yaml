@@ -17,8 +17,9 @@ figure_analysis:
       including direction and magnitude of any effect
       (e.g. 'Semaglutide 2.4 mg produced 14.9% mean weight loss vs 2.4% placebo at 68 weeks, p<0.001')
     - variables_compared: list all independent variables or comparison groups explicitly shown
-    - quantitative_highlights: list every numerical result, p-value, fold-change, or percentage
-      difference readable from the figure or caption — minimum 2 items per figure
+    - quantitative_highlights: list all numerical result, p-value, fold-change, or percentage
+      explicitly readable from the figure or caption — minimum 2 items per figure; 
+      if none are present, return an empty list
     - biological_significance: 2-3 sentences on why this finding matters scientifically or
       clinically, referencing the mechanism or implication
     - knowledge_base_tags: 4-8 short tags for knowledge base indexing — include drug names,

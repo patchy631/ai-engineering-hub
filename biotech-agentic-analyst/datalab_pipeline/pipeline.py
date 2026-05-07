@@ -122,7 +122,7 @@ def _poll_for_scores(check_url: str, api_key: str, max_wait: int = 60) -> float 
 
 def run_science_pipeline(
     client,
-    pipeline_id: str,  # kept for API compatibility, not used
+    pipeline_id: str | None = None,  # kept for API compatibility, not used
     file_path: str,
     poll_interval: int = 1,
     timeout: int = 1800,

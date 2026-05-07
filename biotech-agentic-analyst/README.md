@@ -12,7 +12,7 @@ We use:
 ## How It Works
 
 1. Upload a scientific PDF
-2. Datalab runs a convert → extract steps to identify and extract all figures, axis labels, and captions
+2. Datalab runs a convert → extract process to identify and extract all figures, axis labels, and captions
 3. A CrewAI Flow with Analyst agent produces structured intelligence for each figure:
    - Chart type and key finding
    - Variables and conditions compared
