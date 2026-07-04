@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useEffect, Suspense } from "react";
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -8,30 +7,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 
 // Import shared components
-import Button from "@/components/shared/button/Button";
 import { Connector } from "@/components/shared/layout/curvy-rect";
-import HeroFlame from "@/components/shared/effects/flame/hero-flame";
-import AsciiExplosion from "@/components/shared/effects/flame/ascii-explosion";
 import { HeaderProvider } from "@/components/shared/header/HeaderContext";
 
 // Import hero section components
-import HomeHeroBackground from "@/components/app/(home)/sections/hero/Background/Background";
-import { BackgroundOuterPiece } from "@/components/app/(home)/sections/hero/Background/BackgroundOuterPiece";
-import HomeHeroBadge from "@/components/app/(home)/sections/hero/Badge/Badge";
-import HomeHeroPixi from "@/components/app/(home)/sections/hero/Pixi/Pixi";
 import HomeHeroTitle from "@/components/app/(home)/sections/hero/Title/Title";
-import HeroInputSubmitButton from "@/components/app/(home)/sections/hero-input/Button/Button";
-import Globe from "@/components/app/(home)/sections/hero-input/_svg/Globe";
 import { Endpoint } from "@/components/shared/Playground/Context/types";
 import Step2Placeholder from "@/components/app/(home)/sections/step2/Step2Placeholder";
 import WorkflowBuilder from "@/components/app/(home)/sections/workflow-builder/WorkflowBuilder";
 
 // Import header components
-import HeaderBrandKit from "@/components/shared/header/BrandKit/BrandKit";
 import HeaderWrapper from "@/components/shared/header/Wrapper/Wrapper";
 import HeaderDropdownWrapper from "@/components/shared/header/Dropdown/Wrapper/Wrapper";
-import GithubIcon from "@/components/shared/header/Github/_svg/GithubIcon";
-import ButtonUI from "@/components/ui/shadcn/button";
 
 function StyleGuidePageContent() {
   const router = useRouter();
@@ -67,8 +54,10 @@ function StyleGuidePageContent() {
   }, [searchParams]);
 
   const handleSubmit = () => {
-    setShowStep2(true);
-    router.push('/?view=workflows');
+    setLoadWorkflowId(null);
+    setLoadTemplateId(null);
+    setShowWorkflowBuilder(true);
+    router.push('/?view=builder');
   };
 
   const handleReset = () => {
@@ -102,39 +91,37 @@ function StyleGuidePageContent() {
         {/* Header/Navigation Section */}
         <HeaderDropdownWrapper />
         
-        <div className="sticky top-0 left-0 w-full z-[101] bg-background-base header">
+        <div className="sticky top-0 left-0 w-full z-[101] bg-purple-50 header">
           <div className="absolute top-0 cmw-container border-x border-border-faint h-full pointer-events-none" />
-          
+
           <div className="h-1 bg-border-faint w-full left-0 -bottom-1 absolute" />
-          
+
           <div className="cmw-container absolute h-full pointer-events-none top-0">
             <Connector className="absolute -left-[10.5px] -bottom-11" />
             <Connector className="absolute -right-[10.5px] -bottom-11" />
           </div>
-          
+
           <HeaderWrapper>
             <div className="max-w-[900px] mx-auto w-full flex justify-between items-center">
               <div className="flex gap-24 items-center">
-                <HeaderBrandKit />
+                {/* Logo removed */}
               </div>
-              
+
               <div className="flex gap-8 items-center">
-                {/* GitHub Template Button */}
+                {/* Powered by Composio Button */}
                 <a
-                  className="contents"
-                  href="https://github.com/firecrawl/firecrawl"
+                  href="https://composio.dev/"
                   target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-2.5 bg-[#de6f6f] hover:bg-[#d45f5f] text-white text-sm font-medium rounded-full transition-all shadow-sm hover:shadow-md"
                 >
-                  <ButtonUI variant="secondary">
-                    <GithubIcon />
-                    Use this Template
-                  </ButtonUI>
+                  Powered by Composio
                 </a>
 
                 {/* Clerk Auth */}
                 <SignedOut>
                   <SignInButton mode="modal">
-                    <button className="px-16 py-8 bg-heat-100 hover:bg-heat-200 text-white rounded-8 text-body-medium font-medium transition-all active:scale-[0.98]">
+                    <button className="px-16 py-8 bg-[#de6f6f] hover:bg-[#d45f5f] text-white rounded-8 text-body-medium font-medium transition-all active:scale-[0.98]">
                       Sign In
                     </button>
                   </SignInButton>
@@ -156,13 +143,12 @@ function StyleGuidePageContent() {
         </div>
 
         {/* Hero Section */}
-        <section className="overflow-x-clip" id="home-hero">
-          <div className="pt-28 lg:pt-254 lg:-mt-100 pb-115 relative" id="hero-content">
-            <HomeHeroPixi />
-            <HeroFlame />
-            <BackgroundOuterPiece />
-            <HomeHeroBackground />
+        <section className="overflow-x-clip relative" id="home-hero">
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-b from-purple-50 via-blue-50 to-background-base pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-100/20 via-transparent to-transparent pointer-events-none" />
 
+          <div className="pt-28 lg:pt-254 lg:-mt-100 pb-115 relative" id="hero-content">
             <AnimatePresence mode="wait">
               {!showStep2 ? (
                 <motion.div
@@ -172,21 +158,28 @@ function StyleGuidePageContent() {
                   transition={{ duration: 0.5 }}
                   className="relative container px-16"
                 >
-                  <HomeHeroBadge />
                   <HomeHeroTitle />
 
-                  <p className="text-center text-body-large">
-                    Build intelligent web scraping workflows powered by AI.
+                  <p className="text-center text-body-large text-gray-700 max-w-2xl mx-auto mb-8">
+                    Build custom AI agents without writing code.
                     <br className="lg-max:hidden" />
-                    Turn any website into structured, agent-ready data.
-                    <Link
-                      className="bg-black-alpha-4 hover:bg-black-alpha-6 lg:ml-4 rounded-6 px-8 lg:px-6 text-label-large lg-max:py-2 h-30 lg:h-24 block lg-max:mt-8 lg-max:mx-auto lg-max:w-max lg:inline-block gap-4 transition-all"
-                      href="https://firecrawl.dev"
-                      target="_blank"
-                    >
-                      AI agent workflows
-                    </Link>
+                    The open-source alternative to proprietary agent builders.
                   </p>
+
+                  {/* Composio Branding */}
+                  <div className="flex items-center justify-center mb-12">
+                    <a
+                      href="https://composio.dev/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl border border-gray-200 text-sm transition-all cursor-pointer"
+                      style={{
+                        boxShadow: '0 4px 14px 0 rgba(124, 58, 237, 0.15), 0 2px 8px 0 rgba(59, 130, 246, 0.1)'
+                      }}
+                    >
+                      <span className="text-gray-600">Powered by <span className="font-semibold text-[#de6f6f]">Composio&apos;s</span> self-evolving skill layer and 10k+ tools</span>
+                    </a>
+                  </div>
                 </motion.div>
               ) : (
                 <SignedIn>
@@ -231,7 +224,7 @@ function StyleGuidePageContent() {
               <SignedIn>
                 <button
                   onClick={handleSubmit}
-                  className="bg-heat-100 hover:bg-heat-200 text-white font-medium px-32 py-12 rounded-10 transition-all active:scale-[0.98] text-body-medium shadow-md cursor-pointer"
+                  className="bg-[#de6f6f] hover:bg-[#d45f5f] text-white font-medium px-24 py-10 rounded-10 transition-all active:scale-[0.98] text-body-medium shadow-md cursor-pointer"
                 >
                   Start building
                 </button>
@@ -240,7 +233,7 @@ function StyleGuidePageContent() {
               {/* When signed out - open sign-in modal */}
               <SignedOut>
                 <SignInButton mode="modal">
-                  <button className="bg-heat-100 hover:bg-heat-200 text-white font-medium px-32 py-12 rounded-10 transition-all active:scale-[0.98] text-body-medium shadow-md cursor-pointer">
+                  <button className="bg-[#de6f6f] hover:bg-[#d45f5f] text-white font-medium px-24 py-10 rounded-10 transition-all active:scale-[0.98] text-body-medium shadow-md cursor-pointer">
                     Start building
                   </button>
                 </SignInButton>

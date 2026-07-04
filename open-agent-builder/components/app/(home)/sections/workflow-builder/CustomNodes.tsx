@@ -22,10 +22,10 @@ export function CustomNode({ data, selected }: NodeProps) {
   const getBorderStyle = () => {
     // Note nodes have no border
     if (nodeType === 'note') return 'none';
-    if (isRunning) return '1px solid #FA5D19';
+    if (isRunning) return '1px solid #22C55E';
     if (executionStatus === 'completed') return '1px solid #9ca3af';
     if (executionStatus === 'failed') return '1px solid #eb3424';
-    if (selected) return '1px solid #FA5D19';
+    if (selected) return '1px solid #22C55E';
     return '1px solid #e5e7eb';
   };
 
@@ -37,7 +37,7 @@ export function CustomNode({ data, selected }: NodeProps) {
   };
 
   const getOutlineStyle = () => {
-    if (isRunning) return '2px solid rgba(250, 93, 25, 0.32)';
+    if (isRunning) return '2px solid rgba(34, 197, 94, 0.32)';
     if (selected) return '2px solid rgba(24, 24, 27, 0.18)';
     return '2px solid transparent';
   };

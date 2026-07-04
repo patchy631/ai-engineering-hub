@@ -1,0 +1,25 @@
+name: Sync Evals Leaderboard to Hugging Face Space
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/evals-leaderboard/**'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install huggingface_hub
+        run: curl -LsSf https://hf.co/cli/install.sh | bash
+
+      - name: Upload evals leaderboard to HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: hf upload hf-skills/distributed-leaderboard apps/evals-leaderboard . --repo-type=space
+

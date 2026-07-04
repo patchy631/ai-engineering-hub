@@ -1,0 +1,37 @@
+[
+  {
+    "chunkIndex": 0,
+    "heading": "Company Overview",
+    "content": "Bean & Brew is a specialty coffee shop located in downtown Seattle, Washington. Founded in 2018 by Maria Chen and David Rodriguez, the shop has become a local favorite for artisanal coffee and pastries. The shop employs 12 staff members and serves approximately 300 customers daily. Bean & Brew is known for its sustainable sourcing practices and community engagement initiatives.",
+    "context": "This section provides foundational information about Bean & Brew coffee shop, including its location, founding, ownership, staffing, and customer base. It establishes the company's identity as a specialty coffee shop with a focus on sustainability and community involvement in downtown Seattle.",
+    "tokenEstimate": 95
+  },
+  {
+    "chunkIndex": 1,
+    "heading": "Products and Services",
+    "content": "Bean & Brew offers a wide range of beverages including espresso drinks, pour-over coffee, cold brew, and specialty teas. The shop sources its coffee beans from small farms in Colombia, Ethiopia, and Guatemala. In addition to beverages, they serve fresh-baked pastries, sandwiches, and salads made daily by their in-house baker, Sophie Martin. The shop also sells whole bean coffee and brewing equipment for home enthusiasts.",
+    "context": "This section details Bean & Brew's product offerings and services. It covers the beverage menu (espresso, pour-over, cold brew, teas), coffee sourcing from specific countries (Colombia, Ethiopia, Guatemala), food items prepared by in-house baker Sophie Martin, and retail products like whole bean coffee and brewing equipment for customers to use at home.",
+    "tokenEstimate": 110
+  },
+  {
+    "chunkIndex": 2,
+    "heading": "Operating Hours and Location",
+    "content": "The coffee shop is located at 456 Pine Street, Seattle, WA 98101, right next to Pioneer Square. Operating hours are Monday through Friday from 6:30 AM to 7:00 PM, Saturday from 7:00 AM to 8:00 PM, and Sunday from 8:00 AM to 6:00 PM. The shop features free WiFi, plenty of seating including outdoor patio space, and is wheelchair accessible. Parking is available in the adjacent public parking garage.",
+    "context": "This section provides practical information for customers including the precise physical address (456 Pine Street, Seattle, WA 98101 near Pioneer Square), detailed operating hours for each day of the week, and amenities such as free WiFi, seating options (including outdoor patio), wheelchair accessibility, and nearby parking facilities.",
+    "tokenEstimate": 115
+  },
+  {
+    "chunkIndex": 3,
+    "heading": "Customer Loyalty Program",
+    "content": "Bean & Brew launched its loyalty program, 'Bean Rewards', in January 2020. Members earn 1 point for every dollar spent, and 100 points can be redeemed for a free beverage of any size. The program has over 2,500 active members. Premium members, who pay an annual fee of $50, receive 20% off all purchases and exclusive access to new menu items. The program is managed through a mobile app available on iOS and Android.",
+    "context": "This section describes Bean & Brew's customer loyalty program called 'Bean Rewards'. It covers the program launch date (January 2020), point earning structure (1 point per dollar), redemption benefits (100 points for free beverage), membership statistics (2,500+ active members), premium membership details ($50/year for 20% discount and early access), and the mobile app availability on iOS and Android platforms.",
+    "tokenEstimate": 125
+  },
+  {
+    "chunkIndex": 4,
+    "heading": "Community Events",
+    "content": "Bean & Brew hosts various community events throughout the year. Every first Saturday, they organize 'Coffee Cupping Sessions' where customers can learn about different coffee origins and brewing methods. The shop partners with local artists to display their work on the walls, with exhibits changing monthly. During summer months, they host 'Music on the Patio' featuring local musicians every Friday evening from 6 PM to 8 PM. All events are free and open to the public.",
+    "context": "This section highlights Bean & Brew's community engagement activities. It describes recurring events including monthly Coffee Cupping Sessions (first Saturday of each month) for coffee education, rotating monthly art exhibits featuring local artists, and summer Music on the Patio concerts (Friday evenings, 6-8 PM). All events are free, emphasizing the shop's commitment to community building and cultural engagement.",
+    "tokenEstimate": 120
+  }
+]

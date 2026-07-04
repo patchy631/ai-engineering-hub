@@ -1,0 +1,62 @@
+{
+  "type": "classification",
+  "description": "Text classification datasets for sentiment analysis, topic classification, intent detection, etc.",
+  "system_prompt": "Create high-quality text classification training data. Each example should have clear, unambiguous text and appropriate labels. Ensure balanced representation across all classes and include diverse language patterns.",
+  "validation_schema": {
+    "required_fields": ["text", "label"],
+    "recommended_fields": ["confidence", "metadata", "source"],
+    "field_types": {
+      "text": "string",
+      "label": "string|array",
+      "confidence": "number",
+      "metadata": "object",
+      "source": "string"
+    }
+  },
+  "example_structure": {
+    "text": "Input text to be classified",
+    "label": "classification_label",
+    "confidence": 0.95,
+    "metadata": {
+      "length": 42,
+      "language": "en",
+      "domain": "technology"
+    },
+    "source": "web_scraping"
+  },
+  "examples": [
+    {
+      "text": "I absolutely love this new smartphone! The camera quality is outstanding and the battery lasts all day.",
+      "label": "positive",
+      "confidence": 0.98,
+      "metadata": {
+        "length": 98,
+        "language": "en",
+        "domain": "product_reviews"
+      },
+      "source": "customer_feedback"
+    },
+    {
+      "text": "The software keeps crashing and customer support is unresponsive. Very disappointed with this purchase.",
+      "label": "negative",
+      "confidence": 0.92,
+      "metadata": {
+        "length": 96,
+        "language": "en",
+        "domain": "product_reviews"
+      },
+      "source": "customer_feedback"
+    },
+    {
+      "text": "Book a table for two at 7 PM tonight",
+      "label": "restaurant_reservation",
+      "confidence": 0.95,
+      "metadata": {
+        "length": 35,
+        "language": "en",
+        "domain": "intent_detection"
+      },
+      "source": "voice_assistant"
+    }
+  ]
+}

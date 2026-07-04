@@ -1,0 +1,25 @@
+name: Sync Quests to Hugging Face Space
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'quests/**'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install huggingface_hub
+        run: curl -LsSf https://hf.co/cli/install.sh | bash
+
+      - name: Upload quests to HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: hf upload hf-skills/README quests . --repo-type=space
+

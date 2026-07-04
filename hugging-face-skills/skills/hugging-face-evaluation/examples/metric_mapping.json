@@ -1,0 +1,50 @@
+{
+  "MMLU": {
+    "type": "mmlu",
+    "name": "Massive Multitask Language Understanding"
+  },
+  "HumanEval": {
+    "type": "humaneval",
+    "name": "Code Generation (HumanEval)"
+  },
+  "GSM8K": {
+    "type": "gsm8k",
+    "name": "Grade School Math"
+  },
+  "HellaSwag": {
+    "type": "hellaswag",
+    "name": "HellaSwag Common Sense"
+  },
+  "ARC-C": {
+    "type": "arc_challenge",
+    "name": "ARC Challenge"
+  },
+  "ARC-E": {
+    "type": "arc_easy",
+    "name": "ARC Easy"
+  },
+  "Winogrande": {
+    "type": "winogrande",
+    "name": "Winogrande"
+  },
+  "TruthfulQA": {
+    "type": "truthfulqa",
+    "name": "TruthfulQA"
+  },
+  "GPQA": {
+    "type": "gpqa",
+    "name": "Graduate-Level Google-Proof Q&A"
+  },
+  "DROP": {
+    "type": "drop",
+    "name": "Discrete Reasoning Over Paragraphs"
+  },
+  "BBH": {
+    "type": "bbh",
+    "name": "Big Bench Hard"
+  },
+  "MATH": {
+    "type": "math",
+    "name": "MATH Dataset"
+  }
+}

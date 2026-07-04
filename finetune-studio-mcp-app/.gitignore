@@ -1,0 +1,8 @@
+node_modules/
+# Keep dist/widget.html committed so cloud deployments don't need a build step
+dist/*.js
+dist/*.js.map
+*.env
+.DS_Store
+.env.local
+.mcp-use

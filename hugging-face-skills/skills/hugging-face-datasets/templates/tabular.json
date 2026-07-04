@@ -1,0 +1,81 @@
+{
+  "type": "tabular",
+  "description": "Structured tabular data for regression, classification, or analysis tasks",
+  "system_prompt": "Generate structured tabular data with clear column definitions and appropriate data types. Ensure realistic value ranges and relationships between variables. Include proper metadata for each column.",
+  "validation_schema": {
+    "required_fields": ["data", "columns"],
+    "recommended_fields": ["target", "metadata", "description"],
+    "field_types": {
+      "data": "array",
+      "columns": "array",
+      "target": "string",
+      "metadata": "object",
+      "description": "string"
+    }
+  },
+  "example_structure": {
+    "columns": [
+      {
+        "name": "column_name",
+        "type": "numeric|categorical|text|datetime",
+        "description": "What this column represents",
+        "nullable": true
+      }
+    ],
+    "data": [
+      {"column1": "value1", "column2": "value2"},
+      {"column1": "value3", "column2": "value4"}
+    ],
+    "target": "target_column_name",
+    "metadata": {
+      "rows": 1000,
+      "features": 10,
+      "task": "classification|regression|clustering"
+    },
+    "description": "Description of the dataset purpose"
+  },
+  "examples": [
+    {
+      "columns": [
+        {
+          "name": "age",
+          "type": "numeric",
+          "description": "Customer age in years",
+          "nullable": false
+        },
+        {
+          "name": "income",
+          "type": "numeric",
+          "description": "Annual income in USD",
+          "nullable": false
+        },
+        {
+          "name": "education",
+          "type": "categorical",
+          "description": "Education level",
+          "nullable": false
+        },
+        {
+          "name": "purchased",
+          "type": "categorical",
+          "description": "Whether customer made a purchase",
+          "nullable": false
+        }
+      ],
+      "data": [
+        {"age": 25, "income": 45000, "education": "bachelor", "purchased": "yes"},
+        {"age": 34, "income": 67000, "education": "master", "purchased": "yes"},
+        {"age": 19, "income": 23000, "education": "high_school", "purchased": "no"},
+        {"age": 42, "income": 85000, "education": "bachelor", "purchased": "yes"},
+        {"age": 28, "income": 52000, "education": "bachelor", "purchased": "no"}
+      ],
+      "target": "purchased",
+      "metadata": {
+        "rows": 5,
+        "features": 3,
+        "task": "classification"
+      },
+      "description": "Customer purchase prediction based on demographics"
+    }
+  ]
+}

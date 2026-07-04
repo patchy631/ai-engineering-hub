@@ -1,0 +1,51 @@
+{
+  "type": "completion",
+  "description": "Text completion and generation datasets for language modeling, code completion, creative writing",
+  "system_prompt": "Generate diverse text completion examples that demonstrate natural language patterns, creativity, and contextual understanding. Include various domains like code, creative writing, technical documentation, and conversational text.",
+  "validation_schema": {
+    "required_fields": ["prompt", "completion"],
+    "recommended_fields": ["domain", "style", "length", "difficulty"],
+    "field_types": {
+      "prompt": "string",
+      "completion": "string",
+      "domain": "enum:code,creative,technical,conversational,academic",
+      "style": "string",
+      "length": "enum:short,medium,long",
+      "difficulty": "enum:beginner,intermediate,advanced"
+    }
+  },
+  "example_structure": {
+    "prompt": "The beginning text or context",
+    "completion": "The expected continuation or completion",
+    "domain": "code|creative|technical|conversational|academic",
+    "style": "description of writing style",
+    "length": "short|medium|long",
+    "difficulty": "beginner|intermediate|advanced"
+  },
+  "examples": [
+    {
+      "prompt": "def fibonacci(n):\n    \"\"\"Calculate the nth Fibonacci number.\"\"\"\n    if n <= 1:\n        return n\n    else:",
+      "completion": "        return fibonacci(n-1) + fibonacci(n-2)",
+      "domain": "code",
+      "style": "python_function",
+      "length": "short",
+      "difficulty": "beginner"
+    },
+    {
+      "prompt": "The old lighthouse stood silently on the cliff, its beacon long extinguished. Sarah approached slowly, wondering",
+      "completion": "if the stories her grandmother had told her were true. As she pushed open the weathered door, a gust of salt air carried whispers of the past, and she could almost see the ghostly figure of the lighthouse keeper who had vanished mysteriously fifty years ago.",
+      "domain": "creative",
+      "style": "narrative_fiction",
+      "length": "medium",
+      "difficulty": "intermediate"
+    },
+    {
+      "prompt": "To configure SSL/TLS encryption for your web server, you'll need to:",
+      "completion": "1. Obtain an SSL certificate from a trusted Certificate Authority (CA)\n2. Install the certificate on your web server\n3. Configure your server to use HTTPS (port 443)\n4. Update your application to redirect HTTP traffic to HTTPS\n5. Test the implementation using SSL testing tools\n\nMake sure to backup your server configuration before making changes.",
+      "domain": "technical",
+      "style": "instructional",
+      "length": "medium",
+      "difficulty": "intermediate"
+    }
+  ]
+}

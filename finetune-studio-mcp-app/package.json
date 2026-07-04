@@ -1,0 +1,28 @@
+{
+  "name": "finetune-studio-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "INPUT=widget.html vite build",
+    "start": "npx tsx server.ts",
+    "serve": "npx tsx server.ts",
+    "dev": "npm run build && npx tsx server.ts"
+  },
+  "dependencies": {
+    "@gradio/client": "^2.2.0",
+    "@modelcontextprotocol/ext-apps": "latest",
+    "@modelcontextprotocol/sdk": "latest",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "tsx": "^4.7.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
+    "vite-plugin-singlefile": "^2.3.3"
+  }
+}

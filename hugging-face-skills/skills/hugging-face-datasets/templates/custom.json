@@ -1,0 +1,75 @@
+{
+  "type": "custom",
+  "description": "Flexible template for custom dataset formats - define your own schema and validation rules",
+  "system_prompt": "Generate data according to the custom schema provided. Follow the field definitions, data types, and validation rules specified in the schema configuration.",
+  "validation_schema": {
+    "required_fields": ["data"],
+    "recommended_fields": ["schema", "metadata"],
+    "field_types": {
+      "data": "any",
+      "schema": "object",
+      "metadata": "object"
+    }
+  },
+  "example_structure": {
+    "data": "Your custom data structure goes here",
+    "schema": {
+      "fields": [
+        {
+          "name": "field_name",
+          "type": "string|number|boolean|array|object",
+          "required": true,
+          "description": "Field description"
+        }
+      ],
+      "validation_rules": {
+        "custom_rule_1": "validation logic",
+        "custom_rule_2": "additional validation"
+      }
+    },
+    "metadata": {
+      "created_by": "user",
+      "purpose": "dataset purpose",
+      "version": "1.0"
+    }
+  },
+  "examples": [
+    {
+      "data": {
+        "id": "unique_identifier",
+        "features": {
+          "text_feature": "sample text",
+          "numeric_features": [1.0, 2.5, -0.3],
+          "categorical_feature": "category_a"
+        },
+        "labels": {
+          "primary_label": "positive",
+          "confidence_score": 0.87,
+          "secondary_labels": ["helpful", "informative"]
+        },
+        "annotations": {
+          "annotator_id": "expert_1",
+          "annotation_time": "2024-01-15T10:30:00Z",
+          "quality_score": 9
+        }
+      },
+      "schema": {
+        "fields": [
+          {"name": "id", "type": "string", "required": true, "description": "Unique identifier"},
+          {"name": "features", "type": "object", "required": true, "description": "Input features"},
+          {"name": "labels", "type": "object", "required": true, "description": "Target labels"},
+          {"name": "annotations", "type": "object", "required": false, "description": "Annotation metadata"}
+        ],
+        "validation_rules": {
+          "id_format": "must be non-empty string",
+          "confidence_range": "must be between 0 and 1"
+        }
+      },
+      "metadata": {
+        "created_by": "data_scientist",
+        "purpose": "multi_modal_classification",
+        "version": "1.0"
+      }
+    }
+  ]
+}

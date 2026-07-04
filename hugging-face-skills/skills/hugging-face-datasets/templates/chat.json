@@ -1,0 +1,55 @@
+{
+  "type": "chat",
+  "description": "Conversational AI training data with chat templating support",
+  "system_prompt": "You are an AI assistant expert at using tools and engaging in helpful conversations. Generate training examples that demonstrate natural dialogue patterns, tool usage, and problem-solving interactions.",
+  "validation_schema": {
+    "required_fields": ["messages"],
+    "recommended_fields": ["scenario", "complexity", "tools_used", "learning_objectives"],
+    "field_types": {
+      "messages": "array",
+      "scenario": "string",
+      "complexity": "enum:simple,intermediate,advanced",
+      "tools_used": "array",
+      "learning_objectives": "array"
+    }
+  },
+  "example_structure": {
+    "messages": [
+      {
+        "role": "user|assistant|tool|system",
+        "content": "Message content",
+        "tool_calls": [
+          {
+            "type": "function",
+            "function": {
+              "name": "tool_name",
+              "arguments": {"param": "value"}
+            }
+          }
+        ]
+      }
+    ],
+    "scenario": "Brief description of the use case",
+    "complexity": "simple|intermediate|advanced",
+    "tools_used": ["tool1", "tool2"],
+    "learning_objectives": ["objective1", "objective2"]
+  },
+  "examples": [
+    {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Hello! Can you help me understand how to use APIs?"
+        },
+        {
+          "role": "assistant",
+          "content": "I'd be happy to help you understand APIs! An API (Application Programming Interface) is like a bridge that allows different software applications to communicate with each other.\n\nThink of it like ordering at a restaurant:\n- You (the client) look at the menu (API documentation)\n- You tell the waiter (the API) what you want\n- The waiter takes your order to the kitchen (the server)\n- The kitchen prepares your food (processes the request)\n- The waiter brings your food back (returns the response)\n\nWould you like me to show you a simple example of making an API call?"
+        }
+      ],
+      "scenario": "API education and explanation",
+      "complexity": "simple",
+      "tools_used": [],
+      "learning_objectives": ["API concepts", "educational conversation", "analogical explanation"]
+    }
+  ]
+}

@@ -31,7 +31,7 @@ export default function HeaderWrapper({
     <div
       className={cn(
         "container lg:px-56 px-16 flex justify-between transition-[padding] duration-[200ms] items-center",
-        shouldShrink ? "py-20" : "py-20 lg:py-34",
+        shouldShrink ? "py-12" : "py-12 lg:py-16",
       )}
     >
       {children}

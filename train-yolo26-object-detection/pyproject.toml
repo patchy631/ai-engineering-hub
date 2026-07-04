@@ -1,0 +1,13 @@
+[project]
+name = "train-yolo26-object-detection"
+version = "0.1.0"
+description = "Train YOLO26 Object Detection Model on a Custom Dataset"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "comet-ml>=3.56.0",
+    "python-dotenv>=1.2.1",
+    "roboflow>=1.2.14",
+    "supervision>=0.27.0.post1",
+    "ultralytics>=8.4.0",
+]
