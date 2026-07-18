@@ -1,0 +1,62 @@
+content_strategy_task:
+  description: >
+    Develop a comprehensive content strategy based on the research findings:
+    1. Analyze the research report to identify key angles and narratives
+    2. Determine the most engaging story structure
+    3. Plan section organization and information flow
+    4. Identify key points that will resonate with readers
+    5. Create an outline with compelling headlines
+    6. Determine the overall tone and approach
+    
+    Consider the target audience and ensure the strategy maximizes engagement while maintaining accuracy.
+  expected_output: >
+    A detailed content strategy including:
+    - Recommended article structure with section headings
+    - Key narrative angles and story hooks
+    - Priority information and supporting details
+    - Tone and style recommendations
+    - Engagement optimization suggestions
+    Format as a structured plan for the content writer to follow.
+
+content_creation_task:
+  description: >
+    Create engaging blog content based on the content strategy and research findings:
+    1. Write a compelling introduction that hooks readers
+    2. Develop well-structured body sections following the strategy
+    3. Incorporate all verified facts and statistics from research
+    4. Maintain proper citation format [Source: URL] throughout
+    5. Create smooth transitions between sections
+    6. Write a strong conclusion that ties everything together
+    7. Ensure consistent tone and style throughout
+    
+    Focus on making complex information accessible while maintaining accuracy and proper attribution.
+  expected_output: >
+    A complete ContentDraft object containing:
+    - Raw content in markdown format
+    - Structured sections with proper headings
+    - All sources properly cited and linked
+    - Engaging introduction and conclusion
+    - Professional tone throughout
+    - Word count appropriate for the topic scope
+
+seo_optimization_task:
+  description: >
+    Optimize the content draft for search engine visibility and user experience:
+    1. Review content structure and heading hierarchy
+    2. Ensure proper use of H1, H2, H3 tags in markdown
+    3. Optimize content flow and readability
+    4. Check for keyword integration opportunities
+    5. Verify internal linking structure
+    6. Assess meta description potential
+    7. Ensure mobile-friendly formatting
+    
+    Maintain content quality while improving discoverability.
+  expected_output: >
+    An optimized content draft with:
+    - Improved heading structure and hierarchy
+    - Enhanced readability and flow
+    - SEO-friendly formatting
+    - Maintained accuracy and citations
+    - Optimized for both users and search engines
+    - Recommendations for meta descriptions and tags
+    Format as a final ContentDraft ready for editing review.
