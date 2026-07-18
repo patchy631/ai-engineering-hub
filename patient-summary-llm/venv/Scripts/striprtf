@@ -1,0 +1,27 @@
+#!C:\Users\Degana computer\OneDrive\Desktop\assignment\ai-engineering-hub\patient-summary-llm\venv\Scripts\python.exe
+import argparse
+import sys
+
+from striprtf.striprtf import rtf_to_text
+from striprtf._version import __version__ as version
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "rtf_file",
+        nargs="?",
+        type=argparse.FileType("r", encoding="UTF-8"),
+        default=sys.stdin,
+    )
+    parser.add_argument("--version", action="version", version="%s" % version)
+    args = parser.parse_args()
+    in_rtf = args.rtf_file.read()
+    args.rtf_file.close()
+
+    content = rtf_to_text(in_rtf)
+    print(content)
+
+
+if __name__ == "__main__":
+    main()

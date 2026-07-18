@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: llama-cloud
+Version: 0.1.14
+Summary: 
+License: MIT
+Author: Logan Markewich
+Author-email: logan@runllama.ai
+Requires-Python: >=3.8,<4
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: certifi (>=2024.7.4)
+Requires-Dist: httpx (>=0.20.0)
+Requires-Dist: pydantic (>=1.10)
+Description-Content-Type: text/markdown
+
+# LlamaIndex Python Client
+
+This client is auto-generated using [Fern](https://buildwithfern.com/docs/intro)
+
+To publish:
+- update the version in `pyproject.toml`
+- run `poetry publish --build` 
+

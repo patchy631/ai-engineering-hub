@@ -1,0 +1,9 @@
+llama-index 
+llama-index-indices-managed-llama-cloud
+llama-cloud 
+llama-parse 
+
+
+
+streamlit
+pydantic
