@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f9fd"/>
+      <stop offset="100%" stop-color="#e6eaf5"/>
+    </linearGradient>
+    <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="4" dy="4" stdDeviation="6" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="1000" height="700" fill="url(#bg-gradient)" rx="25" ry="25"/>
+  
+  <!-- Title Banner -->
+  <rect x="100" y="40" width="800" height="70" rx="15" ry="15" fill="#4a6bdf" filter="url(#drop-shadow)"/>
+  <text x="500" y="85" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="32" text-anchor="middle" font-weight="bold" fill="white">🔍 RAG + SQL Router: Smart Query System 🔍</text>
+  
+  <!-- User Input Section -->
+  <rect x="70" y="150" width="200" height="120" rx="18" ry="18" fill="white" stroke="#ff7043" stroke-width="3" filter="url(#drop-shadow)"/>
+  <text x="170" y="185" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">💬 User Query</text>
+  <text x="170" y="218" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">"Tell me about cities"</text>
+  <text x="170" y="245" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">"Find highest population"</text>
+  
+  <!-- Router Section -->
+  <rect x="360" y="140" width="280" height="160" rx="20" ry="20" fill="white" stroke="#3f51b5" stroke-width="3" filter="url(#drop-shadow)"/>
+  <text x="500" y="180" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="24" text-anchor="middle" font-weight="bold" fill="#333">🧠 Query Router</text>
+  <text x="500" y="215" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">"Let LLM decide" or</text>
+  <text x="500" y="245" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">"SQL first, then RAG"</text>
+  
+  <!-- Router Decision Symbol -->
+  <polygon points="470,270 500,290 530,270 500,250" fill="#3f51b5" stroke="white" stroke-width="2"/>
+  <text x="500" y="275" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="white">?</text>
+  
+  <!-- SQL Path -->
+  <rect x="200" y="380" width="240" height="150" rx="18" ry="18" fill="white" stroke="#009688" stroke-width="3" filter="url(#drop-shadow)"/>
+  <text x="320" y="420" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="22" text-anchor="middle" font-weight="bold" fill="#333">🔢 SQL Tool</text>
+  <text x="320" y="455" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">NLSQLTableQueryEngine</text>
+  <text x="320" y="485" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">SELECT * FROM city_stats</text>
+  <text x="320" y="510" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">WHERE population > 1000000</text>
+  
+  <!-- RAG Path -->
+  <rect x="560" y="380" width="240" height="150" rx="18" ry="18" fill="white" stroke="#673ab7" stroke-width="3" filter="url(#drop-shadow)"/>
+  <text x="680" y="420" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="22" text-anchor="middle" font-weight="bold" fill="#333">📚 RAG Tool</text>
+  <text x="680" y="455" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">VectorStoreIndex</text>
+  <text x="680" y="485" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">Semantic Document</text>
+  <text x="680" y="510" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">Retrieval and Generation</text>
+  
+  <!-- Database Icons -->
+  <rect x="200" y="570" width="240" height="100" rx="18" ry="18" fill="#e0f2f1" stroke="#009688" stroke-width="2" filter="url(#drop-shadow)"/>
+  <text x="320" y="605" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">💾 SQLite Database</text>
+  <text x="320" y="635" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">CSV Tables/Structured Data</text>
+  
+  <!-- Vector Store -->
+  <rect x="560" y="570" width="240" height="100" rx="18" ry="18" fill="#ede7f6" stroke="#673ab7" stroke-width="2" filter="url(#drop-shadow)"/>
+  <text x="680" y="605" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">🔍 Vector Index</text>
+  <text x="680" y="635" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#555">Document Embeddings</text>
+  
+  <!-- Response Section -->
+  <rect x="820" y="520" width="150" height="150" rx="18" ry="18" fill="white" stroke="#2196f3" stroke-width="3" filter="url(#drop-shadow)"/>
+  <text x="890" y="550" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="22" text-anchor="middle" font-weight="bold" fill="#333">✨ Response</text>
+  <path d="M840 600 L950 600 M840 620 L950 620 M840 640 L950 640" stroke="#2196f3" stroke-width="2.5"/>
+  
+  <!-- Models Section -->
+  <rect x="750" y="140" width="200" height="100" rx="18" ry="18" fill="white" stroke="#e91e63" stroke-width="3" filter="url(#drop-shadow)"/>
+  <text x="850" y="175" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">🤖 Ollama Models</text>
+  <text x="850" y="205" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">LLM + Embedding Models</text>
+  
+  <!-- Toolstack -->
+  <rect x="20" y="380" width="160" height="210" rx="18" ry="18" fill="white" stroke="#4caf50" stroke-width="2" filter="url(#drop-shadow)"/>
+  <text x="100" y="420" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">🛠️ Toolstack</text>
+  <text x="100" y="455" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">🌊 Streamlit UI</text>
+  <text x="100" y="485" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">🦙 LlamaIndex</text>
+  <text x="100" y="515" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">⚙️ SQLAlchemy</text>
+  <text x="100" y="545" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">📊 SQLite</text>
+  <text x="100" y="575" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#555">🧠 Ollama</text>
+  
+  <!-- Prettier Arrow Markers with different colors -->
+  <defs>
+    <marker id="arrow1" viewBox="0 0 12 12" refX="12" refY="6"
+      markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#ff7043"/>
+    </marker>
+    <marker id="arrow2" viewBox="0 0 12 12" refX="12" refY="6"
+      markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#009688"/>
+    </marker>
+    <marker id="arrow3" viewBox="0 0 12 12" refX="12" refY="6"
+      markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#673ab7"/>
+    </marker>
+    <marker id="arrow4" viewBox="0 0 12 12" refX="12" refY="6"
+      markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#e91e63"/>
+    </marker>
+  </defs>
+  
+  <!-- Connections with improved curved paths to avoid overlapping -->
+  <!-- User to Router -->
+  <path d="M270 200 C 290 200, 320 200, 360 200" stroke="#ff7043" stroke-width="3" fill="none" marker-end="url(#arrow1)"/>
+  
+  <!-- Router to SQL -->
+  <path d="M440 300 C 420 330, 390 350, 360 380" stroke="#009688" stroke-width="3" fill="none" marker-end="url(#arrow2)"/>
+  
+  <!-- Router to RAG -->
+  <path d="M560 300 C 580 330, 610 350, 640 380" stroke="#673ab7" stroke-width="3" fill="none" marker-end="url(#arrow3)"/>
+  
+  <!-- SQL to Database -->
+  <path d="M320 530 C 320 545, 320 555, 320 570" stroke="#009688" stroke-width="3" fill="none" marker-end="url(#arrow2)"/>
+  
+  <!-- RAG to Vector Store -->
+  <path d="M680 530 C 680 545, 680 555, 680 570" stroke="#673ab7" stroke-width="3" fill="none" marker-end="url(#arrow3)"/>
+  
+  <!-- SQL to Response -->
+  <path d="M440 430 C 550 410, 680 90, 880 520" stroke="#009688" stroke-width="3" fill="none" marker-end="url(#arrow2)"/>
+  
+  <!-- RAG to Response -->
+  <path d="M800 430 C 810 380, 820 350, 920 520" stroke="#673ab7" stroke-width="3" fill="none" marker-end="url(#arrow3)"/>
+  
+  <!-- Models to Router -->
+  <path d="M750 190 C 690 190, 670 190, 640 190" stroke="#e91e63" stroke-width="3" fill="none" marker-end="url(#arrow4)"/>
+  
+  <!-- Flow Description Annotations -->
+  <text x="310" y="175" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#666" transform="rotate(-5, 310, 175)">✉️ Input</text>
+  <text x="380" y="340" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#666" transform="rotate(-45, 380, 340)"></text>
+  <text x="620" y="340" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#666" transform="rotate(45, 620, 340)"></text>
+  <text x="850" y="370" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#666" transform="rotate(, 600, 410)">🔄 Generate</text>
+  <text x="690" y="170" font-family="Segoe UI, Roboto, Helvetica, sans-serif" font-size="16" text-anchor="middle" fill="#666">🧠 Intellect</text>
+</svg>
