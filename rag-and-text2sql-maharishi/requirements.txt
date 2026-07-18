@@ -1,0 +1,10 @@
+llama-index==0.12.23
+llama-index-callbacks-opik==1.1.0
+llama-index-embeddings-fastembed==0.3.0
+llama-index-llms-ollama==0.5.3
+llama-index-utils-workflow==0.3.0
+llama-index-vector-stores-qdrant==0.4.3
+opik==1.5.6
+qdrant-client==1.13.3
+SQLAlchemy==2.0.38
+streamlit==1.43.1
