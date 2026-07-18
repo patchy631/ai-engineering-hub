@@ -1,0 +1,7 @@
+gradio==5.33.2
+langchain
+langchain_community
+pypdf
+python-docx
+nbformat
+unstructured
