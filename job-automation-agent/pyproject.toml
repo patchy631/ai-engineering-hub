@@ -1,0 +1,13 @@
+[project]
+name = "job-automation-agent"
+version = "0.1.0"
+description = "A job automation agent that can use a web browser to help users fill out job application forms."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "crewai>=1.6.1",
+    "crewai-tools>=1.6.1",
+    "nest-asyncio>=1.6.0",
+    "python-docx>=1.2.0",
+    "stagehand>=0.5.7",
+]
