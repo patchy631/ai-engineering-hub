@@ -1,0 +1,42 @@
+# RAG and Text-to-SQL into a unified query interface
+
+This project builds a RAG and Text-to-SQL in a Single Query Interface.
+We use:
+- LlamaIndex for orchestrating the RAG app.
+- Qdrant VectorDB for storing the embeddings.
+- NLSQLTableQueryEngine to enable natural language queries on a SQL database.
+- Streamlit to build the UI.
+
+## Installation and setup
+
+**Setup OpenAI**:
+
+Get an API key from [OpenAihttps://platform.openai.com/) and set it in the `.env` file as follows:
+
+```bash
+OPENAI_API_KEY=<YOUR_API_KEY> 
+```
+
+**Setup LlamaCloud**:
+
+Get an API key from [LlamaCloud](https://cloud.llamaindex.ai/) and set it in the `.env` file as follows:
+
+```bash
+LlamaCloudIndex_API_KEY=<YOUR_LLAMACLOUD_API_KEY> 
+```
+
+**Install Dependencies**:
+   Ensure you have Python 3.1 or later installed.
+   ```bash
+   pip install -U llama-index-callbacks-arize-phoenix streamlit 
+   ```
+
+**Run the app**:
+
+   Run the app by running the following command:
+
+   ```bash
+   streamlit run app.py
+   ```
+
+---
