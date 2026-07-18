@@ -1,0 +1,8 @@
+streamlit
+python-dotenv
+nest-asyncio
+llama_index
+sqlalchemy
+pydantic
+llama-cloud
+openai
