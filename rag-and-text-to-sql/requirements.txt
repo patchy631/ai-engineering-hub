@@ -1,0 +1,61 @@
+# Core Streamlit dependencies for building the UI
+streamlit
+
+# Data processing and handling
+pandas
+sqlalchemy
+aiosqlite
+
+# Visualization libraries
+matplotlib
+
+# Core LlamaIndex (GPT Index) components for retrieval-augmented generation (RAG)
+llama-index
+llama-index-utils-workflow
+
+# OpenAI integration for LLM-based processing
+openai
+llama-index-llms-openai
+
+# Embedding models for vector search and retrieval
+llama-index-embeddings-fastembed
+llama-index-embeddings-langchain
+llama-index-embeddings-huggingface
+
+# Additional LLM providers
+llama-index-llms-ollama
+llama-index-llms-sambanovasystems
+
+# Vector databases for storing and retrieving embeddings
+faiss-cpu
+chromadb
+qdrant_client
+qdrant-client  # Duplicate entry, consider keeping only one
+llama-index-vector-stores-qdrant
+
+# File readers and processing libraries
+llama-index-readers-file
+python-docx  # Handling .docx files
+docx  # Consider removing, as `python-docx` is usually sufficient
+pymupdf  # PDF processing
+fitz  # Often used with pymupdf, but pymupdf itself is usually enough
+
+# Callback and monitoring tools for LlamaIndex
+llama-index-callbacks-arize-phoenix
+
+# AI transcription and speech-to-text services
+assemblyai
+
+# Sentence transformers and other transformer-based models
+transformers
+sentence-transformers
+
+# Streaming support for handling real-time events
+sseclient-py
+
+# Environment variable management
+dotenv
+
+# Other utilities and tools
+tools
+fastembed
