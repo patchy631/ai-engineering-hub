@@ -6,10 +6,10 @@ from typing import Dict, Any
 
 # Available models
 AVAILABLE_MODELS = {
-    "Claude Sonnet 4": "openrouter/anthropic/claude-sonnet-4",
+    "Claude Opus 4.1": "openrouter/anthropic/claude-opus-4.1",
     "Qwen3-Coder": "openrouter/qwen/qwen3-coder",
     "Gemini 2.5 Flash": "openrouter/google/gemini-2.5-flash",
-    "GPT-4.1": "openrouter/openai/gpt-4.1",
+    "GPT-5": "gpt-5",
 }
 
 
@@ -46,13 +46,22 @@ async def get_model_response_async(
 
     try:
         # Get streaming response from the model using LiteLLM asynchronously.
-        response = await acompletion(
-            model=model_mapping,
-            messages=messages,
-            api_key=os.getenv("OPENROUTER_API_KEY"),
-            max_tokens=2000,
-            stream=True,
-        )
+        if "GPT" in model_name:
+            response = await acompletion(
+                model=model_mapping,
+                messages=messages,
+                api_key=os.getenv("OPENAI_API_KEY"),
+                max_completion_tokens=2000,
+                stream=True,
+            )
+        else:
+            response = await acompletion(
+                model=model_mapping,
+                messages=messages,
+                api_key=os.getenv("OPENROUTER_API_KEY"),
+                max_tokens=2000,
+                stream=True,
+            )
 
         if not response:
             yield "Error: No response received from model"
