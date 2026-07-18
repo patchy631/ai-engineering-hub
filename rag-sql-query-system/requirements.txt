@@ -1,0 +1,7 @@
+llama-index-core>=0.10.25.post2
+llama-index
+llama-index-embeddings-openai
+llama-index-indices-managed-llama-cloud
+llama-index-readers-file
+llama-index-utils-workflow
+jupyter
