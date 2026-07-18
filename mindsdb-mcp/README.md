@@ -209,7 +209,7 @@ PARAMETERS = {
     Make sure to choose `External` for `User Type`, and select the necessary scopes. 
     Make sure to save the changes.
 
-    - Now, create the OAuth client ID. Choose `Web application` for the `Application Type` and give it a name.
+    - Now, create the OAuth client ID. Choose `Web application` for the `Application Type` and give it a name. Sometimes it might not work straightforward and you need to setup a `Desktop application` instead.
 
     - Add the following MindsDB URL to `Authorized redirect URIs`:
 
@@ -221,6 +221,13 @@ PARAMETERS = {
 4. Download the JSON file:
 
     - After creating your credentials, click the download button (an icon of an arrow pointing down) on the right side of your client ID. This will download a JSON file, so you will use the location to it in the `credentials_file` param.
+    - The JSON file can be placed into the container filesystem via [cat+EOF-pasting](https://stackoverflow.com/a/21549836) or via mounting it on container launch
+      ```sh
+      docker run -it \
+      -v /Users/my.name/Downloads/downloaded_creds.json:/mindsdb/mindsdb/integrations/handlers/gmail_handler/client_secret.json \
+      -p 47334:47334 -p 47335:47335 \
+      mindsdb/mindsdb
+      ```
 
 5. Add user authentication:
 
@@ -235,12 +242,14 @@ Go to the MindsDB editor running locally at `127.0.0.1:47334` and run the follow
 CREATE DATABASE mindsdb_gmail
 WITH ENGINE = 'gmail',
 PARAMETERS = {
-  "credentials_file": "path/to/credentials.json",
+  "credentials_file": "/mindsdb/mindsdb/integrations/handlers/gmail_handler/client_secret.json",
   "scopes": ['https://.../gmail.compose', 'https://.../gmail.readonly']
 };
 ```
 
 When prompted, sign in with the Google account you added to the `Test users` in your app and you are good to go.
+Note that in some cases, scoped will need to be set to `"scopes": ['https://www.googleapis.com/auth/gmail.readonly',
+'https://www.googleapis.com/auth/gmail.compose']` or can be entirely ommitted.
 
 ### 🐙 GitHub
 
