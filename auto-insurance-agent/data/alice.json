@@ -1,0 +1,9 @@
+{
+  "claim_number": "CLAIM-67890",
+  "policy_number": "POLICY-DEF456",
+  "claimant_name": "Alice Johnson",
+  "date_of_loss": "2023-06-20",
+  "loss_description": "Vehicle damaged in parking lot by shopping cart. I returned to my parked vehicle at the grocery store to find a dent and scratch on the driver's side door. A shopping cart was next to my car, and it appears it was blown by wind or left unsecured. No witnesses or security footage available.",
+  "estimated_repair_cost": 1200.00,
+  "vehicle_details": "2019 Honda Civic"
+}

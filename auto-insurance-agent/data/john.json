@@ -1,0 +1,9 @@
+{
+  "claim_number": "CLAIM-12345",
+  "policy_number": "POLICY-ABC123",
+  "claimant_name": "John Smith",
+  "date_of_loss": "2023-05-15",
+  "loss_description": "Rear-ended at stoplight by another vehicle. I was stopped at a red light when another driver failed to stop and collided with the rear of my vehicle. The impact caused significant damage to my rear bumper, trunk, and tail lights. The other driver admitted fault at the scene.",
+  "estimated_repair_cost": 4500.00,
+  "vehicle_details": "2020 Toyota Camry"
+}
