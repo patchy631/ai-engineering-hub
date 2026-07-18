@@ -1,0 +1,8 @@
+#auto_mix_prep==0.2.0
+#ipython==8.12.3
+llama_index==0.12.23
+nest_asyncio==1.6.0
+streamlit==1.43.2
+#pdfplumber==0.11.5
+#Pillow==11.1.0
+#pydantic==2.10.6
