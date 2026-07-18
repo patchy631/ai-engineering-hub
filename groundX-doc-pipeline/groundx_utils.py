@@ -52,48 +52,17 @@ def ingest_document(gx: GroundX, bucket_id: str, path: Path, mime: str) -> str:
 def poll_until_complete(gx: GroundX, process_id: str, timeout: int = 600) -> None:
     """Monitor document processing status until completion"""
     start_time = time.time()
-    status_text = st.empty()
-    progress_bar = st.progress(0)
-
-    while True:
-        status = gx.documents.get_processing_status_by_id(process_id=process_id).ingest
-        
-        progress_value = 0
-        if hasattr(status, 'percent') and status.percent is not None:
-            try:
-                progress_value = int(status.percent)
-            except (ValueError, TypeError):
-                progress_value = 0
-        elif hasattr(status, 'progress') and status.progress is not None:
-            try:
-                if hasattr(status.progress, 'percent'):
-                    progress_value = int(status.progress.percent)
-                elif hasattr(status.progress, 'value'):
-                    progress_value = int(status.progress.value)
-                elif hasattr(status.progress, 'percentage'):
-                    progress_value = int(status.progress.percentage)
-                else:
-                    progress_value = int(status.progress)
-            except (ValueError, TypeError, AttributeError):
-                progress_value = 0
-        elif hasattr(status, 'percentage') and status.percentage is not None:
-            try:
-                progress_value = int(status.percentage)
-            except (ValueError, TypeError):
-                progress_value = 0
-        
-        progress_bar.progress(progress_value)
-        
-        status_display = f"**{status.status.capitalize()}**"
-        if progress_value > 0:
-            status_display += f" – {progress_value}%"
-        status_text.write(status_display)
-
-        if status.status in {"complete", "error", "cancelled"}:
-            break
-        if time.time() - start_time > timeout:
-            raise TimeoutError("Ground X ingest timed out.")
-        time.sleep(3)
+    
+    # Use a spinner container for better UX
+    with st.spinner("Processing document..."):
+        while True:
+            status = gx.documents.get_processing_status_by_id(process_id=process_id).ingest
+            
+            if status.status in {"complete", "error", "cancelled"}:
+                break
+            if time.time() - start_time > timeout:
+                raise TimeoutError("Ground X ingest timed out.")
+            time.sleep(3)
 
     if status.status != "complete":
         raise RuntimeError(f"Ingest finished with status: {status.status!r}")
