@@ -11,7 +11,7 @@ class ScriptGenerator:
         self.api_url = "https://openrouter.ai/api/v1/chat/completions"
     
     def generate(self, content: str) -> str:
-        """Generate podcast script from content using Minimax-M2."""
+        """Generate podcast script from content using Minimax-M3."""
         prompt = self._create_prompt(content)
         
         headers = {
@@ -20,7 +20,7 @@ class ScriptGenerator:
         }
         
         payload = {
-            "model": "minimax/minimax-m2.1",
+            "model": "minimax/minimax-m3",
             "messages": [
                 {"role": "user", "content": prompt}
             ]
