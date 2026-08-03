@@ -1,0 +1,83 @@
+form_type: w9
+form_name: "W-9 Request for Taxpayer Identification Number"
+context: "This is a W-9 tax form used by US persons (citizens, residents, or entities) to provide their correct Taxpayer Identification Number (TIN) to withholding agents or payers."
+fields:
+  - name: name
+    description: "Name of entity/individual (Line 1)"
+    required: true
+
+  - name: business_name
+    description: "Business name/disregarded entity name, if different from above (Line 2)"
+    required: false
+
+  - name: individual_sole_proprietor
+    description: "Individual/sole proprietor or single-member LLC checkbox for federal tax classification (Line 3a)"
+    required: false
+
+  - name: c_corporation
+    description: "C Corporation checkbox for federal tax classification (Line 3b)"
+    required: false
+
+  - name: s_corporation
+    description: "S Corporation checkbox for federal tax classification (Line 3c)"
+    required: false
+
+  - name: partnership
+    description: "Partnership checkbox for federal tax classification (Line 3d)"
+    required: false
+
+  - name: trust_estate
+    description: "Trust/estate checkbox for federal tax classification (Line 3e)"
+    required: false
+
+  - name: llc
+    description: "LLC checkbox with tax classification code (Line 3f)"
+    required: false
+
+  - name: other
+    description: "Other federal tax classification (Line 3g)"
+    required: false
+
+  - name: exempt_payee_code
+    description: "Exempt payee code if applicable (Line 4)"
+    required: false
+
+  - name: fatca_exemption_code
+    description: "Exemption from FATCA reporting code if applicable (Line 4)"
+    required: false
+
+  - name: address
+    description: "Address (number, street, and apt. or suite no.) (Line 5)"
+    required: true
+
+  - name: city_state_zip
+    description: "City, state, and ZIP code (Line 6)"
+    required: true
+
+  - name: requester_name_address
+    description: "Requester's name and address (optional) (Line 7)"
+    required: false
+
+  - name: account_numbers
+    description: "List account number(s) here (optional) (Line 8)"
+    required: false
+
+  - name: ssn_1
+    description: "Social security number first 3 digits (Part I - box 1)"
+    required: false
+
+  - name: ssn_2
+    description: "Social security number middle 2 digits (Part I - box 2)"
+    required: false
+
+  - name: ssn_3
+    description: "Social security number last 4 digits (Part I - box 3)"
+    required: false
+
+  - name: ein_1
+    description: "Employer identification number first 2 digits (Part I - box 1)"
+    required: false
+
+  - name: ein_2
+    description: "Employer identification number last 7 digits (Part I - box 2)"
+    required: false
