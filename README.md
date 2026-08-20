@@ -109,7 +109,7 @@ Multi-component systems, agentic workflows, and advanced features for experience
 - [**Agentic RAG with DeepSeek**](./agentic_rag_deepseek) - Enterprise agentic RAG with GroundX
 - [**Book Writer Flow**](./book-writer-flow) - Automated book writing with CrewAI
 - [**Content Planner Flow**](./content_planner_flow) - Content workflow with CrewAI Flow
-- [**Brand Monitoring**](./brand-monitoring) - Automated brand monitoring system
+- [**Brand Monitoring**](./brand-monitoring) - Monitor X/Twitter and web mentions with Xquik, CrewAI, and Bright Data
 - [**Hotel Booking Crew**](./hotel-booking-crew) - Multi-agent hotel booking with DeepSeek-R1
 - [**Deploy Agentic RAG**](./deploy-agentic-rag) - Private Agentic RAG API with LitServe
 - [**Zep Memory Assistant**](./zep-memory-assistant) - AI Agent with human-like memory

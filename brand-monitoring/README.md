@@ -1,16 +1,29 @@
-# Brand monitoring flow using DeepSeek-R1, CrewAI and BrightData
+# Brand monitoring flow using DeepSeek-R1, CrewAI, Xquik and Bright Data
 
-This project implements an automated brand monitoring system using AI agents. We use the following tools to build this:
-- [Bright Data](https://brdta.com/dailydoseofds) is used to scrape the web.
-- CrewAI to build the Agentic workflow.
-- DeepSeek-R1 as the LLM.
+This project runs an automated brand monitoring workflow with AI agents:
+- [Xquik](https://docs.xquik.com/sdks/python) searches recent X/Twitter mentions and returns engagement data.
+- [Bright Data](https://brdta.com/dailydoseofds) scrapes LinkedIn, Instagram, YouTube and web pages.
+- CrewAI orchestrates the agents.
+- DeepSeek-R1 analyzes each mention.
 
 The brand monitoring output is shown here: [Sample output](brand-monitoring-demo.mp4)
 
----
-## Setup and installations
+The final report groups mentions by platform. Each item includes its source link and an AI-generated summary. It analyzes brand mentions and engagement; it does not enrich company records.
 
-**Get BrightData API Key**:
+---
+## Setup
+
+**Get an Xquik API key**:
+- Follow the [Xquik Python SDK guide](https://docs.xquik.com/sdks/python).
+- Store the key in `brand_monitoring_flow/.env` after copying `.env.example`.
+
+```bash
+X_TWITTER_SCRAPER_API_KEY="..."
+```
+
+Xquik is an independent third-party service. Not affiliated with X Corp. "Twitter" and "X" are trademarks of X Corp.
+
+**Get Bright Data credentials**:
 - Go to [Bright Data](https://brdta.com/dailydoseofds) and sign up for an account.
 - Select "Proxies & Scraping" and create a new "SERP API"
 - Select "Native proxy-based access"
@@ -38,18 +51,19 @@ BRIGHT_DATA_API_KEY="..."
 
 
 **Install Dependencies**:
-   Ensure you have Python 3.11 or later installed.
+   Install Python 3.10, 3.11, or 3.12.
    ```bash
-   pip install ollama crewai crewai-tools streamlit
+   cd brand_monitoring_flow
+   pip install -e .
    ```
 
 ---
 
 ## Run the project
 
-Finally, head over to this folder:
+From `brand_monitoring_flow`, head to the app folder:
 ```
-cd brand_monitoring_flow/src
+cd src
 ```
 
 and run the project by running the following command:
