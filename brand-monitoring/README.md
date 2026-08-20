@@ -88,9 +88,10 @@ streamlit run brand_monitoring_app.py
 
 ## 📬 Stay Updated with Our Newsletter
 
-Get a free Data Science eBook with 150+ lessons when you subscribe.
-[Subscribe to the newsletter](https://join.dailydoseofds.com) for new tutorials
-and resources.
+**Get a FREE Data Science eBook** 📖 with 150+ essential lessons in Data Science
+when you subscribe to our newsletter! Stay in the loop with the latest
+tutorials, insights, and exclusive resources.
+[Subscribe now!](https://join.dailydoseofds.com)
 
 [![Daily Dose of Data Science Newsletter](https://github.com/patchy631/ai-engineering/blob/main/resources/join_ddods.png)](https://join.dailydoseofds.com)
 
@@ -98,5 +99,5 @@ and resources.
 
 ## Contribution
 
-Contributions are welcome. Fork the repository and submit a pull request with
-your improvements.
+Contributions are welcome! Please fork the repository and submit a pull request
+with your improvements.
