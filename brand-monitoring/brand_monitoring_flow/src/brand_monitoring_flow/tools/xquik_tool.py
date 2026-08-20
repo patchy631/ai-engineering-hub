@@ -45,7 +45,11 @@ def _tweet_to_mention(tweet: object) -> dict[str, object]:
     username = str(_read(author, "username", "") or _read(author, "id", ""))
     url = _read(tweet, "url")
     if not isinstance(url, str) or not url:
-        url = f"https://x.com/{username or 'i'}/status/{tweet_id}"
+        url = (
+            f"https://x.com/{username}/status/{tweet_id}"
+            if username
+            else f"https://x.com/i/web/status/{tweet_id}"
+        )
 
     entities = _read(tweet, "entities")
     text = _read(tweet, "text", "")

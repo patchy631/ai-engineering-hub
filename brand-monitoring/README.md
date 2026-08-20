@@ -62,7 +62,7 @@ BRIGHT_DATA_API_KEY="..."
 ## Run the project
 
 From `brand_monitoring_flow`, head to the app folder:
-```
+```bash
 cd src
 ```
 

@@ -101,7 +101,7 @@ class SearchXMentionsTests(unittest.TestCase):
         self.assertEqual(
             mentions[0],
             {
-                "url": "https://x.com/i/status/456",
+                "url": "https://x.com/i/web/status/456",
                 "views": 0,
                 "likes": 0,
                 "replies": 0,
