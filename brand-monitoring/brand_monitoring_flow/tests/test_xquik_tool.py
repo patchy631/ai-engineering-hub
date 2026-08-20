@@ -92,7 +92,10 @@ class SearchXMentionsTests(unittest.TestCase):
 
     def test_sparse_tweet_uses_safe_defaults(self) -> None:
         client = FakeClient(
-            [{"id": "456", "text": "Acme mention"}, {"text": "missing id"}]
+            [
+                {"id": "456", "text": "Acme mention", "author": {"id": "42"}},
+                {"text": "missing id"},
+            ]
         )
 
         mentions = search_x_mentions("Acme", 1, FakeClientFactory(client))
@@ -111,7 +114,7 @@ class SearchXMentionsTests(unittest.TestCase):
                 "bookmarks": 0,
                 "description": "Acme mention",
                 "tagged_users": [],
-                "original_poster": "",
+                "original_poster": "42",
             },
         )
 

@@ -42,7 +42,8 @@ def _tweet_to_mention(tweet: object) -> dict[str, object]:
     tweet_id_value = _read(tweet, "id", "")
     tweet_id = str(tweet_id_value) if tweet_id_value is not None else ""
     author = _read(tweet, "author")
-    username = str(_read(author, "username", "") or _read(author, "id", ""))
+    username = str(_read(author, "username", "") or "")
+    author_id = str(_read(author, "id", "") or "")
     url = _read(tweet, "url")
     if not isinstance(url, str) or not url:
         url = (
@@ -68,7 +69,7 @@ def _tweet_to_mention(tweet: object) -> dict[str, object]:
             ("user_mentions", "userMentions", "mentions"),
             ("screen_name", "screenName", "username", "name"),
         ),
-        "original_poster": username,
+        "original_poster": username or author_id,
     }
 
 

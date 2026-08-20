@@ -148,7 +148,8 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
                                                                                 "brand_name": self.state.brand_name})
 
         async def x_analysis():
-            self.state.x_filtered_scrape_response = search_x_mentions(
+            self.state.x_filtered_scrape_response = await asyncio.to_thread(
+                search_x_mentions,
                 self.state.brand_name,
                 self.state.total_results,
             )
