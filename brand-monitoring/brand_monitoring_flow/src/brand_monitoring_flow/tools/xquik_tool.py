@@ -5,12 +5,14 @@ from x_twitter_scraper import XTwitterScraper
 
 
 def _read(value: object, name: str, default: object = None) -> object:
+    """Read a field from an SDK model or mapping."""
     if isinstance(value, Mapping):
         return value.get(name, default)
     return getattr(value, name, default)
 
 
 def _count(tweet: object, name: str) -> int:
+    """Read a numeric engagement field with a safe default."""
     value = _read(tweet, name, 0)
     return value if isinstance(value, int) else 0
 
@@ -18,6 +20,7 @@ def _count(tweet: object, name: str) -> int:
 def _entity_values(
     entities: object, keys: tuple[str, ...], fields: tuple[str, ...]
 ) -> list[str]:
+    """Collect unique entity values across supported response shapes."""
     if not isinstance(entities, Mapping):
         return []
 
@@ -39,6 +42,7 @@ def _entity_values(
 
 
 def _tweet_to_mention(tweet: object) -> dict[str, object]:
+    """Normalize an SDK tweet for the existing X Crew schema."""
     tweet_id_value = _read(tweet, "id", "")
     tweet_id = str(tweet_id_value) if tweet_id_value is not None else ""
     author = _read(tweet, "author")
@@ -78,6 +82,7 @@ def search_x_mentions(
     limit: int,
     client_factory: Callable[..., Any] = XTwitterScraper,
 ) -> list[dict[str, object]]:
+    """Search recent X posts for an exact brand phrase."""
     query = brand_name.strip()
     if not query:
         raise ValueError("Brand name must not be empty.")

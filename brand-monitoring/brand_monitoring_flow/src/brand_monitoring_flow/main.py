@@ -46,6 +46,7 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
 
     @start()
     def scrape_data(self):
+        """Collect result links and group them by source."""
         print(f"Scraping Data about {self.state.brand_name}")
         web_search_tool = BrightDataWebSearchTool()
         self.state.search_response = web_search_tool._run(self.state.brand_name, total_results=self.state.total_results)
@@ -64,6 +65,7 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
 
     @listen(scrape_data)
     async def scrape_data_and_analyse(self):
+        """Scrape and analyze each source concurrently."""
 
         async def linkedin_analysis():
             if self.state.linkedin_search_response:
@@ -240,11 +242,13 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
 
 
 def kickoff():
+    """Run the brand monitoring flow."""
     brand_monitoring_flow = BrandMonitoringFlow()
     brand_monitoring_flow.kickoff()
 
 
 def plot():
+    """Render the brand monitoring flow graph."""
     brand_monitoring_flow = BrandMonitoringFlow()
     brand_monitoring_flow.plot()
 

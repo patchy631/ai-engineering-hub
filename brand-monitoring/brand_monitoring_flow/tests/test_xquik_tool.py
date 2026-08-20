@@ -7,11 +7,13 @@ from x_twitter_scraper.types.shared.search_tweet import SearchTweet
 
 class FakeTweets:
     def __init__(self, tweets: list[object], error: Exception | None = None) -> None:
+        """Create a fake tweet resource."""
         self.tweets = tweets
         self.error = error
         self.search_kwargs: dict[str, object] = {}
 
     def search(self, **kwargs: object) -> object:
+        """Record search arguments and return the configured response."""
         self.search_kwargs = kwargs
         if self.error:
             raise self.error
@@ -20,25 +22,30 @@ class FakeTweets:
 
 class FakeClient:
     def __init__(self, tweets: list[object], error: Exception | None = None) -> None:
+        """Create a fake Xquik client."""
         self.x = SimpleNamespace(tweets=FakeTweets(tweets, error))
         self.closed = False
 
     def close(self) -> None:
+        """Record client cleanup."""
         self.closed = True
 
 
 class FakeClientFactory:
     def __init__(self, client: FakeClient) -> None:
+        """Create a factory for one fake client."""
         self.client = client
         self.timeout: float | None = None
 
     def __call__(self, *, timeout: float) -> FakeClient:
+        """Record the timeout and return the fake client."""
         self.timeout = timeout
         return self.client
 
 
 class SearchXMentionsTests(unittest.TestCase):
     def test_maps_xquik_tweets_to_crew_input(self) -> None:
+        """Map a typed SDK tweet into the X Crew schema."""
         tweet = SearchTweet.model_validate(
             {
                 "id": "123",
@@ -91,6 +98,7 @@ class SearchXMentionsTests(unittest.TestCase):
         self.assertTrue(client.closed)
 
     def test_sparse_tweet_uses_safe_defaults(self) -> None:
+        """Preserve valid sparse results and skip missing IDs."""
         client = FakeClient(
             [
                 {"id": "456", "text": "Acme mention", "author": {"id": "42"}},
@@ -119,6 +127,7 @@ class SearchXMentionsTests(unittest.TestCase):
         )
 
     def test_rejects_invalid_inputs_before_creating_client(self) -> None:
+        """Reject invalid input before constructing a client."""
         for brand_name, limit in ((" ", 1), ("Acme", 0), ("Acme", 51)):
             with self.subTest(brand_name=brand_name, limit=limit):
                 with self.assertRaises(ValueError):
@@ -127,6 +136,7 @@ class SearchXMentionsTests(unittest.TestCase):
                     )
 
     def test_closes_client_when_search_fails(self) -> None:
+        """Close the client when the search raises an error."""
         client = FakeClient([], RuntimeError("search failed"))
 
         with self.assertRaisesRegex(RuntimeError, "search failed"):
