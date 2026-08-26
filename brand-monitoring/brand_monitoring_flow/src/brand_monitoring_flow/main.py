@@ -13,6 +13,7 @@ from brand_monitoring_flow.crews.web_crew.web_crew import WebCrew, WebReport, We
 from brand_monitoring_flow.crews.X_crew.X_crew import XCrew, XReport, XWriterReport
 
 from brand_monitoring_flow.tools.custom_tool import BrightDataWebSearchTool, scrape_urls
+from brand_monitoring_flow.tools.xquik_tool import search_x_mentions
 
 class BrandMonitoringState(BaseModel):
     total_results: int = 15
@@ -22,13 +23,11 @@ class BrandMonitoringState(BaseModel):
     linkedin_search_response: list[dict] = []
     instagram_search_response: list[dict] = []
     youtube_search_response: list[dict] = []
-    x_search_response: list[dict] = []
     web_search_response: list[dict] = []
 
     linkedin_scrape_response: list[dict] = []
     instagram_scrape_response: list[dict] = []
     youtube_scrape_response: list[dict] = []
-    x_scrape_response: list[dict] = []
     web_scrape_response: list[dict] = []
 
     linkedin_filtered_scrape_response: list[dict] = []
@@ -47,6 +46,7 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
 
     @start()
     def scrape_data(self):
+        """Collect result links and group them by source."""
         print(f"Scraping Data about {self.state.brand_name}")
         web_search_tool = BrightDataWebSearchTool()
         self.state.search_response = web_search_tool._run(self.state.brand_name, total_results=self.state.total_results)
@@ -59,13 +59,13 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
             elif "youtube.com" in r['link'].lower():
                 self.state.youtube_search_response.append(r)
             elif "x.com" in r['link'].lower() or "twitter.com" in r['link'].lower():
-                if "status" in r['link'].lower():
-                    self.state.x_search_response.append(r)
+                continue
             else:
                 self.state.web_search_response.append(r)
 
     @listen(scrape_data)
     async def scrape_data_and_analyse(self):
+        """Scrape and analyze each source concurrently."""
 
         async def linkedin_analysis():
             if self.state.linkedin_search_response:
@@ -150,31 +150,12 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
                                                                                 "brand_name": self.state.brand_name})
 
         async def x_analysis():
-            if self.state.x_search_response:
-                x_urls = [r['link'] for r in self.state.x_search_response]
-
-                x_params = {
-                    "dataset_id": "gd_lwxkxvnf1cynvib9co",
-                    "include_errors": "true",
-                }
-
-                self.state.x_scrape_response = scrape_urls(x_urls, x_params, "twitter")
-
-                for i in self.state.x_scrape_response:
-                    self.state.x_filtered_scrape_response.append({
-                        "url": i["url"],
-                        "views": i["views"],
-                        "likes": i["likes"],
-                        "replies": i["replies"],
-                        "reposts": i["reposts"],
-                        "hashtags": i["hashtags"],
-                        "quotes": i["quotes"],
-                        "bookmarks": i["bookmarks"],
-                        "description": i["description"],
-                        "tagged_users": i["tagged_users"],
-                        "original_poster": i["user_posted"]
-                    })
-
+            self.state.x_filtered_scrape_response = await asyncio.to_thread(
+                search_x_mentions,
+                self.state.brand_name,
+                self.state.total_results,
+            )
+            if self.state.x_filtered_scrape_response:
                 x_crew = XCrew()
                 self.state.x_crew_response = x_crew.crew().kickoff(inputs={"x_data": self.state.x_filtered_scrape_response,
                                                                     "brand_name": self.state.brand_name})
@@ -261,11 +242,13 @@ class BrandMonitoringFlow(Flow[BrandMonitoringState]):
 
 
 def kickoff():
+    """Run the brand monitoring flow."""
     brand_monitoring_flow = BrandMonitoringFlow()
     brand_monitoring_flow.kickoff()
 
 
 def plot():
+    """Render the brand monitoring flow graph."""
     brand_monitoring_flow = BrandMonitoringFlow()
     brand_monitoring_flow.plot()
 
