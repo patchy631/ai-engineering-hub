@@ -1,15 +1,14 @@
 import os
 import json
+import ollama
+import asyncio
 from pydantic import BaseModel, HttpUrl
 from datetime import datetime
 from dotenv import load_dotenv
-from openai import AsyncOpenAI
 
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-
-openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+OLLAMA_MODEL = os.getenv('OLLAMA_MODEL', 'deepseek-r1')
 
 class GenerateInput(BaseModel):
     requestId: str
@@ -35,21 +34,24 @@ async def handler(input, context):
         
         linkedinPrompt = linkedinPromptTemplate.replace('{{title}}', input['title']).replace('{{content}}', input['content'])
 
-        context.logger.info("🔄 LinkedIn content generation started...")
-
-        linkedin_content = await openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=[{'role': 'user', 'content': linkedinPrompt}],
-                temperature=0.7,
-                max_tokens=2000,
-                response_format={'type': 'json_object'}
+        context.logger.info(f"🔄 LinkedIn content generation started using Ollama model: {OLLAMA_MODEL}...")
+        response = ollama.chat(
+            model=OLLAMA_MODEL,
+            messages=[{'role': 'user', 'content': linkedinPrompt}],
+            options={
+                'temperature': 0.7,
+                'num_predict': 2000
+            }
         )  
-
+        
+        response_content = response['message']['content']
+        context.logger.info(f"Received raw response from Ollama: {response_content[:100]}...")
+        
         try:
-            linkedin_content = json.loads(linkedin_content.choices[0].message.content)
+            linkedin_content = json.loads(response['message']['content'])
         except Exception:
-            linkedin_content = {'text': linkedin_content.choices[0].message.content}
-
+            linkedin_content = {'text': response['message']['content']}
+          
         context.logger.info(f"🎉 LinkedIn content generated successfully!")
 
         await context.emit({

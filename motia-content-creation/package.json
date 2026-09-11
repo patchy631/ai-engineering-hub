@@ -18,12 +18,15 @@
     "web-scraping"
   ],
   "dependencies": {
-    "motia": "^0.4.0-beta.90",
     "@mendable/firecrawl-js": "^1.0.0",
-    "openai": "^4.90.0",
+    "axios": "^1.10.0",
     "dotenv": "^16.5.0",
-    "zod": "^3.25.67",
-    "axios": "^1.10.0"
+    "install": "^0.13.0",
+    "motia": "^0.4.0-beta.90",
+    "openai": "^4.90.0",
+    "or": "^0.2.0",
+    "pnpm": "^10.15.0",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@types/node": "^20.17.28",
