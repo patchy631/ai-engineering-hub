@@ -180,7 +180,12 @@ class CorrectiveRAGWorkflow(Workflow):
         print(f"DEBUG: Relevant texts count: {len(relevant_texts)}")
         print(f"DEBUG: Relevant text preview: {relevant_text[:200]}...")
         
-        if "no" in relevancy_results_striped:
+        # A document is treated as relevant when its grade contains "yes" (see the
+        # filter above), so trigger a corrective web search whenever any document is
+        # *not* relevant. The previous `"no" in relevancy_results_striped` only
+        # matched a grade equal to exactly "no", so answers like "No, ..." or "no."
+        # silently skipped the web search.
+        if any("yes" not in result.lower() for result in relevancy_results_striped):
             print("DEBUG: Some documents irrelevant, returning WebSearchEvent")
             return WebSearchEvent(relevant_text=relevant_text)
         else:

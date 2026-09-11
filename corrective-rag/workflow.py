@@ -127,13 +127,21 @@ class CorrectiveRAGWorkflow(Workflow):
             relevancy = self.llm.complete(prompt)
             relevancy_results.append(relevancy.text.lower().strip())
 
+        # The grader is asked for a binary 'yes'/'no', but LLMs often add
+        # punctuation or a short justification (e.g. "No, ..."). Match on the
+        # leading token so the decision is robust instead of requiring the result
+        # to be exactly "yes"/"no".
         relevant_texts = [
             retrieved_nodes[i].text
             for i, result in enumerate(relevancy_results)
-            if result == "yes"
+            if result.startswith("yes")
         ]
         relevant_text = "\n".join(relevant_texts)
-        if "no" in relevancy_results:
+        # Trigger a corrective web search whenever at least one retrieved document
+        # was judged not relevant (anything that isn't a clear "yes"). The previous
+        # `"no" in relevancy_results` only matched a result that was exactly "no",
+        # so answers like "No, ..." or "no." silently skipped the web search.
+        if any(not result.startswith("yes") for result in relevancy_results):
             return WebSearchEvent(relevant_text=relevant_text)
         else:
             return QueryEvent(relevant_text=relevant_text, search_text="")
