@@ -1,5 +1,6 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import os
 import tempfile
 import time
@@ -24,15 +25,14 @@ st.set_page_config(
 # ===========================
 class VideoProcessor:
     def __init__(self, api_key):
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-pro')
+        self.client = genai.Client(api_key=api_key)
     
     def upload_video(self, video_path, display_name=None):
         """Upload video to Gemini File API"""
         try:
-            video_file = genai.upload_file(
-                path=video_path,
-                display_name=display_name or "uploaded_video"
+            video_file = self.client.files.upload(
+                file=video_path,
+                config=dict(display_name=display_name or "uploaded_video")
             )
             return video_file
         except Exception as e:
@@ -44,7 +44,7 @@ class VideoProcessor:
         try:
             while video_file.state.name == "PROCESSING":
                 time.sleep(2)
-                video_file = genai.get_file(video_file.name)
+                video_file = self.client.files.get(name=video_file.name)
             
             if video_file.state.name == "FAILED":
                 raise ValueError("Video processing failed")
@@ -57,10 +57,10 @@ class VideoProcessor:
     def chat_with_video(self, video_file, prompt):
         """Generate response based on video content and user prompt"""
         try:
-            response = self.model.generate_content([
-                video_file,
-                prompt
-            ])
+            response = self.client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=[video_file, prompt]
+            )
             return response.text
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
@@ -84,12 +84,13 @@ def get_file_size_mb(file):
 def reset_chat():
     """Reset chat history and video state"""
     st.session_state.messages = []
-    if 'video_file' in st.session_state:
-        try:
-            # Clean up uploaded file from Gemini
-            genai.delete_file(st.session_state.video_file.name)
-        except:
-            pass
+    if 'video_file' in st.session_state and st.session_state.video_file is not None:
+        if 'video_processor' in st.session_state and st.session_state.video_processor is not None:
+            try:
+                # Clean up uploaded file from Gemini
+                st.session_state.video_processor.client.files.delete(name=st.session_state.video_file.name)
+            except Exception as e:
+                st.warning(f"Failed to delete video file from Gemini: {e}")
         del st.session_state.video_file
     if 'video_processor' in st.session_state:
         del st.session_state.video_processor
