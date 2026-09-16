@@ -275,8 +275,8 @@ else:
     with st.expander("ℹ️ How it works"):
         st.markdown("""
         1. **Scraping**: We use Firecrawl to extract clean content from any URL
-        2. **Script Generation**: Minimax-M2.1 transforms the content into an engaging dialogue
-        3. **Audio Synthesis**: Minimax Speech 2.6 creates natural-sounding voices for both hosts
+        2. **Script Generation**: Minimax-M3 transforms the content into an engaging dialogue
+        3. **Audio Synthesis**: Minimax Speech 2.8 creates natural-sounding voices for both hosts
         4. **Merging**: All segments are combined into one seamless podcast
         """)
     

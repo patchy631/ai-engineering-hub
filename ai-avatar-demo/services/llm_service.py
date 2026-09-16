@@ -1,11 +1,11 @@
-"""LLM service for handling multiple providers (Minimax M2 via OpenRouter)."""
+"""LLM service for handling multiple providers (Minimax M3 via OpenRouter)."""
 import json
 from typing import AsyncGenerator, List, Dict, Any, Optional, cast
 from config import settings
 
 
 class LLMService:
-    """Service for LLM interactions with Minimax M2 via OpenRouter."""
+    """Service for LLM interactions with Minimax M3 via OpenRouter."""
 
     def __init__(self):
         """Initialize LLM service with OpenRouter."""
@@ -22,7 +22,7 @@ class LLMService:
         messages: List[Dict[str, str]],
         system_prompt: str,
     ) -> AsyncGenerator[str, None]:
-        """Stream chat completion from Minimax M2."""
+        """Stream chat completion from Minimax M3."""
         # Prepend system message
         openai_messages = [{"role": "system", "content": system_prompt}]
         openai_messages.extend(messages)
@@ -30,7 +30,7 @@ class LLMService:
         try:
             # Stream response
             stream = await self.client.chat.completions.create(
-                model="minimax/minimax-m2",
+                model="minimax/minimax-m3",
                 messages=cast(Any, openai_messages),
                 stream=True,
                 temperature=0.8,
@@ -44,7 +44,7 @@ class LLMService:
             # If streaming fails, try non-streaming
             print(f"\nStreaming failed, using non-streaming mode: {e}")
             response = await self.client.chat.completions.create(
-                model="minimax/minimax-m2",
+                model="minimax/minimax-m3",
                 messages=cast(Any, openai_messages),
                 stream=False,
                 temperature=0.8,
