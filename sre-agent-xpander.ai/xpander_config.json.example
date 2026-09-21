@@ -1,0 +1,8 @@
+{
+    "base_url": "https://agent-controller.xpander.ai",
+    "org_id":   "your-xpander-org-id",
+    "agent_id": "your-xpander-agent-id",
+    "api_key":  "your-xpander-api-key",
+    "controller_url": "https://agent-controller.xpander.ai"
+  }
+  
