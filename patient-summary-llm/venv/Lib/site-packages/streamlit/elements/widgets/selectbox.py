@@ -1,0 +1,366 @@
+# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022-2025)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+from __future__ import annotations
+
+from dataclasses import dataclass
+from textwrap import dedent
+from typing import TYPE_CHECKING, Any, Callable, Generic, cast, overload
+
+from streamlit.dataframe_util import OptionSequence, convert_anything_to_list
+from streamlit.elements.lib.form_utils import current_form_id
+from streamlit.elements.lib.options_selector_utils import index_, maybe_coerce_enum
+from streamlit.elements.lib.policies import (
+    check_widget_policies,
+    maybe_raise_label_warnings,
+)
+from streamlit.elements.lib.utils import (
+    Key,
+    LabelVisibility,
+    compute_and_register_element_id,
+    get_label_visibility_proto_value,
+    save_for_app_testing,
+    to_key,
+)
+from streamlit.errors import StreamlitAPIException
+from streamlit.proto.Selectbox_pb2 import Selectbox as SelectboxProto
+from streamlit.runtime.metrics_util import gather_metrics
+from streamlit.runtime.scriptrunner import ScriptRunContext, get_script_run_ctx
+from streamlit.runtime.state import (
+    WidgetArgs,
+    WidgetCallback,
+    WidgetKwargs,
+    get_session_state,
+    register_widget,
+)
+from streamlit.type_util import (
+    T,
+    check_python_comparable,
+)
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from streamlit.delta_generator import DeltaGenerator
+
+
+@dataclass
+class SelectboxSerde(Generic[T]):
+    options: Sequence[T]
+    index: int | None
+
+    def serialize(self, v: object) -> int | None:
+        if v is None:
+            return None
+        if len(self.options) == 0:
+            return 0
+        return index_(self.options, v)
+
+    def deserialize(
+        self,
+        ui_value: int | None,
+        widget_id: str = "",
+    ) -> T | None:
+        idx = ui_value if ui_value is not None else self.index
+        return self.options[idx] if idx is not None and len(self.options) > 0 else None
+
+
+class SelectboxMixin:
+    @overload
+    def selectbox(
+        self,
+        label: str,
+        options: OptionSequence[T],
+        index: int = 0,
+        format_func: Callable[[Any], Any] = str,
+        key: Key | None = None,
+        help: str | None = None,
+        on_change: WidgetCallback | None = None,
+        args: WidgetArgs | None = None,
+        kwargs: WidgetKwargs | None = None,
+        *,  # keyword-only arguments:
+        placeholder: str = "Choose an option",
+        disabled: bool = False,
+        label_visibility: LabelVisibility = "visible",
+    ) -> T: ...
+
+    @overload
+    def selectbox(
+        self,
+        label: str,
+        options: OptionSequence[T],
+        index: None,
+        format_func: Callable[[Any], Any] = str,
+        key: Key | None = None,
+        help: str | None = None,
+        on_change: WidgetCallback | None = None,
+        args: WidgetArgs | None = None,
+        kwargs: WidgetKwargs | None = None,
+        *,  # keyword-only arguments:
+        placeholder: str = "Choose an option",
+        disabled: bool = False,
+        label_visibility: LabelVisibility = "visible",
+    ) -> T | None: ...
+
+    @gather_metrics("selectbox")
+    def selectbox(
+        self,
+        label: str,
+        options: OptionSequence[T],
+        index: int | None = 0,
+        format_func: Callable[[Any], Any] = str,
+        key: Key | None = None,
+        help: str | None = None,
+        on_change: WidgetCallback | None = None,
+        args: WidgetArgs | None = None,
+        kwargs: WidgetKwargs | None = None,
+        *,  # keyword-only arguments:
+        placeholder: str = "Choose an option",
+        disabled: bool = False,
+        label_visibility: LabelVisibility = "visible",
+    ) -> T | None:
+        r"""Display a select widget.
+
+        Parameters
+        ----------
+        label : str
+            A short label explaining to the user what this select widget is for.
+            The label can optionally contain GitHub-flavored Markdown of the
+            following types: Bold, Italics, Strikethroughs, Inline Code, Links,
+            and Images. Images display like icons, with a max height equal to
+            the font height.
+
+            Unsupported Markdown elements are unwrapped so only their children
+            (text contents) render. Display unsupported elements as literal
+            characters by backslash-escaping them. E.g.,
+            ``"1\. Not an ordered list"``.
+
+            See the ``body`` parameter of |st.markdown|_ for additional,
+            supported Markdown directives.
+
+            For accessibility reasons, you should never set an empty label, but
+            you can hide it with ``label_visibility`` if needed. In the future,
+            we may disallow empty labels by raising an exception.
+
+            .. |st.markdown| replace:: ``st.markdown``
+            .. _st.markdown: https://docs.streamlit.io/develop/api-reference/text/st.markdown
+
+        options : Iterable
+            Labels for the select options in an ``Iterable``. This can be a
+            ``list``, ``set``, or anything supported by ``st.dataframe``. If
+            ``options`` is dataframe-like, the first column will be used. Each
+            label will be cast to ``str`` internally by default.
+
+        index : int
+            The index of the preselected option on first render. If ``None``,
+            will initialize empty and return ``None`` until the user selects an option.
+            Defaults to 0 (the first option).
+
+        format_func : function
+            Function to modify the display of the options. It receives
+            the raw option as an argument and should output the label to be
+            shown for that option. This has no impact on the return value of
+            the command.
+
+        key : str or int
+            An optional string or integer to use as the unique key for the widget.
+            If this is omitted, a key will be generated for the widget
+            based on its content. No two widgets may have the same key.
+
+        help : str or None
+            A tooltip that gets displayed next to the widget label. Streamlit
+            only displays the tooltip when ``label_visibility="visible"``. If
+            this is ``None`` (default), no tooltip is displayed.
+
+            The tooltip can optionally contain GitHub-flavored Markdown,
+            including the Markdown directives described in the ``body``
+            parameter of ``st.markdown``.
+
+        on_change : callable
+            An optional callback invoked when this selectbox's value changes.
+
+        args : tuple
+            An optional tuple of args to pass to the callback.
+
+        kwargs : dict
+            An optional dict of kwargs to pass to the callback.
+
+        placeholder : str
+            A string to display when no options are selected.
+            Defaults to "Choose an option".
+
+        disabled : bool
+            An optional boolean that disables the selectbox if set to ``True``.
+            The default is ``False``.
+
+        label_visibility : "visible", "hidden", or "collapsed"
+            The visibility of the label. The default is ``"visible"``. If this
+            is ``"hidden"``, Streamlit displays an empty spacer instead of the
+            label, which can help keep the widget alligned with other widgets.
+            If this is ``"collapsed"``, Streamlit displays no label or spacer.
+
+        Returns
+        -------
+        any
+            The selected option or ``None`` if no option is selected.
+
+        Example
+        -------
+        >>> import streamlit as st
+        >>>
+        >>> option = st.selectbox(
+        ...     "How would you like to be contacted?",
+        ...     ("Email", "Home phone", "Mobile phone"),
+        ... )
+        >>>
+        >>> st.write("You selected:", option)
+
+        .. output::
+           https://doc-selectbox.streamlit.app/
+           height: 320px
+
+        To initialize an empty selectbox, use ``None`` as the index value:
+
+        >>> import streamlit as st
+        >>>
+        >>> option = st.selectbox(
+        ...     "How would you like to be contacted?",
+        ...     ("Email", "Home phone", "Mobile phone"),
+        ...     index=None,
+        ...     placeholder="Select contact method...",
+        ... )
+        >>>
+        >>> st.write("You selected:", option)
+
+        .. output::
+           https://doc-selectbox-empty.streamlit.app/
+           height: 320px
+
+        """
+        ctx = get_script_run_ctx()
+        return self._selectbox(
+            label=label,
+            options=options,
+            index=index,
+            format_func=format_func,
+            key=key,
+            help=help,
+            on_change=on_change,
+            args=args,
+            kwargs=kwargs,
+            placeholder=placeholder,
+            disabled=disabled,
+            label_visibility=label_visibility,
+            ctx=ctx,
+        )
+
+    def _selectbox(
+        self,
+        label: str,
+        options: OptionSequence[T],
+        index: int | None = 0,
+        format_func: Callable[[Any], Any] = str,
+        key: Key | None = None,
+        help: str | None = None,
+        on_change: WidgetCallback | None = None,
+        args: WidgetArgs | None = None,
+        kwargs: WidgetKwargs | None = None,
+        *,  # keyword-only arguments:
+        placeholder: str = "Choose an option",
+        disabled: bool = False,
+        label_visibility: LabelVisibility = "visible",
+        ctx: ScriptRunContext | None = None,
+    ) -> T | None:
+        key = to_key(key)
+
+        check_widget_policies(
+            self.dg,
+            key,
+            on_change,
+            default_value=None if index == 0 else index,
+        )
+        maybe_raise_label_warnings(label, label_visibility)
+
+        opt = convert_anything_to_list(options)
+        check_python_comparable(opt)
+
+        element_id = compute_and_register_element_id(
+            "selectbox",
+            user_key=key,
+            form_id=current_form_id(self.dg),
+            label=label,
+            options=[str(format_func(option)) for option in opt],
+            index=index,
+            help=help,
+            placeholder=placeholder,
+        )
+
+        if not isinstance(index, int) and index is not None:
+            raise StreamlitAPIException(
+                "Selectbox Value has invalid type: %s" % type(index).__name__
+            )
+
+        if index is not None and len(opt) > 0 and not 0 <= index < len(opt):
+            raise StreamlitAPIException(
+                "Selectbox index must be greater than or equal to 0 and less than the length of options."
+            )
+
+        session_state = get_session_state().filtered_state
+        if key is not None and key in session_state and session_state[key] is None:
+            index = None
+
+        selectbox_proto = SelectboxProto()
+        selectbox_proto.id = element_id
+        selectbox_proto.label = label
+        if index is not None:
+            selectbox_proto.default = index
+        selectbox_proto.options[:] = [str(format_func(option)) for option in opt]
+        selectbox_proto.form_id = current_form_id(self.dg)
+        selectbox_proto.placeholder = placeholder
+        selectbox_proto.disabled = disabled
+        selectbox_proto.label_visibility.value = get_label_visibility_proto_value(
+            label_visibility
+        )
+
+        if help is not None:
+            selectbox_proto.help = dedent(help)
+
+        serde = SelectboxSerde(opt, index)
+
+        widget_state = register_widget(
+            selectbox_proto.id,
+            on_change_handler=on_change,
+            args=args,
+            kwargs=kwargs,
+            deserializer=serde.deserialize,
+            serializer=serde.serialize,
+            ctx=ctx,
+            value_type="int_value",
+        )
+        widget_state = maybe_coerce_enum(widget_state, options, opt)
+
+        if widget_state.value_changed:
+            serialized_value = serde.serialize(widget_state.value)
+            if serialized_value is not None:
+                selectbox_proto.value = serialized_value
+            selectbox_proto.set_value = True
+
+        if ctx:
+            save_for_app_testing(ctx, element_id, format_func)
+        self.dg._enqueue("selectbox", selectbox_proto)
+        return widget_state.value
+
+    @property
+    def dg(self) -> DeltaGenerator:
+        """Get our DeltaGenerator."""
+        return cast("DeltaGenerator", self)

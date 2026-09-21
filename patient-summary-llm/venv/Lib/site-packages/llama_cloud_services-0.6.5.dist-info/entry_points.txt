@@ -1,0 +1,3 @@
+[console_scripts]
+llama-parse=llama_cloud_services.parse.cli.main:parse
+

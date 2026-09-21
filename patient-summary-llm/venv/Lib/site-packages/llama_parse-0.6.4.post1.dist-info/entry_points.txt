@@ -1,0 +1,3 @@
+[console_scripts]
+llama-parse=llama_parse.cli.main:parse
+

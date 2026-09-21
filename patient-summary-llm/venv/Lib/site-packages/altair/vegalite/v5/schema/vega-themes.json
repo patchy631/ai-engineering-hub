@@ -1,0 +1,1187 @@
+{
+  "carbong10": {
+    "config": {
+      "arc": {
+        "fill": "#6929c4"
+      },
+      "area": {
+        "fill": "#6929c4"
+      },
+      "axis": {
+        "grid": true,
+        "gridColor": "#e0e0e0",
+        "labelAngle": 0,
+        "labelColor": "#525252",
+        "labelFont": "IBM Plex Sans Condensed, system-ui, -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", sans-serif",
+        "labelFontSize": 12,
+        "labelFontWeight": 400,
+        "titleColor": "#161616",
+        "titleFontSize": 12,
+        "titleFontWeight": 600
+      },
+      "axisX": {
+        "titlePadding": 10
+      },
+      "axisY": {
+        "titlePadding": 2.5
+      },
+      "background": "#f4f4f4",
+      "circle": {
+        "fill": "#6929c4"
+      },
+      "range": {
+        "category": [
+          "#6929c4",
+          "#1192e8",
+          "#005d5d",
+          "#9f1853",
+          "#fa4d56",
+          "#570408",
+          "#198038",
+          "#002d9c",
+          "#ee538b",
+          "#b28600",
+          "#009d9a",
+          "#012749",
+          "#8a3800",
+          "#a56eff"
+        ],
+        "diverging": [
+          "#750e13",
+          "#a2191f",
+          "#da1e28",
+          "#fa4d56",
+          "#ff8389",
+          "#ffb3b8",
+          "#ffd7d9",
+          "#fff1f1",
+          "#e5f6ff",
+          "#bae6ff",
+          "#82cfff",
+          "#33b1ff",
+          "#1192e8",
+          "#0072c3",
+          "#00539a",
+          "#003a6d"
+        ],
+        "heatmap": [
+          "#f6f2ff",
+          "#e8daff",
+          "#d4bbff",
+          "#be95ff",
+          "#a56eff",
+          "#8a3ffc",
+          "#6929c4",
+          "#491d8b",
+          "#31135e",
+          "#1c0f30"
+        ]
+      },
+      "rect": {
+        "fill": "#6929c4"
+      },
+      "style": {
+        "guide-label": {
+          "fill": "#525252",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        },
+        "guide-title": {
+          "fill": "#525252",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        }
+      },
+      "title": {
+        "anchor": "start",
+        "color": "#161616",
+        "dy": -15,
+        "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+        "fontSize": 16,
+        "fontWeight": 600
+      },
+      "view": {
+        "fill": "#ffffff",
+        "stroke": "#ffffff"
+      }
+    }
+  },
+  "carbong100": {
+    "config": {
+      "arc": {
+        "fill": "#d4bbff"
+      },
+      "area": {
+        "fill": "#d4bbff"
+      },
+      "axis": {
+        "grid": true,
+        "gridColor": "#393939",
+        "labelAngle": 0,
+        "labelColor": "#c6c6c6",
+        "labelFont": "IBM Plex Sans Condensed, system-ui, -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", sans-serif",
+        "labelFontSize": 12,
+        "labelFontWeight": 400,
+        "titleColor": "#f4f4f4",
+        "titleFontSize": 12,
+        "titleFontWeight": 600
+      },
+      "axisX": {
+        "titlePadding": 10
+      },
+      "axisY": {
+        "titlePadding": 2.5
+      },
+      "background": "#161616",
+      "circle": {
+        "fill": "#d4bbff"
+      },
+      "range": {
+        "category": [
+          "#8a3ffc",
+          "#33b1ff",
+          "#007d79",
+          "#ff7eb6",
+          "#fa4d56",
+          "#fff1f1",
+          "#6fdc8c",
+          "#4589ff",
+          "#d12771",
+          "#d2a106",
+          "#08bdba",
+          "#bae6ff",
+          "#ba4e00",
+          "#d4bbff"
+        ],
+        "diverging": [
+          "#750e13",
+          "#a2191f",
+          "#da1e28",
+          "#fa4d56",
+          "#ff8389",
+          "#ffb3b8",
+          "#ffd7d9",
+          "#fff1f1",
+          "#e5f6ff",
+          "#bae6ff",
+          "#82cfff",
+          "#33b1ff",
+          "#1192e8",
+          "#0072c3",
+          "#00539a",
+          "#003a6d"
+        ],
+        "heatmap": [
+          "#f6f2ff",
+          "#e8daff",
+          "#d4bbff",
+          "#be95ff",
+          "#a56eff",
+          "#8a3ffc",
+          "#6929c4",
+          "#491d8b",
+          "#31135e",
+          "#1c0f30"
+        ]
+      },
+      "rect": {
+        "fill": "#d4bbff"
+      },
+      "style": {
+        "guide-label": {
+          "fill": "#c6c6c6",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        },
+        "guide-title": {
+          "fill": "#c6c6c6",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        }
+      },
+      "title": {
+        "anchor": "start",
+        "color": "#f4f4f4",
+        "dy": -15,
+        "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+        "fontSize": 16,
+        "fontWeight": 600
+      },
+      "view": {
+        "fill": "#161616",
+        "stroke": "#161616"
+      }
+    }
+  },
+  "carbong90": {
+    "config": {
+      "arc": {
+        "fill": "#d4bbff"
+      },
+      "area": {
+        "fill": "#d4bbff"
+      },
+      "axis": {
+        "grid": true,
+        "gridColor": "#525252",
+        "labelAngle": 0,
+        "labelColor": "#c6c6c6",
+        "labelFont": "IBM Plex Sans Condensed, system-ui, -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", sans-serif",
+        "labelFontSize": 12,
+        "labelFontWeight": 400,
+        "titleColor": "#f4f4f4",
+        "titleFontSize": 12,
+        "titleFontWeight": 600
+      },
+      "axisX": {
+        "titlePadding": 10
+      },
+      "axisY": {
+        "titlePadding": 2.5
+      },
+      "background": "#262626",
+      "circle": {
+        "fill": "#d4bbff"
+      },
+      "range": {
+        "category": [
+          "#8a3ffc",
+          "#33b1ff",
+          "#007d79",
+          "#ff7eb6",
+          "#fa4d56",
+          "#fff1f1",
+          "#6fdc8c",
+          "#4589ff",
+          "#d12771",
+          "#d2a106",
+          "#08bdba",
+          "#bae6ff",
+          "#ba4e00",
+          "#d4bbff"
+        ],
+        "diverging": [
+          "#750e13",
+          "#a2191f",
+          "#da1e28",
+          "#fa4d56",
+          "#ff8389",
+          "#ffb3b8",
+          "#ffd7d9",
+          "#fff1f1",
+          "#e5f6ff",
+          "#bae6ff",
+          "#82cfff",
+          "#33b1ff",
+          "#1192e8",
+          "#0072c3",
+          "#00539a",
+          "#003a6d"
+        ],
+        "heatmap": [
+          "#f6f2ff",
+          "#e8daff",
+          "#d4bbff",
+          "#be95ff",
+          "#a56eff",
+          "#8a3ffc",
+          "#6929c4",
+          "#491d8b",
+          "#31135e",
+          "#1c0f30"
+        ]
+      },
+      "rect": {
+        "fill": "#d4bbff"
+      },
+      "style": {
+        "guide-label": {
+          "fill": "#c6c6c6",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        },
+        "guide-title": {
+          "fill": "#c6c6c6",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        }
+      },
+      "title": {
+        "anchor": "start",
+        "color": "#f4f4f4",
+        "dy": -15,
+        "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+        "fontSize": 16,
+        "fontWeight": 600
+      },
+      "view": {
+        "fill": "#161616",
+        "stroke": "#161616"
+      }
+    }
+  },
+  "carbonwhite": {
+    "config": {
+      "arc": {
+        "fill": "#6929c4"
+      },
+      "area": {
+        "fill": "#6929c4"
+      },
+      "axis": {
+        "grid": true,
+        "gridColor": "#e0e0e0",
+        "labelAngle": 0,
+        "labelColor": "#525252",
+        "labelFont": "IBM Plex Sans Condensed, system-ui, -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", sans-serif",
+        "labelFontSize": 12,
+        "labelFontWeight": 400,
+        "titleColor": "#161616",
+        "titleFontSize": 12,
+        "titleFontWeight": 600
+      },
+      "axisX": {
+        "titlePadding": 10
+      },
+      "axisY": {
+        "titlePadding": 2.5
+      },
+      "background": "#ffffff",
+      "circle": {
+        "fill": "#6929c4"
+      },
+      "range": {
+        "category": [
+          "#6929c4",
+          "#1192e8",
+          "#005d5d",
+          "#9f1853",
+          "#fa4d56",
+          "#570408",
+          "#198038",
+          "#002d9c",
+          "#ee538b",
+          "#b28600",
+          "#009d9a",
+          "#012749",
+          "#8a3800",
+          "#a56eff"
+        ],
+        "diverging": [
+          "#750e13",
+          "#a2191f",
+          "#da1e28",
+          "#fa4d56",
+          "#ff8389",
+          "#ffb3b8",
+          "#ffd7d9",
+          "#fff1f1",
+          "#e5f6ff",
+          "#bae6ff",
+          "#82cfff",
+          "#33b1ff",
+          "#1192e8",
+          "#0072c3",
+          "#00539a",
+          "#003a6d"
+        ],
+        "heatmap": [
+          "#f6f2ff",
+          "#e8daff",
+          "#d4bbff",
+          "#be95ff",
+          "#a56eff",
+          "#8a3ffc",
+          "#6929c4",
+          "#491d8b",
+          "#31135e",
+          "#1c0f30"
+        ]
+      },
+      "rect": {
+        "fill": "#6929c4"
+      },
+      "style": {
+        "guide-label": {
+          "fill": "#525252",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        },
+        "guide-title": {
+          "fill": "#525252",
+          "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+          "fontWeight": 400
+        }
+      },
+      "title": {
+        "anchor": "start",
+        "color": "#161616",
+        "dy": -15,
+        "font": "IBM Plex Sans,system-ui,-apple-system,BlinkMacSystemFont,\".sfnstext-regular\",sans-serif",
+        "fontSize": 16,
+        "fontWeight": 600
+      },
+      "view": {
+        "fill": "#ffffff",
+        "stroke": "#ffffff"
+      }
+    }
+  },
+  "dark": {
+    "config": {
+      "axis": {
+        "domainColor": "#fff",
+        "gridColor": "#888",
+        "tickColor": "#fff"
+      },
+      "background": "#333",
+      "style": {
+        "guide-label": {
+          "fill": "#fff"
+        },
+        "guide-title": {
+          "fill": "#fff"
+        }
+      },
+      "title": {
+        "color": "#fff",
+        "subtitleColor": "#fff"
+      },
+      "view": {
+        "stroke": "#888"
+      }
+    }
+  },
+  "excel": {
+    "config": {
+      "arc": {
+        "fill": "#4572a7"
+      },
+      "area": {
+        "fill": "#4572a7"
+      },
+      "axis": {
+        "bandPosition": 0.5,
+        "grid": true,
+        "gridColor": "#000000",
+        "gridOpacity": 1,
+        "gridWidth": 0.5,
+        "labelPadding": 10,
+        "tickSize": 5,
+        "tickWidth": 0.5
+      },
+      "axisBand": {
+        "grid": false,
+        "tickExtra": true
+      },
+      "background": "#fff",
+      "legend": {
+        "labelBaseline": "middle",
+        "labelFontSize": 11,
+        "symbolSize": 50,
+        "symbolType": "square"
+      },
+      "line": {
+        "stroke": "#4572a7",
+        "strokeWidth": 2
+      },
+      "range": {
+        "category": [
+          "#4572a7",
+          "#aa4643",
+          "#8aa453",
+          "#71598e",
+          "#4598ae",
+          "#d98445",
+          "#94aace",
+          "#d09393",
+          "#b9cc98",
+          "#a99cbc"
+        ]
+      },
+      "rect": {
+        "fill": "#4572a7"
+      }
+    }
+  },
+  "fivethirtyeight": {
+    "config": {
+      "arc": {
+        "fill": "#30a2da"
+      },
+      "area": {
+        "fill": "#30a2da"
+      },
+      "axis": {
+        "domainColor": "#cbcbcb",
+        "grid": true,
+        "gridColor": "#cbcbcb",
+        "gridWidth": 1,
+        "labelColor": "#999",
+        "labelFontSize": 10,
+        "labelPadding": 4,
+        "tickColor": "#cbcbcb",
+        "tickSize": 10,
+        "titleColor": "#333",
+        "titleFontSize": 14,
+        "titlePadding": 10
+      },
+      "axisBand": {
+        "grid": false
+      },
+      "background": "#f0f0f0",
+      "bar": {
+        "binSpacing": 2,
+        "fill": "#30a2da",
+        "stroke": null
+      },
+      "legend": {
+        "labelColor": "#333",
+        "labelFontSize": 11,
+        "padding": 1,
+        "symbolSize": 30,
+        "symbolType": "square",
+        "titleColor": "#333",
+        "titleFontSize": 14,
+        "titlePadding": 10
+      },
+      "line": {
+        "stroke": "#30a2da",
+        "strokeWidth": 2
+      },
+      "point": {
+        "filled": true,
+        "shape": "circle"
+      },
+      "range": {
+        "category": [
+          "#30a2da",
+          "#fc4f30",
+          "#e5ae38",
+          "#6d904f",
+          "#8b8b8b",
+          "#b96db8",
+          "#ff9e27",
+          "#56cc60",
+          "#52d2ca",
+          "#52689e",
+          "#545454",
+          "#9fe4f8"
+        ],
+        "diverging": [
+          "#cc0020",
+          "#e77866",
+          "#f6e7e1",
+          "#d6e8ed",
+          "#91bfd9",
+          "#1d78b5"
+        ],
+        "heatmap": [
+          "#d6e8ed",
+          "#cee0e5",
+          "#91bfd9",
+          "#549cc6",
+          "#1d78b5"
+        ]
+      },
+      "rect": {
+        "fill": "#30a2da"
+      },
+      "title": {
+        "anchor": "start",
+        "fontSize": 24,
+        "fontWeight": 600,
+        "offset": 20
+      }
+    }
+  },
+  "ggplot2": {
+    "config": {
+      "arc": {
+        "fill": "#000"
+      },
+      "area": {
+        "fill": "#000"
+      },
+      "axis": {
+        "domain": false,
+        "grid": true,
+        "gridColor": "#FFFFFF",
+        "gridOpacity": 1,
+        "labelColor": "#7F7F7F",
+        "labelPadding": 4,
+        "tickColor": "#7F7F7F",
+        "tickSize": 5.67,
+        "titleFontSize": 16,
+        "titleFontWeight": "normal"
+      },
+      "legend": {
+        "labelBaseline": "middle",
+        "labelFontSize": 11,
+        "symbolSize": 40
+      },
+      "line": {
+        "stroke": "#000"
+      },
+      "range": {
+        "category": [
+          "#000000",
+          "#7F7F7F",
+          "#1A1A1A",
+          "#999999",
+          "#333333",
+          "#B0B0B0",
+          "#4D4D4D",
+          "#C9C9C9",
+          "#666666",
+          "#DCDCDC"
+        ]
+      },
+      "rect": {
+        "fill": "#000"
+      }
+    }
+  },
+  "googlecharts": {
+    "config": {
+      "arc": {
+        "fill": "#3366CC"
+      },
+      "area": {
+        "fill": "#3366CC"
+      },
+      "axis": {
+        "domain": false,
+        "grid": true,
+        "gridColor": "#ccc",
+        "tickColor": "#ccc"
+      },
+      "background": "#fff",
+      "circle": {
+        "fill": "#3366CC"
+      },
+      "padding": {
+        "bottom": 10,
+        "left": 10,
+        "right": 10,
+        "top": 10
+      },
+      "range": {
+        "category": [
+          "#4285F4",
+          "#DB4437",
+          "#F4B400",
+          "#0F9D58",
+          "#AB47BC",
+          "#00ACC1",
+          "#FF7043",
+          "#9E9D24",
+          "#5C6BC0",
+          "#F06292",
+          "#00796B",
+          "#C2185B"
+        ],
+        "heatmap": [
+          "#c6dafc",
+          "#5e97f6",
+          "#2a56c6"
+        ]
+      },
+      "rect": {
+        "fill": "#3366CC"
+      },
+      "style": {
+        "group-title": {
+          "font": "Arial, sans-serif",
+          "fontSize": 12
+        },
+        "guide-label": {
+          "font": "Arial, sans-serif",
+          "fontSize": 12
+        },
+        "guide-title": {
+          "font": "Arial, sans-serif",
+          "fontSize": 12
+        }
+      },
+      "title": {
+        "anchor": "start",
+        "dy": -3,
+        "font": "Arial, sans-serif",
+        "fontSize": 14,
+        "fontWeight": "bold"
+      }
+    }
+  },
+  "latimes": {
+    "config": {
+      "arc": {
+        "fill": "#82c6df"
+      },
+      "area": {
+        "fill": "#82c6df"
+      },
+      "axis": {
+        "labelFont": "Benton Gothic, sans-serif",
+        "labelFontSize": 11.5,
+        "labelFontWeight": "normal",
+        "titleFont": "Benton Gothic Bold, sans-serif",
+        "titleFontSize": 13,
+        "titleFontWeight": "normal"
+      },
+      "axisX": {
+        "labelAngle": 0,
+        "labelPadding": 4,
+        "tickSize": 3
+      },
+      "axisY": {
+        "labelBaseline": "middle",
+        "maxExtent": 45,
+        "minExtent": 45,
+        "tickSize": 2,
+        "titleAlign": "left",
+        "titleAngle": 0,
+        "titleX": -45,
+        "titleY": -11
+      },
+      "background": "#ffffff",
+      "legend": {
+        "labelFont": "Benton Gothic, sans-serif",
+        "labelFontSize": 11.5,
+        "symbolType": "square",
+        "titleFont": "Benton Gothic Bold, sans-serif",
+        "titleFontSize": 13,
+        "titleFontWeight": "normal"
+      },
+      "line": {
+        "stroke": "#82c6df",
+        "strokeWidth": 2
+      },
+      "range": {
+        "category": [
+          "#ec8431",
+          "#829eb1",
+          "#c89d29",
+          "#3580b1",
+          "#adc839",
+          "#ab7fb4"
+        ],
+        "diverging": [
+          "#e68a4f",
+          "#f4bb6a",
+          "#f9e39c",
+          "#dadfe2",
+          "#a6b7c6",
+          "#849eae"
+        ],
+        "heatmap": [
+          "#fbf2c7",
+          "#f9e39c",
+          "#f8d36e",
+          "#f4bb6a",
+          "#e68a4f",
+          "#d15a40",
+          "#ab4232"
+        ],
+        "ordinal": [
+          "#fbf2c7",
+          "#f9e39c",
+          "#f8d36e",
+          "#f4bb6a",
+          "#e68a4f",
+          "#d15a40",
+          "#ab4232"
+        ],
+        "ramp": [
+          "#fbf2c7",
+          "#f9e39c",
+          "#f8d36e",
+          "#f4bb6a",
+          "#e68a4f",
+          "#d15a40",
+          "#ab4232"
+        ]
+      },
+      "rect": {
+        "fill": "#82c6df"
+      },
+      "title": {
+        "anchor": "start",
+        "color": "#000000",
+        "font": "Benton Gothic Bold, sans-serif",
+        "fontSize": 22,
+        "fontWeight": "normal"
+      }
+    }
+  },
+  "powerbi": {
+    "config": {
+      "arc": {
+        "fill": "#118DFF"
+      },
+      "area": {
+        "fill": "#118DFF",
+        "line": true,
+        "opacity": 0.6
+      },
+      "axis": {
+        "domain": false,
+        "grid": false,
+        "labelColor": "#605E5C",
+        "labelFontSize": 12,
+        "ticks": false,
+        "titleColor": "#252423",
+        "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+        "titleFontSize": 16,
+        "titleFontWeight": "normal"
+      },
+      "axisBand": {
+        "tickExtra": true
+      },
+      "axisQuantitative": {
+        "grid": true,
+        "gridColor": "#C8C6C4",
+        "gridDash": [
+          1,
+          5
+        ],
+        "labelFlush": false,
+        "tickCount": 3
+      },
+      "axisX": {
+        "labelPadding": 5
+      },
+      "axisY": {
+        "labelPadding": 10
+      },
+      "background": "transparent",
+      "bar": {
+        "fill": "#118DFF"
+      },
+      "font": "Segoe UI",
+      "header": {
+        "labelColor": "#605E5C",
+        "labelFont": "Segoe UI",
+        "labelFontSize": 13.333333333333332,
+        "titleColor": "#252423",
+        "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+        "titleFontSize": 16
+      },
+      "legend": {
+        "labelColor": "#605E5C",
+        "labelFont": "Segoe UI",
+        "labelFontSize": 13.333333333333332,
+        "symbolSize": 75,
+        "symbolType": "circle",
+        "titleColor": "#605E5C",
+        "titleFont": "Segoe UI",
+        "titleFontWeight": "bold"
+      },
+      "line": {
+        "stroke": "#118DFF",
+        "strokeCap": "round",
+        "strokeJoin": "round",
+        "strokeWidth": 3
+      },
+      "point": {
+        "fill": "#118DFF",
+        "filled": true,
+        "size": 75
+      },
+      "range": {
+        "category": [
+          "#118DFF",
+          "#12239E",
+          "#E66C37",
+          "#6B007B",
+          "#E044A7",
+          "#744EC2",
+          "#D9B300",
+          "#D64550"
+        ],
+        "diverging": [
+          "#DEEFFF",
+          "#118DFF"
+        ],
+        "heatmap": [
+          "#DEEFFF",
+          "#118DFF"
+        ],
+        "ordinal": [
+          "#DEEFFF",
+          "#c7e4ff",
+          "#b0d9ff",
+          "#9aceff",
+          "#83c3ff",
+          "#6cb9ff",
+          "#55aeff",
+          "#3fa3ff",
+          "#2898ff",
+          "#118DFF"
+        ]
+      },
+      "rect": {
+        "fill": "#118DFF"
+      },
+      "text": {
+        "fill": "#605E5C",
+        "font": "Segoe UI",
+        "fontSize": 12
+      },
+      "view": {
+        "stroke": "transparent"
+      }
+    }
+  },
+  "quartz": {
+    "config": {
+      "arc": {
+        "fill": "#ab5787"
+      },
+      "area": {
+        "fill": "#ab5787"
+      },
+      "axis": {
+        "domainColor": "#979797",
+        "domainWidth": 0.5,
+        "gridWidth": 0.2,
+        "labelColor": "#979797",
+        "tickColor": "#979797",
+        "tickWidth": 0.2,
+        "titleColor": "#979797"
+      },
+      "axisBand": {
+        "grid": false
+      },
+      "axisX": {
+        "grid": true,
+        "tickSize": 10
+      },
+      "axisY": {
+        "domain": false,
+        "grid": true,
+        "tickSize": 0
+      },
+      "background": "#f9f9f9",
+      "legend": {
+        "labelFontSize": 11,
+        "padding": 1,
+        "symbolSize": 30,
+        "symbolType": "square"
+      },
+      "line": {
+        "stroke": "#ab5787"
+      },
+      "range": {
+        "category": [
+          "#ab5787",
+          "#51b2e5",
+          "#703c5c",
+          "#168dd9",
+          "#d190b6",
+          "#00609f",
+          "#d365ba",
+          "#154866",
+          "#666666",
+          "#c4c4c4"
+        ]
+      },
+      "rect": {
+        "fill": "#ab5787"
+      }
+    }
+  },
+  "urbaninstitute": {
+    "config": {
+      "arc": {
+        "fill": "#1696d2"
+      },
+      "area": {
+        "fill": "#1696d2"
+      },
+      "axisX": {
+        "domain": true,
+        "domainColor": "#000000",
+        "domainWidth": 1,
+        "grid": false,
+        "labelAngle": 0,
+        "labelFont": "Lato",
+        "labelFontSize": 12,
+        "tickColor": "#000000",
+        "tickSize": 5,
+        "titleFont": "Lato",
+        "titleFontSize": 12,
+        "titlePadding": 10
+      },
+      "axisY": {
+        "domain": false,
+        "domainWidth": 1,
+        "grid": true,
+        "gridColor": "#DEDDDD",
+        "gridWidth": 1,
+        "labelFont": "Lato",
+        "labelFontSize": 12,
+        "labelPadding": 8,
+        "ticks": false,
+        "titleAngle": 0,
+        "titleFont": "Lato",
+        "titleFontSize": 12,
+        "titlePadding": 10,
+        "titleX": 18,
+        "titleY": -10
+      },
+      "background": "#FFFFFF",
+      "legend": {
+        "labelFont": "Lato",
+        "labelFontSize": 12,
+        "offset": 10,
+        "orient": "right",
+        "symbolSize": 100,
+        "titleFont": "Lato",
+        "titleFontSize": 12,
+        "titlePadding": 10
+      },
+      "line": {
+        "color": "#1696d2",
+        "stroke": "#1696d2",
+        "strokeWidth": 5
+      },
+      "point": {
+        "filled": true
+      },
+      "range": {
+        "category": [
+          "#1696d2",
+          "#ec008b",
+          "#fdbf11",
+          "#000000",
+          "#d2d2d2",
+          "#55b748"
+        ],
+        "diverging": [
+          "#ca5800",
+          "#fdbf11",
+          "#fdd870",
+          "#fff2cf",
+          "#cfe8f3",
+          "#73bfe2",
+          "#1696d2",
+          "#0a4c6a"
+        ],
+        "heatmap": [
+          "#ca5800",
+          "#fdbf11",
+          "#fdd870",
+          "#fff2cf",
+          "#cfe8f3",
+          "#73bfe2",
+          "#1696d2",
+          "#0a4c6a"
+        ],
+        "ordinal": [
+          "#cfe8f3",
+          "#a2d4ec",
+          "#73bfe2",
+          "#46abdb",
+          "#1696d2",
+          "#12719e"
+        ],
+        "ramp": [
+          "#CFE8F3",
+          "#A2D4EC",
+          "#73BFE2",
+          "#46ABDB",
+          "#1696D2",
+          "#12719E",
+          "#0A4C6A",
+          "#062635"
+        ]
+      },
+      "rect": {
+        "fill": "#1696d2"
+      },
+      "style": {
+        "bar": {
+          "fill": "#1696d2",
+          "stroke": null
+        }
+      },
+      "text": {
+        "align": "center",
+        "color": "#1696d2",
+        "font": "Lato",
+        "fontSize": 11,
+        "fontWeight": 400,
+        "size": 11
+      },
+      "title": {
+        "anchor": "start",
+        "font": "Lato",
+        "fontSize": 18
+      },
+      "trail": {
+        "color": "#1696d2",
+        "size": 1,
+        "stroke": "#1696d2",
+        "strokeWidth": 0
+      },
+      "view": {
+        "stroke": "transparent"
+      }
+    }
+  },
+  "vox": {
+    "config": {
+      "arc": {
+        "fill": "#3e5c69"
+      },
+      "area": {
+        "fill": "#3e5c69"
+      },
+      "axis": {
+        "domainWidth": 0.5,
+        "grid": true,
+        "labelPadding": 2,
+        "tickSize": 5,
+        "tickWidth": 0.5,
+        "titleFontWeight": "normal"
+      },
+      "axisBand": {
+        "grid": false
+      },
+      "axisX": {
+        "gridWidth": 0.2
+      },
+      "axisY": {
+        "gridDash": [
+          3
+        ],
+        "gridWidth": 0.4
+      },
+      "background": "#fff",
+      "legend": {
+        "labelFontSize": 11,
+        "padding": 1,
+        "symbolType": "square"
+      },
+      "line": {
+        "stroke": "#3e5c69"
+      },
+      "range": {
+        "category": [
+          "#3e5c69",
+          "#6793a6",
+          "#182429",
+          "#0570b0",
+          "#3690c0",
+          "#74a9cf",
+          "#a6bddb",
+          "#e2ddf2"
+        ]
+      },
+      "rect": {
+        "fill": "#3e5c69"
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+Metadata-Version: 2.1
+Name: striprtf
+Version: 0.0.26
+Summary: A simple library to convert rtf to text
+Home-page: https://github.com/joshy/striprtf
+Author: Joshy Cyriac
+Author-email: joshy@posteo.ch
+License: BSD-3-Clause
+Download-URL: https://github.com/joshy/striprtf/archive/v0.0.26.tar.gz
+Keywords: rtf
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: BSD License
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# striprtf
+![Build status](https://github.com/joshy/striprtf/workflows/striprtf%20build/badge.svg)
+
+## Purpose
+This is a simple library to convert rtf files to python strings. A lot of
+medical documents are written in rtf format which is not ideal for parsing
+and further processing. This library converts it to plain old text.
+
+## How to use
+```python
+from striprtf.striprtf import rtf_to_text
+rtf = "some rtf encoded string"
+text = rtf_to_text(rtf)
+print(text)
+```
+
+If you want to use a different encoding than `cp1252` you can pass it via the parameter `encoding`. This 
+is only taken into account if no explicit codepage has been set. 
+```python
+from striprtf.striprtf import rtf_to_text
+rtf = "some rtf encoded string in latin1"
+text = rtf_to_text(rtf, encoding="latin-1")
+print(text)
+```
+
+Sometimes UnicodeDecodingErrors can happen because of various reasons.
+In this case you can try to relax the encoding process like this:
+```python
+from striprtf.striprtf import rtf_to_text
+rtf = "some rtf encoded string"
+text = rtf_to_text(rtf, errors="ignore")
+print(text)
+```
+
+## How to use online
+If you don't want to install, there is also an online version available at https://striprtf.dev which can be used for free. 
+
+
+## History
+[Pyth](https://github.com/brendonh/pyth) was not working for the rtf files I
+had. The next best thing was this gist:
+https://gist.github.com/gilsondev/7c1d2d753ddb522e7bc22511cfb08676
+
+~~Very few additions where made, e.g. better formatting of tables. ~~
+
+In the meantime some encodings bugs have been fixed. :-)
+
+## Pushing to PyPi
+ * pip install twine
+
+
+Run commands
+```
+python setup.py sdist bdist_wheel
+twine upload -r testpypi dist/*
+twine upload -r pypi dist/*
+```
+
+

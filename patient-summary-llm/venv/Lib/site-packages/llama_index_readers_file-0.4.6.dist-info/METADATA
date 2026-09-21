@@ -1,0 +1,215 @@
+Metadata-Version: 2.1
+Name: llama-index-readers-file
+Version: 0.4.6
+Summary: llama-index readers file integration
+License: MIT
+Keywords: 10k,10q,chart,eml,figure,html,hwp,image,invoice,ipynb,jupyter,notebook,pdf,pymupdf,receipt,sec,spreadsheet,tabular,unstructured.io,yaml,yml
+Author: Your Name
+Author-email: you@example.com
+Maintainer: FarisHijazi
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: pymupdf
+Requires-Dist: beautifulsoup4 (>=4.12.3,<5.0.0)
+Requires-Dist: llama-index-core (>=0.12.0,<0.13.0)
+Requires-Dist: pandas
+Requires-Dist: pymupdf (>=1.23.21,<2.0.0) ; extra == "pymupdf"
+Requires-Dist: pypdf (>=5.1.0,<6.0.0)
+Requires-Dist: striprtf (>=0.0.26,<0.0.27)
+Description-Content-Type: text/markdown
+
+# LlamaIndex Readers Integration: File
+
+```bash
+pip install llama-index-readers-file
+```
+
+This is the default integration for different loaders that are used within `SimpleDirectoryReader`.
+
+Provides support for the following loaders:
+
+- DocxReader
+- HWPReader
+- PDFReader
+- EpubReader
+- FlatReader
+- HTMLTagReader
+- ImageCaptionReader
+- ImageReader
+- ImageVisionLLMReader
+- IPYNBReader
+- MarkdownReader
+- MboxReader
+- PptxReader
+- PandasCSVReader
+- VideoAudioReader
+- UnstructuredReader
+- PyMuPDFReader
+- ImageTabularChartReader
+- XMLReader
+- PagedCSVReader
+- CSVReader
+- RTFReader
+
+## Installation
+
+```bash
+pip install llama-index-readers-file
+```
+
+## Usage
+
+Once installed, You can import any of the loader. Here's an example usage of one of the loader.
+
+```python
+from llama_index.core import SimpleDirectoryReader
+from llama_index.readers.file import (
+    DocxReader,
+    HWPReader,
+    PDFReader,
+    EpubReader,
+    FlatReader,
+    HTMLTagReader,
+    ImageCaptionReader,
+    ImageReader,
+    ImageVisionLLMReader,
+    IPYNBReader,
+    MarkdownReader,
+    MboxReader,
+    PptxReader,
+    PandasCSVReader,
+    VideoAudioReader,
+    UnstructuredReader,
+    PyMuPDFReader,
+    ImageTabularChartReader,
+    XMLReader,
+    PagedCSVReader,
+    CSVReader,
+    RTFReader,
+)
+
+# PDF Reader with `SimpleDirectoryReader`
+parser = PDFReader()
+file_extractor = {".pdf": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Docx Reader example
+parser = DocxReader()
+file_extractor = {".docx": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# HWP Reader example
+parser = HWPReader()
+file_extractor = {".hwp": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Epub Reader example
+parser = EpubReader()
+file_extractor = {".epub": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Flat Reader example
+parser = FlatReader()
+file_extractor = {".txt": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# HTML Tag Reader example
+parser = HTMLTagReader()
+file_extractor = {".html": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Image Reader example
+parser = ImageReader()
+file_extractor = {
+    ".jpg": parser,
+    ".jpeg": parser,
+    ".png": parser,
+}  # Add other image formats as needed
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# IPYNB Reader example
+parser = IPYNBReader()
+file_extractor = {".ipynb": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Markdown Reader example
+parser = MarkdownReader()
+file_extractor = {".md": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Mbox Reader example
+parser = MboxReader()
+file_extractor = {".mbox": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Pptx Reader example
+parser = PptxReader()
+file_extractor = {".pptx": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+
+# Pandas CSV Reader example
+parser = PandasCSVReader()
+file_extractor = {".csv": parser}  # Add other CSV formats as needed
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# PyMuPDF Reader example
+parser = PyMuPDFReader()
+file_extractor = {".pdf": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# XML Reader example
+parser = XMLReader()
+file_extractor = {".xml": parser}
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# Paged CSV Reader example
+parser = PagedCSVReader()
+file_extractor = {".csv": parser}  # Add other CSV formats as needed
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+
+# CSV Reader example
+parser = CSVReader()
+file_extractor = {".csv": parser}  # Add other CSV formats as needed
+documents = SimpleDirectoryReader(
+    "./data", file_extractor=file_extractor
+).load_data()
+```
+
+This loader is designed to be used as a way to load data into [LlamaIndex](https://github.com/run-llama/llama_index/).
+
