@@ -1,0 +1,9 @@
+streamlit==1.43.2
+llama-index==0.12.23
+llama-index-indices-managed-llama-cloud==0.6.8 
+llama-cloud==0.1.14 
+llama-parse==0.6.4.post1
+llama-index-embeddings-huggingface==0.5.2
+llama-index-utils-workflow==0.3.0
+llama-index-llms-ollama==0.5.3
+opik==1.6.3
