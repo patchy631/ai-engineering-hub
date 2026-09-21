@@ -1,0 +1,10 @@
+[project]
+name = "auto-insurance-agent"
+version = "0.1.0"
+description = "Auto Insurance Agent"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "llama-index-llms-anthropic>=0.6.10",
+    "llama-index-utils-workflow>=0.3.0",
+]
