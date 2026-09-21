@@ -1,0 +1,67 @@
+copy_editing_task:
+  description: >
+    Perform comprehensive copy editing on the content draft:
+    1. Review grammar, punctuation, and spelling
+    2. Improve sentence structure and clarity
+    3. Enhance readability and flow
+    4. Ensure consistent tone and style
+    5. Check for redundancy and wordiness
+    6. Optimize paragraph structure and transitions
+    7. Maintain the author's voice while improving quality
+    
+    Focus on creating polished, professional content that engages readers.
+  expected_output: >
+    A copy-edited version with:
+    - Corrected grammar and punctuation errors
+    - Improved sentence structure and clarity
+    - Enhanced readability and flow
+    - Consistent style and tone
+    - Reduced redundancy and improved conciseness
+    - Better paragraph organization
+    - List of improvements made for reference
+
+technical_editing_task:
+  description: >
+    Perform technical review and fact-checking on the edited content:
+    1. Verify all factual claims and statistics
+    2. Check citation formats and accuracy
+    3. Ensure technical terminology is used correctly
+    4. Validate that all sources are properly attributed
+    5. Check for consistency in technical details
+    6. Verify links and references are functional
+    7. Ensure claims are properly supported by sources
+    
+    Maintain the highest standards of accuracy and credibility.
+  expected_output: >
+    A technically reviewed version with:
+    - Verified factual accuracy
+    - Properly formatted citations
+    - Consistent technical terminology
+    - Functional links and references
+    - All claims properly supported
+    - Technical accuracy confirmation
+    - List of technical improvements made
+
+final_editing_task:
+  description: >
+    Prepare the content for final publication:
+    1. Apply final formatting and structure optimization
+    2. Ensure proper markdown formatting with H1 for title, H3 for sections
+    3. Optimize content hierarchy and organization
+    4. Create engaging meta descriptions and tags
+    5. Perform final readability assessment
+    6. Ensure mobile-friendly formatting
+    7. Prepare final references section
+    8. Calculate final word count and readability metrics
+    
+    Create publication-ready content that meets all quality standards.
+  expected_output: >
+    A complete EditedContent object containing:
+    - Final polished content in proper markdown format
+    - Optimized structure with proper heading hierarchy
+    - Complete list of improvements made throughout editing process
+    - Readability score and metrics
+    - Final word count
+    - Publication-ready formatting
+    - Comprehensive references section
+    This should be the final, publication-ready version of the article.
