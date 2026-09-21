@@ -1,0 +1,6 @@
+__pycache__/
+src/__pycache__/
+venv/
+.vscode/
+*.env
+img/workflow.excalidraw
