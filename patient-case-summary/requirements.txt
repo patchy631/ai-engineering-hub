@@ -1,0 +1,9 @@
+streamlit>=1.22.0
+llama-index>=0.8.0
+llama-index-indices-managed-llama-cloud>=0.1.0
+llama-cloud>=0.0.1
+openai>=1.0.0
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+nest-asyncio>=1.5.6 
+pyvis
