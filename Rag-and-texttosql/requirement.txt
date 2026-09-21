@@ -1,0 +1,11 @@
+streamlit>=1.31.0
+llama-index-core>=0.10.0
+llama-index-llms-openai>=0.1.0
+llama-index-embeddings-huggingface>=0.1.0
+openai>=1.12.0
+pandas>=2.2.0
+python-dotenv>=1.0.0
+sentence-transformers>=2.5.0
+PyPDF2>=3.0.0
+jupyter>=1.0.0
+notebook>=7.0.0
