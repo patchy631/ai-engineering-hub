@@ -86,6 +86,7 @@ Perfect for getting started with AI engineering. These projects focus on single 
 - [**GitHub RAG**](./github-rag) - Chat with GitHub repos locally
 - [**ModernBERT RAG**](./modernbert-rag) - RAG with ModernBert embeddings
 - [**Llama 4 RAG**](./llama-4-rag) - RAG powered by Meta's Llama 4
+- [**Local Web RAG**](./local-web-rag) - Crawl and query any site with a local crawler, no scraping API key
 
 #### Multimodal & Media
 - [**Image Generation with Janus-Pro**](./imagegen-janus-pro) - Local image generation with DeepSeek Janus-pro 7B
