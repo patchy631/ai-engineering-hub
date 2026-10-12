@@ -92,6 +92,7 @@ Perfect for getting started with AI engineering. These projects focus on single 
 - [**Video RAG with Gemini**](./video-rag-gemini) - Chat with videos using Gemini AI
 
 #### Other Tools
+- [**Webpage to Markdown & JSON with context.dev**](./context-dev-website-to-md-and-json) - Notebook tutorial for clean Markdown and structured JSON extraction
 - [**Website to API with FireCrawl**](./Website-to-API-with-FireCrawl) - Convert websites to APIs
 - [**AI News Generator**](./ai_news_generator) - News generation with CrewAI and Cohere
 - [**Siamese Network**](./siamese-network) - Digit similarity detection on MNIST
