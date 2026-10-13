@@ -6,7 +6,7 @@ We use:
 
 - [Zep](https://www.getzep.com/) for conversation memory and knowledge graph management
 - Anam AI for realistic avatar and voice interactions
-- OpenRouter with Minimax M2 (LLM)
+- OpenRouter with Minimax M3 (LLM)
 - FastAPI for streaming backend
 - Streamlit to wrap the logic in an interactive UI
 
