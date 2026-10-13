@@ -78,6 +78,7 @@ Perfect for getting started with AI engineering. These projects focus on single 
 - [**Qwen3 Thinking UI**](./qwen3-thinking-ui) - Thinking UI with Qwen3:4B and Streamlit
 - [**GPT-OSS Thinking UI**](./gpt-oss-thinking-ui) - GPT-OSS with reasoning visualization
 - [**Streaming AI Chatbot**](./streaming-ai-chatbot) - Real-time AI streaming with Motia framework
+- [**YouTube Comment Classifier**](./youtube-zero-shot-classifier) - classify comments from YouTube video into custom labels using facebook/bart-large-mnli
 
 #### Basic RAG
 - [**Simple RAG Workflow**](./simple-rag-workflow) - Basic RAG with LlamaIndex and Ollama
