@@ -1,0 +1,18 @@
+[project]
+name = "audio-rag"
+version = "0.1.0"
+description = "RAG over audio files with Speechmatics, Voyage AI (voyage-context-3), MongoDB Atlas, and DeepSeek"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit",
+    "speechmatics-batch",
+    "voyageai",
+    "pymongo",
+    "llama-index-core",
+    "llama-index-llms-openrouter",
+    "python-dotenv",
+]
+
+[tool.uv]
+package = false
