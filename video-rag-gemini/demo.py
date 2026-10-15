@@ -4,7 +4,8 @@ Demo script for Video RAG with Gemini
 This script demonstrates how to use the Gemini API for video understanding
 """
 
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import os
 from dotenv import load_dotenv
 
@@ -19,13 +20,14 @@ def demo_video_chat():
         print("❌ Please set GEMINI_API_KEY in your .env file")
         return
     
-    genai.configure(api_key=api_key)
+    # Initialize the new client
+    client = genai.Client(api_key=api_key)
     
-    # Initialize model
-    model = genai.GenerativeModel('gemini-1.5-pro')
+    # Define model name
+    MODEL_NAME = 'gemini-2.5-flash'
     
     print("🎬 Video RAG Demo")
-    print("================")
+    print("===============")
     print("This demo shows how to upload a video and chat with it using Gemini API")
     print()
     
@@ -38,14 +40,14 @@ def demo_video_chat():
     
     try:
         print("📤 Uploading video...")
-        video_file = genai.upload_file(path=video_path, display_name="demo_video")
+        video_file = client.files.upload(file=video_path, config=dict(display_name="demo_video"))
         
         print("⏳ Processing video...")
         while video_file.state.name == "PROCESSING":
             print("   Still processing...")
             import time
             time.sleep(5)
-            video_file = genai.get_file(video_file.name)
+            video_file = client.files.get(name=video_file.name)
         
         if video_file.state.name == "FAILED":
             print("❌ Video processing failed")
@@ -73,7 +75,7 @@ def demo_video_chat():
             
             try:
                 print("🤖 Thinking...")
-                response = model.generate_content([video_file, user_input])
+                response = client.models.generate_content(model=MODEL_NAME, contents=[video_file, user_input])
                 print(f"AI: {response.text}")
                 print()
             except Exception as e:
@@ -81,7 +83,7 @@ def demo_video_chat():
         
         # Cleanup
         print("🧹 Cleaning up...")
-        genai.delete_file(video_file.name)
+        client.files.delete(name=video_file.name)
         print("✅ Demo completed!")
         
     except Exception as e:
@@ -89,4 +91,3 @@ def demo_video_chat():
 
 if __name__ == "__main__":
     demo_video_chat()
-
