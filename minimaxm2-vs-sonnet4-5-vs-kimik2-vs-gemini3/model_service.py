@@ -7,9 +7,16 @@ from typing import Dict, Any
 # Available models
 AVAILABLE_MODELS = {
     "Claude Sonnet 4.5": "openrouter/anthropic/claude-sonnet-4.5",
-    "Minimax M2": "openrouter/minimax/minimax-m2",
+    "MiniMax M3.1 Flash": "openrouter/minimax/minimax-m3.1-flash:free",
+    "MiniMax M3": "openrouter/minimax/minimax-m3",
     "Kimi K2": "openrouter/moonshotai/kimi-k2-0905",
     "Gemini 3.0 Pro": "openrouter/google/gemini-3-pro-preview",
+}
+
+
+# Keep explicit legacy requests working without advertising them for new comparisons.
+LEGACY_MODELS = {
+    "Minimax M2": "openrouter/minimax/minimax-m2",
 }
 
 
@@ -101,10 +108,14 @@ def get_model_responses(prompt: str, context: Dict[str, Any], model1: str, model
     )
 
 
-def get_all_model_names():
-    """Get all available model names for dropdown selection."""
+def get_all_model_names(*selected_models: str):
+    """Get current choices, retaining any explicitly saved legacy selections."""
     try:
-        return list(AVAILABLE_MODELS.keys())
+        names = list(AVAILABLE_MODELS.keys())
+        for name in selected_models:
+            if name in LEGACY_MODELS and name not in names:
+                names.append(name)
+        return names
     except Exception as e:
         print(f"Error getting model names: {e}")
         return []
@@ -112,11 +123,13 @@ def get_all_model_names():
 
 def validate_model_name(model_name: str) -> bool:
     """Validate if a model name exists in available models."""
-    return model_name in AVAILABLE_MODELS
+    return model_name in AVAILABLE_MODELS or model_name in LEGACY_MODELS
 
 
 def get_model_mapping(model_name: str) -> str:
     """Get the model mapping for a given model name."""
     if not validate_model_name(model_name):
         raise ValueError(f"Model '{model_name}' not found in available models")
-    return AVAILABLE_MODELS[model_name]
+    if model_name in AVAILABLE_MODELS:
+        return AVAILABLE_MODELS[model_name]
+    return LEGACY_MODELS[model_name]

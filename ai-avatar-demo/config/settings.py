@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     anam_api_key: str
     zep_api_key: str
     openrouter_api_key: str
+    openrouter_model: str = "minimax/minimax-m3.1-flash:free"
 
     # Anam AI Configuration (for avatar/voice only - we use custom LLM)
     anam_api_base_url: str = "https://api.anam.ai"

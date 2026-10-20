@@ -60,7 +60,7 @@ if "evaluation_results" not in st.session_state:
     st.session_state.evaluation_results = {"model1": None, "model2": None}
 
 # Main interface
-st.title("</> MiniMax-M2 vs Kimi-K2 vs Gemini 3.0 vs Claude Sonnet 4.5")
+st.title("</> Code Generation Model Comparison")
 powered_by_html = """
     <div style='display: flex; align-items: center; gap: 10px; margin-top: -10px;'>
         <span style='font-size: 20px; color: #666;'>Powered by</span>
@@ -75,8 +75,8 @@ st.markdown(powered_by_html, unsafe_allow_html=True)
 st.write("### Select Models to Compare")
 col1, col2 = st.columns(2)
 
-# Get all available model names
-all_models = get_all_model_names()
+# Offer current models while preserving saved legacy selections.
+all_models = get_all_model_names(*st.session_state.selected_models.values())
 
 # Validate that we have models available
 if not all_models:

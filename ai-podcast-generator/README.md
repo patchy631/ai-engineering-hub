@@ -1,5 +1,5 @@
 # AI Podcast Generator
-Transform any web article or blog post into an engaging podcast between two speakers using [Minimax](https://www.minimax.io/) M3 and [Minimax](https://www.minimax.io/) Speech 2.8's state of the art capabilities.
+Transform any web article or blog post into an engaging podcast between two speakers using [MiniMax](https://www.minimax.io/) M3.1 Flash and [Minimax](https://www.minimax.io/) Speech 2.8's state of the art capabilities.
 
 ## Overview
 
@@ -12,7 +12,7 @@ AI Podcast Generator is an intelligent tool that converts written content into n
 
 ### Tech Stack
 
-- **Minimax-M3** for intelligent script generation and dialogue conversion
+- **MiniMax-M3.1-Flash** for intelligent script generation and dialogue conversion
 - **Minimax Speech 2.8** for natural-sounding text-to-speech with multiple voice options
 - **Firecrawl** for robust web scraping and content extraction
 - **Streamlit** for an intuitive and interactive web interface
@@ -20,7 +20,7 @@ AI Podcast Generator is an intelligent tool that converts written content into n
 ## How It Works
 
 1. **Content Extraction**: Firecrawl scrapes the provided URL and extracts clean, structured content
-2. **Script Generation**: Minimax-M3 analyzes the content and creates an engaging podcast dialogue between two hosts
+2. **Script Generation**: MiniMax-M3.1-Flash analyzes the content and creates an engaging podcast dialogue between two hosts
 4. **Audio Synthesis**: Each dialogue segment is converted to speech using Minimax's advanced TTS models
 5. **Merging**: All audio segments are seamlessly combined into a single podcast file
 6. **Delivery**: Users can listen to, download, and share their AI-generated podcast
@@ -70,6 +70,8 @@ AI Podcast Generator is an intelligent tool that converts written content into n
    - **OpenRouter**: [openrouter.ai](https://openrouter.ai)
 
    You can enter these keys directly in the app's sidebar when you run it.
+
+   Script generation defaults to `minimax/minimax-m3.1-flash:free` on OpenRouter. Set `OPENROUTER_MODEL=minimax/minimax-m3` in `.env` to use MiniMax M3 instead. Explicit custom or legacy model IDs are passed through unchanged.
 
 ## Usage
 
