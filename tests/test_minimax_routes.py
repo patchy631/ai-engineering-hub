@@ -25,9 +25,9 @@ COMPARISON = ROOT / "minimaxm2-vs-sonnet4-5-vs-kimik2-vs-gemini3"
 FLASH = "minimax/minimax-m3.1-flash:free"
 MODELS = (FLASH, "minimax/minimax-m3", "minimax/minimax-m2", "custom/model")
 ENV = {
-    "OPENROUTER_API_KEY": "offline-test-key",
-    "ANAM_API_KEY": "offline-test-key",
-    "ZEP_API_KEY": "offline-test-key",
+    "OPENROUTER_API_KEY": "test-key",
+    "ANAM_API_KEY": "test-key",
+    "ZEP_API_KEY": "test-key",
     "ZEP_DOCS_USER_ID": "offline-user",
     "LITELLM_LOCAL_MODEL_COST_MAP": "True",
 }
@@ -190,7 +190,7 @@ class MiniMaxRoutesTest(unittest.TestCase):
                     self.assertIn("question", body["messages"][1]["content"])
                     return completion_response(request, False)
 
-                with OpenAI(api_key="offline-test-key", base_url="https://openrouter.ai/api/v1") as client:
+                with OpenAI(api_key="test-key", base_url="https://openrouter.ai/api/v1") as client:
                     namespace = {"os": os, "zep": zep, "DEMO_USER_ID": "offline-user", "openrouter_client": client}
                     exec(compile(source, "zep_demo.ipynb", "exec"), namespace)
                     with patch.object(httpx.Client, "send", send), contextlib.redirect_stdout(io.StringIO()):
