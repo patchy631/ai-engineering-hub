@@ -68,7 +68,8 @@ class DocumentSearchTool(BaseTool):
 
 class FireCrawlWebSearchToolInput(BaseModel):
     """Input schema for FireCrawlWebSearchTool."""
-    query: str = Field(..., description="Query to search the web.")
+    model_config = ConfigDict(str_strip_whitespace=True)
+    query: str = Field(..., min_length=1, description="Query to search the web.")
 
 class FireCrawlWebSearchTool(BaseTool):
     name: str = "WebSearchTool"
@@ -105,7 +106,7 @@ class FireCrawlWebSearchTool(BaseTool):
             )
             response.raise_for_status()
             results = response.json()
-            if not results.get("success"):
+            if not isinstance(results, dict) or not results.get("success"):
                 return "Failed to fetch web search results."
             return "\n___\n".join(
                 result["markdown"] for result in results.get("data", [])

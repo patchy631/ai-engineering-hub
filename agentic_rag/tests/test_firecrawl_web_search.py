@@ -56,6 +56,23 @@ class FireCrawlWebSearchToolTests(unittest.TestCase):
         )
         response.raise_for_status.assert_called_once_with()
 
+    def test_blank_query_is_rejected_without_request(self):
+        for query in ("", "   ", "\t\n"):
+            with self.subTest(query=query):
+                with self.assertRaises(ValidationError):
+                    self.tool.args_schema(query=query)
+                with self.assertRaises(ValueError):
+                    self.tool.to_structured_tool().invoke({"query": query})
+        self.post.assert_not_called()
+
+    def test_query_whitespace_is_stripped(self):
+        self.post.return_value.json.return_value = {"success": True, "data": []}
+
+        self.assertEqual(self.tool.args_schema(query="  CrewAI \t").query, "CrewAI")
+        self.tool.to_structured_tool().invoke({"query": "  CrewAI \t"})
+
+        self.assertEqual(self.post.call_args.kwargs["json"]["query"], "CrewAI")
+
     def test_empty_search_results(self):
         self.post.return_value.json.return_value = {"success": True, "data": []}
 
@@ -89,6 +106,15 @@ class FireCrawlWebSearchToolTests(unittest.TestCase):
         self.post.return_value.json.return_value = {"success": False, "error": "Failed"}
 
         self.assertEqual(self.tool._run("CrewAI"), "Failed to fetch web search results.")
+
+    def test_non_object_response(self):
+        for payload in (None, [], "unexpected", 42):
+            with self.subTest(payload=payload):
+                self.post.return_value.json.return_value = payload
+
+                self.assertEqual(
+                    self.tool._run("CrewAI"), "Failed to fetch web search results."
+                )
 
     def test_http_failure(self):
         response = self.post.return_value
