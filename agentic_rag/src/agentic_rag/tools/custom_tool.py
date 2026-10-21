@@ -1,7 +1,8 @@
 import os
+import requests
 from crewai.tools import BaseTool
 from typing import Type
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, PrivateAttr
 from markitdown import MarkItDown
 from chonkie import SemanticChunker
 from qdrant_client import QdrantClient
@@ -64,6 +65,54 @@ class DocumentSearchTool(BaseTool):
         docs = [chunk.document for chunk in relevant_chunks]
         separator = "\n___\n"
         return separator.join(docs)
+
+class FireCrawlWebSearchToolInput(BaseModel):
+    """Input schema for FireCrawlWebSearchTool."""
+    query: str = Field(..., description="Query to search the web.")
+
+class FireCrawlWebSearchTool(BaseTool):
+    name: str = "WebSearchTool"
+    description: str = "Search the open web for the given query."
+    args_schema: Type[BaseModel] = FireCrawlWebSearchToolInput
+    _api_key: str = PrivateAttr()
+
+    def __init__(self):
+        super().__init__()
+        api_key = os.getenv("FIRECRAWL_API_KEY")
+        if not api_key:
+            raise ValueError("FIRECRAWL_API_KEY environment variable is not set.")
+        self._api_key = api_key
+
+    def _run(self, query: str) -> str:
+        """Search Firecrawl and return the scraped Markdown for each result."""
+        headers = {
+            "Authorization": f"Bearer {self._api_key}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "query": query,
+            "limit": 5,
+            "lang": "en",
+            "country": "us",
+            "scrapeOptions": {"formats": ["markdown"]}
+        }
+        try:
+            response = requests.post(
+                "https://api.firecrawl.dev/v1/search",
+                headers=headers,
+                json=payload,
+                timeout=60
+            )
+            response.raise_for_status()
+            results = response.json()
+            if not results.get("success"):
+                return "Failed to fetch web search results."
+            return "\n___\n".join(
+                result["markdown"] for result in results.get("data", [])
+                if result.get("markdown")
+            )
+        except requests.exceptions.RequestException as e:
+            return f"Failed to fetch web search results: {e}"
 
 # Test the implementation
 def test_document_searcher():
