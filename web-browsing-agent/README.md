@@ -28,6 +28,10 @@ OPENAI_API_KEY=<your_openai_api_key>
 MODEL_API_KEY=<your_openai_api_key>
 ```
 
+[`stagehand_tool.py`](stagehand_tool.py) already sets `env="LOCAL"` in `StagehandConfig`, so the browser runs on your machine. This mode does not require `BROWSERBASE_API_KEY` or `BROWSERBASE_PROJECT_ID`; those credentials are required for `env="BROWSERBASE"` (remote browser mode).
+
+Local browser mode does not make the workflow fully offline: the example still uses OpenAI models and needs both keys above. You also need the Playwright browser binaries installed below.
+
 ### Download Ollama
 
 Download and install [Ollama](https://ollama.com/download) for your operating system. Ollama is used to run large language models locally.
@@ -49,6 +53,8 @@ ollama pull gpt-oss
 Install Playwright for browser automation from the official website: [Playwright](https://playwright.dev/docs/intro).
 
 ### Install Dependencies
+
+The checked-in [`uv.lock`](uv.lock) resolves Stagehand **0.4.0**, while [`pyproject.toml`](pyproject.toml) allows `stagehand>=0.4.0`. Run the following from the `web-browsing-agent` directory to install dependencies:
 
 ```bash
 uv sync
