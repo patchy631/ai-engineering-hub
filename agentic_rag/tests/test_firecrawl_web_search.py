@@ -78,10 +78,38 @@ class FireCrawlWebSearchToolTests(unittest.TestCase):
 
         self.assertEqual(self.tool._run("unknown topic"), "")
 
+    def test_missing_search_data(self):
+        self.post.return_value.json.return_value = {"success": True}
+
+        self.assertEqual(self.tool._run("CrewAI"), "")
+
+    def test_non_list_search_data(self):
+        for data in (None, {}, {"markdown": "Result"}, "unexpected", 42, False):
+            with self.subTest(data=data):
+                self.post.return_value.json.return_value = {"success": True, "data": data}
+
+                self.assertEqual(
+                    self.tool._run("CrewAI"), "Failed to fetch web search results."
+                )
+
+    def test_non_object_search_result(self):
+        for data in ([None], [1], ["unexpected"], [[]], [{"markdown": "Result"}, None]):
+            with self.subTest(data=data):
+                self.post.return_value.json.return_value = {"success": True, "data": data}
+
+                self.assertEqual(
+                    self.tool._run("CrewAI"), "Failed to fetch web search results."
+                )
+
     def test_result_without_markdown_is_skipped(self):
         self.post.return_value.json.return_value = {
             "success": True,
-            "data": [{"url": "https://example.com"}, {"markdown": "Result"}],
+            "data": [
+                {"url": "https://example.com"},
+                {"markdown": None},
+                {"markdown": ""},
+                {"markdown": "Result"},
+            ],
         }
 
         self.assertEqual(self.tool._run("CrewAI"), "Result")
