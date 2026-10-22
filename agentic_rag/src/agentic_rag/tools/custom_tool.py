@@ -111,6 +111,10 @@ class FireCrawlWebSearchTool(BaseTool):
             data = results.get("data", [])
             if not isinstance(data, list) or any(
                 not isinstance(result, dict) for result in data
+            ) or any(
+                result.get("markdown") is not None
+                and not isinstance(result.get("markdown"), str)
+                for result in data
             ):
                 return "Failed to fetch web search results."
             return "\n___\n".join(

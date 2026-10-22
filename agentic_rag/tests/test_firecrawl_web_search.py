@@ -101,6 +101,22 @@ class FireCrawlWebSearchToolTests(unittest.TestCase):
                     self.tool._run("CrewAI"), "Failed to fetch web search results."
                 )
 
+    def test_non_string_markdown(self):
+        for markdown in (42, 0, 1.5, True, False, [], ["unexpected"], {}, {"text": "unexpected"}):
+            with self.subTest(markdown=markdown):
+                self.post.return_value.json.return_value = {
+                    "success": True,
+                    "data": [
+                        {"markdown": "First result"},
+                        {"markdown": markdown},
+                        {"markdown": "Last result"},
+                    ],
+                }
+
+                self.assertEqual(
+                    self.tool._run("CrewAI"), "Failed to fetch web search results."
+                )
+
     def test_result_without_markdown_is_skipped(self):
         self.post.return_value.json.return_value = {
             "success": True,
