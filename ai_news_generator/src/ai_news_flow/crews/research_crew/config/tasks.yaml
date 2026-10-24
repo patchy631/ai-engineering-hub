@@ -1,0 +1,65 @@
+research_task:
+  description: >
+    Conduct comprehensive research on {topic} including:
+    1. Recent developments and news (last 6 months)
+    2. Key industry trends and innovations
+    3. Expert opinions and analyses
+    4. Statistical data and market insights
+    5. Historical context and background information
+    
+    For each piece of information found:
+    - Evaluate source credibility using the credibility checker tool
+    - Note publication date and author information
+    - Cross-reference with other sources when possible
+    - Identify key quotes and statistics
+    
+    Organize your findings by relevance and credibility.
+  expected_output: >
+    A comprehensive research dataset containing:
+    - List of ResearchData objects with credibility scores
+    - Key findings and insights
+    - Verified statistics and quotes  
+    - Source URLs with credibility assessments
+    - Publication dates and author information
+    Format the output as structured data that can be processed by subsequent tasks.
+
+fact_checking_task:
+  description: >
+    Review and verify all research findings from the research task:
+    1. Cross-reference claims across multiple sources
+    2. Verify statistical data and numerical claims
+    3. Check publication dates and author credentials
+    4. Assess overall source reliability
+    5. Flag any potentially misleading or unverified information
+    6. Provide confidence scores for key claims
+    
+    Focus on ensuring accuracy and reliability of all information that will be used in content creation.
+  expected_output: >
+    A fact-checking report containing:
+    - Verified facts list with confidence scores
+    - Flagged concerns or unverified claims
+    - Source credibility assessment summary
+    - Recommendations for information usage
+    - Cross-reference verification results
+    Format as structured data for use by the synthesis task.
+
+synthesis_task:
+  description: >
+    Synthesize all verified research findings into a comprehensive research report:
+    1. Create executive summary of key findings
+    2. Organize information into main themes and categories
+    3. Identify trends, patterns, and relationships
+    4. Prioritize information by relevance and impact
+    5. Structure findings for optimal content creation
+    6. Ensure all sources are properly tracked
+    
+    The output should be ready for content creators to use in article generation.
+  expected_output: >
+    A complete ResearchReport object containing:
+    - Executive summary highlighting key insights
+    - Organized research data with credibility scores
+    - Main themes and trend analysis
+    - Prioritized key findings
+    - Complete source bibliography with credibility assessments
+    - Structured sections ready for content creation
+    This should be comprehensive yet organized for efficient use by content creators.
