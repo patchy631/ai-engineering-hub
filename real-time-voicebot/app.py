@@ -64,7 +64,8 @@ class AI_Assistant:
         print(f"\nTourist: {transcript.text}", end="\r\n")
 
         response = self.openai_client.chat.completions.create(
-            model = "gpt-3.5-turbo",
+            model = "gpt-5.6-terra",
+            reasoning_effort = "none",
             messages = self.interaction
         )
 
