@@ -45,10 +45,11 @@ with st.sidebar:
         5. Download the result as a markdown file
         """)
 
-def generate_content(topic):
+def generate_content(topic, temperature):
+    """Generate content for the given topic using the specified temperature."""
     llm = LLM(
         model="command-r",
-        temperature=0.7
+        temperature=temperature
     )
 
     search_tool = SerperDevTool(n_results=10)
@@ -146,7 +147,7 @@ def generate_content(topic):
 if generate_button:
     with st.spinner('Generating content... This may take a moment.'):
         try:
-            result = generate_content(topic)
+            result = generate_content(topic, temperature)
             st.markdown("### Generated Content")
             st.markdown(result)
             
