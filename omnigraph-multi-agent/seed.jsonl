@@ -1,0 +1,3 @@
+{"type":"Company","data":{"slug":"acme","name":"Acme AI","ceo":"Ada Lovelace","stage":"Seed"}}
+{"type":"Person","data":{"slug":"ada","name":"Ada Lovelace"}}
+{"edge":"Founded","from":"ada","to":"acme"}

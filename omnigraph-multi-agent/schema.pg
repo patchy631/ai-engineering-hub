@@ -1,0 +1,11 @@
+node Company {
+  slug: String @key
+  name: String
+  ceo: String?
+  stage: String?
+}
+node Person {
+  slug: String @key
+  name: String
+}
+edge Founded: Person -> Company

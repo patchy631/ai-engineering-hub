@@ -1,0 +1,11 @@
+query company($slug: String) {
+  match { $c: Company { slug: $slug } }
+  return { $c.name, $c.ceo, $c.stage }
+}
+query founders() {
+  match {
+    $p: Person
+    $p founded $c
+  }
+  return { $p.name, $c.name }
+}
