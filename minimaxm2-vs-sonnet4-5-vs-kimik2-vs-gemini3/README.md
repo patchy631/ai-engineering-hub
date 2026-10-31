@@ -10,7 +10,11 @@ This application compares the code generation capabilities of different frontier
 - **[Gitingest](https://gitingest.com/)** - For ingesting code from GitHub repositories
 - **[Streamlit](https://streamlit.io/)** - For the intuitive UI
 
-## Supported Models
+## Current MiniMax Choices
+
+New comparisons offer **MiniMax M3.1 Flash** (`minimax/minimax-m3.1-flash:free`) first, followed by **MiniMax M3** (`minimax/minimax-m3`). Existing selections and explicit requests for `Minimax M2` retain their original model mapping. The original benchmark description and screenshots below are kept as historical examples.
+
+## Supported Models (Original Benchmark)
 
 This application supports comparison of various frontier models accessible via OpenRouter:
 

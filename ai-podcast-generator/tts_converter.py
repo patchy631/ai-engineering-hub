@@ -66,7 +66,7 @@ class TTSConverter:
         }
         
         payload = {
-            "model": "speech-2.6-hd",
+            "model": "speech-2.8-hd",
             "text": text,
             "voice_setting": {
                 "voice_id": voice,
@@ -114,8 +114,9 @@ class TTSConverter:
         }
         
         for _ in range(max_attempts):
-            response = requests.get(
-                f"{self.query_url}?task_id={task_id}",
+            response = requests.post(
+                self.query_url,
+                json={"task_id": task_id},
                 headers=headers,
                 timeout=15
             )

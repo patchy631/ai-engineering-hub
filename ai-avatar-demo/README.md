@@ -6,7 +6,7 @@ We use:
 
 - [Zep](https://www.getzep.com/) for conversation memory and knowledge graph management
 - Anam AI for realistic avatar and voice interactions
-- OpenRouter with Minimax M2 (LLM)
+- OpenRouter with MiniMax M3.1 Flash (LLM)
 - FastAPI for streaming backend
 - Streamlit to wrap the logic in an interactive UI
 
@@ -29,6 +29,8 @@ uv sync
 Create a `.env` file in the project root, similar to `.env.example`, and add your API keys:
 
 [Get your Zep API keys here](https://www.getzep.com/)
+
+The service and notebook default to `minimax/minimax-m3.1-flash:free` on OpenRouter. Set `OPENROUTER_MODEL=minimax/minimax-m3` in `.env` to use MiniMax M3 instead. Explicit custom or legacy model IDs are passed through unchanged.
 
 ### Ingest Data
 
