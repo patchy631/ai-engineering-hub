@@ -62,14 +62,16 @@ def create_schema_from_fields(fields):
     return model_class.model_json_schema()
 
 def convert_to_table(data):
-    """Convert a list of dictionaries to a markdown table."""
+    """Convert data to a markdown table."""
     if not data:
         return ""
     
-    # Convert only the data field to a pandas DataFrame
-    df = pd.DataFrame(data)
+    # If data is a single dictionary (one row), wrap it in a list
+    if isinstance(data, dict):
+        data = [data]
     
-    # Convert DataFrame to markdown table
+    # Convert to pandas DataFrame and return as markdown table
+    df = pd.DataFrame(data)
     return df.to_markdown(index=False)
 
 def stream_text(text: str, delay: float = 0.001) -> None:
@@ -153,16 +155,10 @@ if prompt := st.chat_input("Ask about the website..."):
                         
                     data = app.extract(
                         [website_url],
-                        extract_params
+                        **extract_params
                     )
                     print(data)
-                    # check if data['data'] is a list, if yes, pass data['data'] to convert_to_table
-                    if isinstance(data['data'], list):
-                        table = convert_to_table(data['data'])
-                    else:
-                        # find the first key in data['data']
-                        key = list(data['data'].keys())[0]
-                        table = convert_to_table(data['data'][key])
+                    table = convert_to_table(data.data)
                     placeholder = stream_text(table)
                     st.session_state.messages.append({"role": "assistant", "content": table})
                     # st.markdown(table)
