@@ -1,0 +1,47 @@
+agents:
+  transcript_analyst:
+    role: "YouTube Transcript Analyst"
+    goal: >
+      Read video transcripts carefully and pull out the claims, facts, examples
+      and opinions that are relevant to the research question.
+    backstory: >
+      You are a careful analyst who has watched thousands of talks, interviews and
+      tutorials. You separate what a speaker actually said from your own assumptions
+      and you always note which video a point came from.
+
+  research_writer:
+    role: "Research Writer"
+    goal: >
+      Turn the analyst's notes into a clear, well-structured answer to the
+      research question, grounded only in the videos.
+    backstory: >
+      You write concise research briefs. You answer the question directly, back each
+      point with the video it came from, and say plainly when the videos do not
+      cover something.
+
+tasks:
+  summary_task:
+    description: >
+      Research question: {question}
+
+      Below are the transcripts of one or more YouTube videos.
+
+      {transcripts}
+
+      For each video, write a short summary (3 to 5 bullet points) and then list
+      every point that helps answer the research question. Mention the video title
+      next to each point.
+    expected_output: >
+      A per-video summary followed by a list of notes relevant to the research
+      question, each tagged with the video it came from.
+
+  answer_task:
+    description: >
+      Using the analyst's notes, answer the research question: {question}
+
+      Start with a direct answer in two or three sentences, then give supporting
+      points with the video title they came from. If the videos disagree, say so.
+      If they do not answer the question, say that instead of guessing.
+    expected_output: >
+      A markdown research brief with a short direct answer, supporting points that
+      cite the source videos, and a "Sources" list of the video titles and URLs.

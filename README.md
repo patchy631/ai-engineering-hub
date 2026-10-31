@@ -104,6 +104,7 @@ Multi-component systems, agentic workflows, and advanced features for experience
 
 #### AI Agents & Workflows
 - [**YouTube Trend Analysis**](./Youtube-trend-analysis) - Analyze YouTube trends with CrewAI and BrightData
+- [**YouTube Research Agent**](./youtube-research-agent-apify) - Answer research questions about YouTube videos with CrewAI and Apify
 - [**AutoGen Stock Analyst**](./autogen-stock-analyst) - Advanced analyst with Microsoft AutoGen
 - [**Agentic RAG**](./agentic_rag) - RAG with document search and web fallback
 - [**Agentic RAG with DeepSeek**](./agentic_rag_deepseek) - Enterprise agentic RAG with GroundX
