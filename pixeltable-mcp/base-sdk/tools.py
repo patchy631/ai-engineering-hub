@@ -237,7 +237,8 @@ def create_query(query_name: str, table_name: str, query_function: str) -> str:
                        only .where(), .select(), .order_by(col, asc=True) and .limit(n).
                        Arguments follow the same rules as other tool expressions.
                        Queries take no parameters and are kept in memory only, so they
-                       are lost when the server restarts.
+                       are lost when the server restarts. No tool runs saved queries
+                       yet: they are only registered.
 
     Example:
         create_query(

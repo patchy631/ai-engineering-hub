@@ -425,6 +425,25 @@ def test_build_query_rejects(body):
     assert not table.destroyed
 
 
+@pytest.mark.parametrize(
+    "body",
+    [
+        "table.order_by(table.a, asc=True, asc=False)",
+        "table.order_by(table.a, asc=True, asc=True)",
+    ],
+)
+def test_build_query_rejects_duplicate_keywords(body):
+    with pytest.raises(UnsafeExpressionError, match="Duplicate keyword argument"):
+        build(body)
+
+
+@pytest.mark.parametrize("prefix", ["", "return ", "  return\n  "])
+def test_build_query_keeps_return_inside_literals(prefix):
+    table = FakeTable(columns=("msg",))
+    query = build(f"{prefix}table.where(table.msg == 'please return it')", table)
+    assert repr(query.calls) == "[('where', ((col.msg == 'please return it'),), {})]"
+
+
 def test_build_query_rejects_bad_method_before_building():
     table = FakeTable()
     with pytest.raises(UnsafeExpressionError, match="delete"):
@@ -566,6 +585,22 @@ def test_real_build_query(real_table):
         real_table,
     )
     assert list(query.collect().to_pandas()["name"]) == ["Cid"]
+
+
+@pytest.fixture(scope="module")
+def real_messages():
+    pxt = pytest.importorskip("pixeltable")
+    try:
+        table = pxt.create_table("safe_expr_messages", {"msg": pxt.String}, if_exists="replace")
+        table.insert([{"msg": "please return it"}, {"msg": "pleaseit"}, {"msg": "keep it"}])
+    except Exception as e:
+        pytest.skip(f"Could not initialize pixeltable: {e}")
+    return table
+
+
+def test_real_build_query_keeps_return_inside_literals(real_messages):
+    query = build_query("table.where(table.msg == 'please return it')", real_messages)
+    assert list(query.collect().to_pandas()["msg"]) == ["please return it"]
 
 
 def test_real_tools(tools, real_table):

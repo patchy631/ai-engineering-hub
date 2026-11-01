@@ -26,10 +26,10 @@ This will start the MCP server on port 8080, making it accessible at `http://loc
 
 ## Alternative: Local Installation
 
-If you prefer to run the server locally without Docker:
+If you prefer to run the server locally without Docker (requires Python >= 3.11):
 
 ```bash
-pip install pixeltable mcp
+pip install -r requirements.txt
 ```
 
 Then run the server:
@@ -63,7 +63,7 @@ create_query(
 )
 ```
 
-Named queries take no parameters. They are registered with `pxt.query` and held in memory, so they are lost when the server restarts.
+Named queries take no parameters. They are registered with `pxt.query` and held in memory, so they are lost when the server restarts. No tool runs saved queries yet: they are only registered.
 
 ### Run the tests
 

@@ -62,7 +62,7 @@ _UNARY_OPS = {ast.USub: operator.neg, ast.UAdd: operator.pos, ast.Invert: operat
 # Query method -> exact number of positional arguments (None means one or more).
 _QUERY_METHODS = {"where": 1, "select": None, "order_by": None, "limit": 1}
 
-_RETURN_PREFIX = re.compile(r"\s*return\s+")
+_RETURN_PREFIX = re.compile(r"\A\s*return\s+")
 
 
 class UnsafeExpressionError(ValueError):
@@ -252,6 +252,8 @@ def _query_call_args(method: str, call: ast.Call, evaluator: _Evaluator) -> tupl
             raise UnsafeExpressionError(
                 f"Disallowed keyword argument in {method}(): '{keyword_arg.arg}'"
             )
+        if "asc" in kwargs:  # ast.parse accepts repeats, only compile() rejects them
+            raise UnsafeExpressionError(f"Duplicate keyword argument in {method}(): 'asc'")
         kwargs["asc"] = value.value
     return args, kwargs
 
