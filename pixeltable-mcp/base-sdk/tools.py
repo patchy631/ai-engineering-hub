@@ -62,7 +62,7 @@ def create_table(table_name: str, columns: dict[str, str]) -> str:
         else:
             return f"Invalid column type: {col_type}. Valid types are: {', '.join(type_mapping.keys())}"
 
-    pxt.create_table(table_name, schema_or_df=converted_columns, if_exists="replace")
+    pxt.create_table(table_name, schema=converted_columns, if_exists="replace")
     if table_name in pxt.list_tables():
         return f"Table {table_name} created successfully."
     else:

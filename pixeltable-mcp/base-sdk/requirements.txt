@@ -1,5 +1,5 @@
-pixeltable
-mcp
+pixeltable==0.7.22
+mcp==1.30.0
 httpx
 uvicorn
 starlette
