@@ -1,7 +1,11 @@
 import pixeltable as pxt
 from mcp.server.fastmcp import FastMCP
+from safe_expr import build_query, parse_column_name, parse_expression
 
 mcp = FastMCP("Pixeltable")
+
+# Named queries live in memory: pxt.query does not persist them
+_named_queries = {}
 
 
 @mcp.tool()
@@ -95,7 +99,7 @@ def add_computed_column(table_name: str, column_name: str, expression: str) -> s
     Args:
         table_name: The name of the table to add the computed column to.
         column_name: The name of the computed column to add.
-        expression: A string representation of the Python expression to compute the column.
+        expression: An allowlisted expression (see safe_expr.py) to compute the column.
                    The expression should refer to other columns in the table using
                    the notation 'table.column_name'.
 
@@ -108,11 +112,8 @@ def add_computed_column(table_name: str, column_name: str, expression: str) -> s
         if table is None:
             return f"Error: Table {table_name} not found."
 
-        # Replace 'table.' with the actual table reference
-        modified_expr = expression.replace("table.", f"table.")
-
         # Construct the expression
-        column_expr = eval(modified_expr, {"table": table})
+        column_expr = parse_expression(expression, table)
 
         # Add the computed column with kwargs format
         kwargs = {column_name: column_expr}
@@ -143,11 +144,8 @@ def create_view(view_name: str, table_name: str, filter_expr: str = None) -> str
             return f"Error: Table {table_name} not found."
 
         if filter_expr:
-            # Replace 'table.' with the actual table reference
-            modified_expr = filter_expr.replace("table.", f"{table.name}.")
-
-            # Use eval to convert the string expression to a Python expression
-            filter_condition = eval(modified_expr)
+            # Convert the string expression to a Pixeltable expression
+            filter_condition = parse_expression(filter_expr, table)
 
             # Create the view with the filter
             view = pxt.create_view(view_name, table.where(filter_condition))
@@ -196,18 +194,14 @@ def execute_query(
 
         # Apply where clause if provided
         if where_expr:
-            modified_expr = where_expr.replace("table.", f"{data_source.name}.")
-            where_condition = eval(modified_expr)
+            where_condition = parse_expression(where_expr, data_source)
             query = query.where(where_condition)
 
         # Apply order by if provided
         if order_by_column:
             # Handle ordering on a specific column
-            if hasattr(data_source, order_by_column):
-                order_col = getattr(data_source, order_by_column)
-                query = query.order_by(order_col, asc=order_asc)
-            else:
-                return f"Error: Column '{order_by_column}' not found in '{table_or_view_name}'."
+            order_col = parse_column_name(order_by_column, data_source)
+            query = query.order_by(order_col, asc=order_asc)
 
         # Apply limit if provided
         if limit is not None:
@@ -215,12 +209,7 @@ def execute_query(
 
         # Apply select if provided
         if select_columns:
-            select_args = []
-            for col_name in select_columns:
-                if hasattr(data_source, col_name):
-                    select_args.append(getattr(data_source, col_name))
-                else:
-                    return f"Error: Column '{col_name}' not found in '{table_or_view_name}'."
+            select_args = [parse_column_name(col_name, data_source) for col_name in select_columns]
 
             # Execute the query with select
             result = query.select(*select_args).collect()
@@ -243,14 +232,18 @@ def create_query(query_name: str, table_name: str, query_function: str) -> str:
     Args:
         query_name: The name of the query to create.
         table_name: The name of the table the query will operate on.
-        query_function: A string representation of the query function body.
-                       Should be a function that returns a query result.
+        query_function: A restricted query, not arbitrary Python: an optional 'return '
+                       followed by a method chain on 'table' (or the table name) using
+                       only .where(), .select(), .order_by(col, asc=True) and .limit(n).
+                       Arguments follow the same rules as other tool expressions.
+                       Queries take no parameters and are kept in memory only, so they
+                       are lost when the server restarts.
 
     Example:
         create_query(
             "get_active_users",
             "users",
-            "return users.where(users.is_active == True).select(users.name, users.email)"
+            "return table.where(table.is_active == True).select(table.name, table.email)"
         )
     """
     try:
@@ -258,15 +251,18 @@ def create_query(query_name: str, table_name: str, query_function: str) -> str:
         if table is None:
             return f"Error: Table {table_name} not found."
 
-        # Create a function definition
-        func_def = f"""
-        @{table.name}.query
-        def {query_name}():
-            {query_function}
-        """
+        if not query_name.isidentifier():
+            return f"Error creating query: invalid query name '{query_name}'."
 
-        # Execute the function definition
-        exec(func_def)
+        # Build the query from the restricted method chain
+        query = build_query(query_function, table)
+
+        # Register it as a named Pixeltable query
+        def named_query():
+            return query
+
+        named_query.__name__ = query_name
+        _named_queries[query_name] = pxt.query(named_query)
 
         return f"Query '{query_name}' created successfully for table '{table_name}'."
     except Exception as e:
