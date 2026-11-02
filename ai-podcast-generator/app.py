@@ -94,9 +94,12 @@ with st.sidebar:
 
 # Main area
 if generate_btn:
-    os.environ['FIRECRAWL_API_KEY'] = firecrawl_key
-    os.environ['OPENROUTER_API_KEY'] = openrouter_key
-    os.environ['MINIMAX_API_KEY'] = minimax_key
+    if not all([firecrawl_key, openrouter_key, minimax_key, url]):
+        st.error("❌ Please fill in all API keys and provide a URL")
+    else:
+        os.environ['FIRECRAWL_API_KEY'] = firecrawl_key
+        os.environ['OPENROUTER_API_KEY'] = openrouter_key
+        os.environ['MINIMAX_API_KEY'] = minimax_key
         
         progress_container = st.container()
         
