@@ -44,7 +44,7 @@ class BookFlow(Flow[BookState]):
                 .kickoff(inputs={
                     "title": title,
                     "topic": self.state.topic,
-                    "chapters": [chapter.title for chapter in self.state.chapters]
+                    "chapters": self.state.titles
                 })
             )
             return result.pydantic
