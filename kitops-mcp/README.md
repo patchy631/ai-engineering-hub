@@ -1,5 +1,7 @@
 # KitOps MCP Server
 
+[![Packaged with KitOps](https://img.shields.io/badge/Packaged%20with-KitOps-FFAF52?labelColor=363636)](https://kitops.org)
+
 We are going to implement an MCP server to orchestrate KitOps for managing and distributing machine learning models. Agents will be able to connect to discover tools for creating, inspecting, pushing, pulling, and removing ModelKits from remote registries like Jozu Hub.
 
 What Makes ModelKits Different?
