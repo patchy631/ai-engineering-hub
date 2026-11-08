@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="home-screen">
+            <h1>🎮 Online Tic-Tac-Toe</h1>
+            <p class="subtitle">Play with a friend anywhere in the world!</p>
+
+            <div class="options">
+                <div class="option-card">
+                    <h2>Create Game</h2>
+                    <input type="text" id="playerName" placeholder="Your name" maxlength="15">
+                    <button id="createBtn" class="btn btn-primary">Create Room</button>
+                </div>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="option-card">
+                    <h2>Join Game</h2>
+                    <input type="text" id="joinPlayerName" placeholder="Your name" maxlength="15">
+                    <input type="text" id="roomCode" placeholder="Room Code" maxlength="6">
+                    <button id="joinBtn" class="btn btn-secondary">Join Room</button>
+                </div>
+            </div>
+
+            <div id="error" class="error hidden"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>No accounts required • Works on any device • Serverless</p>
+    </footer>
+
+    <script type="module">
+        const createBtn = document.getElementById('createBtn');
+        const joinBtn = document.getElementById('joinBtn');
+        const playerNameInput = document.getElementById('playerName');
+        const joinPlayerNameInput = document.getElementById('joinPlayerName');
+        const roomCodeInput = document.getElementById('roomCode');
+        const errorDiv = document.getElementById('error');
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            setTimeout(() => errorDiv.classList.add('hidden'), 3000);
+        }
+
+        function generateRoomCode() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        createBtn.addEventListener('click', () => {
+            const name = playerNameInput.value.trim();
+            if (!name) {
+                showError('Please enter your name');
+                return;
+            }
+
+            const roomCode = generateRoomCode();
+            const gameUrl = `game.html?room=${roomCode}&player=${encodeURIComponent(name)}&host=true`;
+            window.location.href = gameUrl;
+        });
+
+        joinBtn.addEventListener('click', () => {
+            const name = joinPlayerNameInput.value.trim();
+            const room = roomCodeInput.value.trim().toUpperCase();
+
+            if (!name) {
+                showError('Please enter your name');
+                return;
+            }
+
+            if (!room || room.length < 4) {
+                showError('Please enter a valid room code');
+                return;
+            }
+
+            const gameUrl = `game.html?room=${room}&player=${encodeURIComponent(name)}&host=false`;
+            window.location.href = gameUrl;
+        });
+
+        // Allow Enter key to submit
+        playerNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') createBtn.click();
+        });
+
+        joinPlayerNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') joinBtn.click();
+        });
+
+        roomCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') joinBtn.click();
+        });
+    </script>
+</body>
+</html>

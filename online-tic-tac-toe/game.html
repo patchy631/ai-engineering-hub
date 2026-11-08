@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="game-screen">
+            <!-- Header -->
+            <div class="game-header">
+                <div class="room-info">
+                    <h2>Room: <span id="roomDisplay"></span></h2>
+                    <button id="copyBtn" class="btn-small">📋 Copy Link</button>
+                </div>
+                <button id="homeBtn" class="btn-small">🏠 Home</button>
+            </div>
+
+            <!-- Status -->
+            <div id="status" class="status">Waiting for opponent...</div>
+
+            <!-- Players -->
+            <div class="players-info">
+                <div class="player" id="player1Info">
+                    <div class="player-badge">❌</div>
+                    <div class="player-details">
+                        <div class="player-name" id="player1Name">-</div>
+                        <div class="player-status">Waiting...</div>
+                    </div>
+                </div>
+                <div class="vs">VS</div>
+                <div class="player" id="player2Info">
+                    <div class="player-badge">⭕</div>
+                    <div class="player-details">
+                        <div class="player-name" id="player2Name">-</div>
+                        <div class="player-status">Waiting...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Board -->
+            <div id="gameBoard" class="game-board disabled">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button id="resetBtn" class="btn btn-secondary" disabled>🔄 New Game</button>
+            </div>
+
+            <!-- Chat -->
+            <div class="chat-section">
+                <h3>Quick Chat</h3>
+                <div id="chatMessages" class="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Type a message..." maxlength="100">
+                    <button id="sendBtn" class="btn-small">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Configuration Notice -->
+    <div id="configNotice" class="config-notice hidden">
+        <div class="notice-content">
+            <h3>⚙️ Firebase Configuration Required</h3>
+            <p>Please add your Firebase configuration to game.js</p>
+            <p>See README.md for setup instructions</p>
+            <button onclick="this.parentElement.parentElement.classList.add('hidden')">Close</button>
+        </div>
+    </div>
+
+    <script type="module" src="game.js"></script>
+</body>
+</html>
