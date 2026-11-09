@@ -1,0 +1,16 @@
+[project]
+name = "form-filling-automation"
+version = "0.1.0"
+description = "Multi-Agent Workflow for automating form filling"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "crewai[anthropic,google-genai,tools]>=0.108.0",
+    "datalab-python-sdk>=0.2.1",
+    "litellm>=1.81.3",
+    "nest-asyncio>=1.6.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.2.1",
+    "pyyaml>=6.0",
+    "streamlit>=1.45.0",
+]
